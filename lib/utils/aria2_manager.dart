@@ -51,9 +51,8 @@ class Aria2Manager {
       '--rpc-secret=$secret'
     ]);
     cmdProcess.then((processResult) {
-      print(processResult.pid);
       processPid = processResult.pid;
-      processResult.exitCode.then((value) => print(value));
+      processResult.exitCode.then((value) => Log.i(value));
       processResult.stdout
           .transform(utf8.decoder)
           .transform(const LineSplitter())

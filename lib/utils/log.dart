@@ -6,6 +6,7 @@ class Log {
   );
 
   static void v(dynamic message) {
+    // ignore: deprecated_member_use
     _logger.v(message);
   }
 
@@ -26,6 +27,7 @@ class Log {
   }
 
   static void wtf(dynamic message) {
+    // ignore: deprecated_member_use
     _logger.wtf(message);
   }
 }

@@ -467,38 +467,4 @@ class _SettingsState extends State<Settings> with PageMixin {
       ],
     );
   }
-
-  Widget _buildColorBlock(AppTheme appTheme, AccentColor color) {
-    return Padding(
-      padding: const EdgeInsets.all(2.0),
-      child: Button(
-        onPressed: () {
-          appTheme.color = color;
-        },
-        style: ButtonStyle(
-          padding: ButtonState.all(EdgeInsets.zero),
-          backgroundColor: ButtonState.resolveWith((states) {
-            if (states.isPressing) {
-              return color.light;
-            } else if (states.isHovering) {
-              return color.lighter;
-            }
-            return color;
-          }),
-        ),
-        child: Container(
-          height: 40,
-          width: 40,
-          alignment: AlignmentDirectional.center,
-          child: appTheme.color == color
-              ? Icon(
-                  FluentIcons.check_mark,
-                  color: color.basedOnLuminance(),
-                  size: 22.0,
-                )
-              : null,
-        ),
-      ),
-    );
-  }
 }
