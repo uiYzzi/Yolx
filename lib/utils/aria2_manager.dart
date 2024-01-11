@@ -37,17 +37,19 @@ class Aria2Manager {
   void startServer() async {
     closeServer();
     var exe = await getAria2ExePath();
-    print(exe);
     var conf = await getAria2ConfPath();
-    print(conf);
     // print(File(conf).existsSync());
     if (Platform.isLinux) {
       permission777(exe);
       permission777(conf);
     }
     int port = Global.rpcPort;
-    cmdProcess =
-        Process.start(exe, ['--conf-path=$conf', '--rpc-listen-port=$port']);
+    String secret = Global.rpcSecret;
+    cmdProcess = Process.start(exe, [
+      '--conf-path=$conf',
+      '--rpc-listen-port=$port',
+      '--rpc-secret=$secret'
+    ]);
     cmdProcess.then((processResult) {
       print(processResult.pid);
       processPid = processResult.pid;
