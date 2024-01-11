@@ -45,8 +45,9 @@ class Aria2Manager {
       permission777(exe);
       permission777(conf);
     }
-
-    cmdProcess = Process.start(exe, ['--conf-path=$conf']);
+    int port = Global.rpcPort;
+    cmdProcess =
+        Process.start(exe, ['--conf-path=$conf', '--rpc-listen-port=$port']);
     cmdProcess.then((processResult) {
       print(processResult.pid);
       processPid = processResult.pid;

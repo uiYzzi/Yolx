@@ -297,6 +297,7 @@ class _MyDownloadingPageState extends State<MyDownloadingPage>
                 onPressed: () {
                   Navigator.pop(context);
                   windowManager.destroy();
+                  Aria2Manager().closeServer();
                 },
               ),
               Button(
