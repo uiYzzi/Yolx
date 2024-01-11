@@ -1,3 +1,4 @@
+import 'package:yolx/common/const.dart';
 import 'package:yolx/common/global.dart';
 import 'package:yolx/screens/downloading.dart';
 import 'package:yolx/screens/waiting.dart';
@@ -10,10 +11,9 @@ import 'package:provider/provider.dart';
 import 'package:system_theme/system_theme.dart';
 import 'package:url_launcher/link.dart';
 import 'package:window_manager/window_manager.dart';
+import 'package:yolx/utils/aria2_manager.dart';
 
 import 'theme.dart';
-
-const String appTitle = 'Yolx';
 
 /// Checks if the current environment is a desktop environment.
 bool get isDesktop {
@@ -49,6 +49,7 @@ void main() async {
       await windowManager.setPreventClose(true);
       await windowManager.setSkipTaskbar(false);
     });
+    Aria2Manager().startServer();
   }
 
   runApp(const MyApp());
@@ -64,7 +65,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         final appTheme = context.watch<AppTheme>();
         return FluentApp.router(
-          title: appTitle,
+          title: APP_Title,
           themeMode: appTheme.mode,
           debugShowCheckedModeBanner: false,
           color: appTheme.color,
@@ -181,7 +182,7 @@ class _MyDownloadingPageState extends State<MyDownloadingPage>
     _LinkPaneItemAction(
       icon: const Icon(FluentIcons.open_source),
       title: const Text('Source code'),
-      link: 'https://github.com/uiYzzi/Yolx',
+      link: GITHUB_URL,
       body: const SizedBox.shrink(),
     ),
   ];
@@ -239,13 +240,13 @@ class _MyDownloadingPageState extends State<MyDownloadingPage>
           if (kIsWeb) {
             return const Align(
               alignment: AlignmentDirectional.centerStart,
-              child: Text(appTitle),
+              child: Text(APP_Title),
             );
           }
           return const DragToMoveArea(
             child: Align(
               alignment: AlignmentDirectional.centerStart,
-              child: Text(appTitle),
+              child: Text(APP_Title),
             ),
           );
         }(),
