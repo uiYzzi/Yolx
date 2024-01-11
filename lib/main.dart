@@ -181,7 +181,7 @@ class _MyDownloadingPageState extends State<MyDownloadingPage>
     _LinkPaneItemAction(
       icon: const Icon(FluentIcons.open_source),
       title: const Text('Source code'),
-      link: 'https://github.com/bdlukaa/fluent_ui',
+      link: 'https://github.com/uiYzzi/Yolx',
       body: const SizedBox.shrink(),
     ),
   ];
