@@ -29,15 +29,24 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("RPC Listen Port"),
         "RPCSecret": MessageLookupByLibrary.simpleMessage("RPC Secret"),
         "UA": MessageLookupByLibrary.simpleMessage("User-Agent"),
+        "URL": MessageLookupByLibrary.simpleMessage("URL"),
+        "URLTextBox": MessageLookupByLibrary.simpleMessage(
+            "One task url per line (supports magnet)"),
         "advanced": MessageLookupByLibrary.simpleMessage("Advanced"),
         "basic": MessageLookupByLibrary.simpleMessage("Basic"),
         "bypassProxy": MessageLookupByLibrary.simpleMessage(
             "Bypass proxy settings for these Hosts and Domains,one per line"),
+        "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "closeInfo": MessageLookupByLibrary.simpleMessage(
             "Are you sure you want to close this window?"),
         "confirmClose": MessageLookupByLibrary.simpleMessage("Confirm close"),
         "deleteAllTasks":
             MessageLookupByLibrary.simpleMessage("Delete All Tasks"),
+        "deleteThisTasks":
+            MessageLookupByLibrary.simpleMessage("Delete This Tasks"),
+        "downloadPath": MessageLookupByLibrary.simpleMessage("Download Path"),
+        "downloadPathInfo":
+            MessageLookupByLibrary.simpleMessage("Set default download path"),
         "downloading": MessageLookupByLibrary.simpleMessage("Downloading"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
         "mockUA": MessageLookupByLibrary.simpleMessage("Mock User-Agent."),
@@ -45,9 +54,13 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Navigation Indicator"),
         "navigationMode":
             MessageLookupByLibrary.simpleMessage("Navigation Mode"),
+        "newDownload": MessageLookupByLibrary.simpleMessage("New"),
         "no": MessageLookupByLibrary.simpleMessage("No"),
+        "path": MessageLookupByLibrary.simpleMessage("Path"),
         "pauseAllTasks":
             MessageLookupByLibrary.simpleMessage("Pause All Tasks"),
+        "pauseThisTasks":
+            MessageLookupByLibrary.simpleMessage("Pause This Tasks"),
         "proxy": MessageLookupByLibrary.simpleMessage("Proxy"),
         "purgeTaskRecord":
             MessageLookupByLibrary.simpleMessage("Purge Task Record"),
@@ -55,6 +68,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Refresh Task List"),
         "resumeAllTasks":
             MessageLookupByLibrary.simpleMessage("Resume All Tasks"),
+        "resumeThisTasks":
+            MessageLookupByLibrary.simpleMessage("Resume This Tasks"),
         "saveApply": MessageLookupByLibrary.simpleMessage("Save & Apply"),
         "savedSuccessfully": MessageLookupByLibrary.simpleMessage(
             "Preferences saved successfully."),
@@ -76,7 +91,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
         "sourceCode": MessageLookupByLibrary.simpleMessage("Source code"),
         "stopped": MessageLookupByLibrary.simpleMessage("Stopped"),
+        "submit": MessageLookupByLibrary.simpleMessage("Submit"),
         "theme": MessageLookupByLibrary.simpleMessage("Theme"),
+        "torrent": MessageLookupByLibrary.simpleMessage("Torrent"),
         "waiting": MessageLookupByLibrary.simpleMessage("Waiting"),
         "yes": MessageLookupByLibrary.simpleMessage("Yes")
       };

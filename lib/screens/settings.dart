@@ -1,11 +1,13 @@
 // ignore_for_file: constant_identifier_names
 import 'dart:math';
 
+import 'package:file_selector/file_selector.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:yolx/common/global.dart';
 import 'package:yolx/generated/l10n.dart';
-
+// ignore: library_prefixes
+import 'package:yolx/utils/ariar2_http_utils.dart' as Aria2Http;
 import '../theme.dart';
 import '../widgets/page.dart';
 
@@ -22,6 +24,7 @@ class _SettingsState extends State<Settings> with PageMixin {
   late TextEditingController _uaEditingController;
   late TextEditingController _proxyEditingController;
   late TextEditingController _bypassProxyEditingController;
+  late TextEditingController _downloadPathEditingController;
   @override
   void initState() {
     super.initState();
@@ -32,6 +35,8 @@ class _SettingsState extends State<Settings> with PageMixin {
     _proxyEditingController = TextEditingController(text: Global.proxy);
     _bypassProxyEditingController =
         TextEditingController(text: Global.bypassProxy);
+    _downloadPathEditingController =
+        TextEditingController(text: Global.downloadPath);
   }
 
   @override
@@ -221,6 +226,48 @@ class _SettingsState extends State<Settings> with PageMixin {
           ),
         ),
         spacer,
+        Card(
+            borderRadius: const BorderRadius.all(Radius.circular(6.0)),
+            child: Row(
+              children: [
+                const SizedBox(width: 4),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      S.of(context).downloadPath,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(S.of(context).downloadPathInfo),
+                  ],
+                ),
+                const Spacer(),
+                SizedBox(
+                  width: 400,
+                  child: TextBox(
+                    enabled: false,
+                    controller: _downloadPathEditingController,
+                    expands: false,
+                  ),
+                ),
+                IconButton(
+                    icon: const Icon(FluentIcons.fabric_folder, size: 24.0),
+                    onPressed: () async {
+                      final String? path = await getDirectoryPath();
+                      if (path != null) {
+                        setState(() {
+                          Global.downloadPath = path;
+                          _downloadPathEditingController.text = path;
+                        });
+                        Aria2Http.changeGlobalOption(
+                            {'dir': Global.downloadPath}, Global.rpcUrl);
+                      }
+                    })
+              ],
+            )),
+        spacer,
         Text(
           S.of(context).advanced,
           style: FluentTheme.of(context).typography.subtitle,
@@ -313,6 +360,24 @@ class _SettingsState extends State<Settings> with PageMixin {
                       placeholder: S.of(context).RPCListenPort,
                       controller: _rpcPortEditingController,
                       expands: false,
+                      onSubmitted: (String text) async {
+                        setState(() {
+                          Global.rpcPort = int.parse(text);
+                        });
+                        await Global.prefs.setInt('RPCPort', Global.rpcPort);
+                        // ignore: use_build_context_synchronously
+                        await displayInfoBar(context,
+                            builder: (context, close) {
+                          return InfoBar(
+                            title: Text(S.of(context).RPCInfo),
+                            action: IconButton(
+                              icon: const Icon(FluentIcons.clear),
+                              onPressed: close,
+                            ),
+                            severity: InfoBarSeverity.warning,
+                          );
+                        });
+                      },
                     ),
                   ),
                   IconButton(
@@ -348,6 +413,25 @@ class _SettingsState extends State<Settings> with PageMixin {
                       placeholder: S.of(context).RPCSecret,
                       controller: _rpcSecretEditingController,
                       expands: false,
+                      onSubmitted: (String text) async {
+                        setState(() {
+                          Global.rpcSecret = text;
+                        });
+                        await Global.prefs
+                            .setString('RPCSecret', Global.rpcSecret);
+                        // ignore: use_build_context_synchronously
+                        await displayInfoBar(context,
+                            builder: (context, close) {
+                          return InfoBar(
+                            title: Text(S.of(context).RPCInfo),
+                            action: IconButton(
+                              icon: const Icon(FluentIcons.clear),
+                              onPressed: close,
+                            ),
+                            severity: InfoBarSeverity.warning,
+                          );
+                        });
+                      },
                     ),
                   ),
                   IconButton(
@@ -467,5 +551,26 @@ class _SettingsState extends State<Settings> with PageMixin {
         ),
       ],
     );
+  }
+
+  void updateRPCPort(BuildContext context) async {
+    setState(() {
+      Global.rpcPort = 11000 + Random().nextInt(8999);
+      _rpcPortEditingController.text = Global.rpcPort.toString();
+    });
+
+    await Global.prefs.setInt('RPCPort', Global.rpcPort);
+
+    // ignore: use_build_context_synchronously
+    await displayInfoBar(context, builder: (context, close) {
+      return InfoBar(
+        title: Text(S.of(context).RPCInfo),
+        action: IconButton(
+          icon: const Icon(FluentIcons.clear),
+          onPressed: close,
+        ),
+        severity: InfoBarSeverity.warning,
+      );
+    });
   }
 }

@@ -409,6 +409,126 @@ class S {
       args: [],
     );
   }
+
+  /// `Download Path`
+  String get downloadPath {
+    return Intl.message(
+      'Download Path',
+      name: 'downloadPath',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Set default download path`
+  String get downloadPathInfo {
+    return Intl.message(
+      'Set default download path',
+      name: 'downloadPathInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New`
+  String get newDownload {
+    return Intl.message(
+      'New',
+      name: 'newDownload',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `URL`
+  String get URL {
+    return Intl.message(
+      'URL',
+      name: 'URL',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Torrent`
+  String get torrent {
+    return Intl.message(
+      'Torrent',
+      name: 'torrent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `One task url per line (supports magnet)`
+  String get URLTextBox {
+    return Intl.message(
+      'One task url per line (supports magnet)',
+      name: 'URLTextBox',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get cancel {
+    return Intl.message(
+      'Cancel',
+      name: 'cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Submit`
+  String get submit {
+    return Intl.message(
+      'Submit',
+      name: 'submit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Path`
+  String get path {
+    return Intl.message(
+      'Path',
+      name: 'path',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete This Tasks`
+  String get deleteThisTasks {
+    return Intl.message(
+      'Delete This Tasks',
+      name: 'deleteThisTasks',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Resume This Tasks`
+  String get resumeThisTasks {
+    return Intl.message(
+      'Resume This Tasks',
+      name: 'resumeThisTasks',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pause This Tasks`
+  String get pauseThisTasks {
+    return Intl.message(
+      'Pause This Tasks',
+      name: 'pauseThisTasks',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -34,5 +34,17 @@
     "confirmClose":"Confirm close",
     "closeInfo":"Are you sure you want to close this window?",
     "yes":"Yes",
-    "no":"No"
+    "no":"No",
+    "downloadPath":"Download Path",
+    "downloadPathInfo":"Set default download path",
+    "newDownload":"New",
+    "URL":"URL",
+    "torrent":"Torrent",
+    "URLTextBox":"One task url per line (supports magnet)",
+    "cancel":"Cancel",
+    "submit":"Submit",
+    "path":"Path",
+    "deleteThisTasks":"Delete This Tasks",
+    "resumeThisTasks":"Resume This Tasks",
+    "pauseThisTasks":"Pause This Tasks"
 }

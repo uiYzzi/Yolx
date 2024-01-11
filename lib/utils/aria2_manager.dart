@@ -1,14 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:yolx/common/const.dart';
 import 'package:yolx/common/global.dart';
 import 'package:yolx/utils/common_utils.dart';
 import 'package:yolx/utils/file_utils.dart';
 import 'package:yolx/utils/log.dart';
+import 'ariar2_http_utils.dart' as Aria2Http;
 
 class Aria2Manager {
-  final _rpcUrl = rpcURLValue.replaceAll('{port}', Global.rpcPort.toString());
   late Future<Process> cmdProcess;
   late int processPid = 0;
   getAria2rootPath() async {
@@ -70,6 +69,7 @@ class Aria2Manager {
         }
       });
     });
+    Aria2Http.changeGlobalOption({'dir': Global.downloadPath}, Global.rpcUrl);
   }
 
   closeServer() {

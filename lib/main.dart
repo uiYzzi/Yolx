@@ -2,6 +2,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:yolx/common/const.dart';
 import 'package:yolx/common/global.dart';
 import 'package:yolx/generated/l10n.dart';
+import 'package:yolx/model/downloading_list_model.dart';
+import 'package:yolx/model/stopped_list_model.dart';
+import 'package:yolx/model/waiting_list_model.dart';
 import 'package:yolx/screens/downloading.dart';
 import 'package:yolx/screens/waiting.dart';
 import 'package:yolx/screens/stopped.dart';
@@ -54,7 +57,16 @@ void main() async {
     Aria2Manager().startServer();
   }
 
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => DownloadingListModel()),
+        ChangeNotifierProvider(create: (context) => WaitingListModel()),
+        ChangeNotifierProvider(create: (context) => StoppedListModel()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
