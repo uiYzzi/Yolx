@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:yolx/generated/l10n.dart';
 import 'package:yolx/model/download_file.dart';
 import 'package:yolx/widgets/download_file_card.dart';
 
@@ -43,11 +44,11 @@ class _DownloadingPageState extends State<DownloadingPage> with PageMixin {
         children: [
           Row(
             children: [
-              Text('Downloading',
+              Text(S.of(context).downloading,
                   style: FluentTheme.of(context).typography.title),
               const Spacer(),
               Tooltip(
-                message: 'Delete Selected Tasks',
+                message: S.of(context).deleteAllTasks,
                 displayHorizontally: true,
                 useMousePosition: false,
                 style: const TooltipThemeData(preferBelow: true),
@@ -57,7 +58,7 @@ class _DownloadingPageState extends State<DownloadingPage> with PageMixin {
                 ),
               ),
               Tooltip(
-                message: 'Refresh Task List',
+                message: S.of(context).refreshTaskList,
                 displayHorizontally: true,
                 useMousePosition: false,
                 style: const TooltipThemeData(preferBelow: true),
@@ -67,7 +68,7 @@ class _DownloadingPageState extends State<DownloadingPage> with PageMixin {
                 ),
               ),
               Tooltip(
-                message: 'Resume All Tasks',
+                message: S.of(context).resumeAllTasks,
                 displayHorizontally: true,
                 useMousePosition: false,
                 style: const TooltipThemeData(preferBelow: true),
@@ -77,7 +78,7 @@ class _DownloadingPageState extends State<DownloadingPage> with PageMixin {
                 ),
               ),
               Tooltip(
-                message: 'Pause All Tasks',
+                message: S.of(context).pauseAllTasks,
                 displayHorizontally: true,
                 useMousePosition: false,
                 style: const TooltipThemeData(preferBelow: true),

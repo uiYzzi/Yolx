@@ -11,6 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   logger: ^2.0.2+1
   fluent_ui: ^4.4.0
   provider: ^6.0.5
@@ -46,3 +48,5 @@ flutter_icons:
   macos:
     generate: true
     image_path: "assets/logo.png"
+flutter_intl:
+  enabled: true

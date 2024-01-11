@@ -1,5 +1,7 @@
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:yolx/common/const.dart';
 import 'package:yolx/common/global.dart';
+import 'package:yolx/generated/l10n.dart';
 import 'package:yolx/screens/downloading.dart';
 import 'package:yolx/screens/waiting.dart';
 import 'package:yolx/screens/stopped.dart';
@@ -69,6 +71,13 @@ class MyApp extends StatelessWidget {
           themeMode: appTheme.mode,
           debugShowCheckedModeBanner: false,
           color: appTheme.color,
+          localizationsDelegates: const [
+            S.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: S.delegate.supportedLocales,
           darkTheme: FluentThemeData(
             brightness: Brightness.dark,
             accentColor: appTheme.color,
@@ -120,19 +129,19 @@ class _MyDownloadingPageState extends State<MyDownloadingPage>
     PaneItem(
       key: const ValueKey('/'),
       icon: const Icon(FluentIcons.download),
-      title: const Text('Downloading'),
+      title: Text(S.of(context).downloading),
       body: const SizedBox.shrink(),
     ),
     PaneItem(
       key: const ValueKey('/waiting'),
       icon: const Icon(FluentIcons.pause),
-      title: const Text('Waiting'),
+      title: Text(S.of(context).waiting),
       body: const SizedBox.shrink(),
     ),
     PaneItem(
       key: const ValueKey('/stopped'),
       icon: const Icon(FluentIcons.stop),
-      title: const Text('Stopped'),
+      title: Text(S.of(context).stopped),
       body: const SizedBox.shrink(),
     ),
   ].map<NavigationPaneItem>((e) {
@@ -171,7 +180,7 @@ class _MyDownloadingPageState extends State<MyDownloadingPage>
     PaneItem(
       key: const ValueKey('/settings'),
       icon: const Icon(FluentIcons.settings),
-      title: const Text('Settings'),
+      title: Text(S.of(context).settings),
       body: const SizedBox.shrink(),
       onTap: () {
         if (GoRouterState.of(context).uri.toString() != '/settings') {
@@ -181,7 +190,7 @@ class _MyDownloadingPageState extends State<MyDownloadingPage>
     ),
     _LinkPaneItemAction(
       icon: const Icon(FluentIcons.open_source),
-      title: const Text('Source code'),
+      title: Text(S.of(context).sourceCode),
       link: githubURL,
       body: const SizedBox.shrink(),
     ),
@@ -289,11 +298,11 @@ class _MyDownloadingPageState extends State<MyDownloadingPage>
         context: context,
         builder: (_) {
           return ContentDialog(
-            title: const Text('Confirm close'),
-            content: const Text('Are you sure you want to close this window?'),
+            title: Text(S.of(context).confirmClose),
+            content: Text(S.of(context).closeInfo),
             actions: [
               FilledButton(
-                child: const Text('Yes'),
+                child: Text(S.of(context).yes),
                 onPressed: () {
                   Navigator.pop(context);
                   windowManager.destroy();
@@ -301,7 +310,7 @@ class _MyDownloadingPageState extends State<MyDownloadingPage>
                 },
               ),
               Button(
-                child: const Text('No'),
+                child: Text(S.of(context).no),
                 onPressed: () {
                   Navigator.pop(context);
                 },

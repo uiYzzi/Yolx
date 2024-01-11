@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:yolx/generated/l10n.dart';
 
 import '../widgets/page.dart';
 
@@ -19,20 +20,20 @@ class _StoppedPageState extends State<StoppedPage> with PageMixin {
 
     return ScaffoldPage.scrollable(
       header: PageHeader(
-        title: const Text('Stopped'),
+        title: Text(S.of(context).stopped),
         commandBar: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
           Tooltip(
-            message: 'Purge Task Record',
+            message: S.of(context).purgeTaskRecord,
             displayHorizontally: true,
             useMousePosition: false,
             style: const TooltipThemeData(preferBelow: true),
             child: IconButton(
-              icon: const Icon(FluentIcons.delete_table, size: 18.0),
+              icon: const Icon(FluentIcons.delete, size: 18.0),
               onPressed: () {},
             ),
           ),
           Tooltip(
-            message: 'Refresh Task List',
+            message: S.of(context).refreshTaskList,
             displayHorizontally: true,
             useMousePosition: false,
             style: const TooltipThemeData(preferBelow: true),
@@ -42,7 +43,7 @@ class _StoppedPageState extends State<StoppedPage> with PageMixin {
             ),
           ),
           Tooltip(
-            message: 'Resume All Tasks',
+            message: S.of(context).resumeAllTasks,
             displayHorizontally: true,
             useMousePosition: false,
             style: const TooltipThemeData(preferBelow: true),
@@ -52,7 +53,7 @@ class _StoppedPageState extends State<StoppedPage> with PageMixin {
             ),
           ),
           Tooltip(
-            message: 'Pause All Tasks',
+            message: S.of(context).pauseAllTasks,
             displayHorizontally: true,
             useMousePosition: false,
             style: const TooltipThemeData(preferBelow: true),

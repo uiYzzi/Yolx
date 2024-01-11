@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:yolx/common/global.dart';
+import 'package:yolx/generated/l10n.dart';
 
 import '../theme.dart';
 import '../widgets/page.dart';
@@ -52,28 +53,29 @@ class _SettingsState extends State<Settings> with PageMixin {
       width: 10.0,
     );
 
-    const supportedLocales = FluentLocalizations.supportedLocales;
+    final supportedLocales =
+        context.findAncestorWidgetOfExactType<FluentApp>()?.supportedLocales;
     var currentLocale = appTheme.locale ?? Localizations.maybeLocaleOf(context);
     return ScaffoldPage.scrollable(
-      header: const PageHeader(title: Text('Settings')),
+      header: PageHeader(title: Text(S.of(context).settings)),
       children: [
         Text(
-          'Basic',
+          S.of(context).basic,
           style: FluentTheme.of(context).typography.subtitle,
         ),
         spacer,
         Expander(
-          header: const Column(
+          header: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               spacer,
               Text(
-                'Theme',
-                style: TextStyle(
+                S.of(context).theme,
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Text('Sets the theme of the application.'),
+              Text(S.of(context).setsTheThemeOfTheApplication),
               spacer,
             ],
           ),
@@ -104,16 +106,18 @@ class _SettingsState extends State<Settings> with PageMixin {
             child: Row(
               children: [
                 const SizedBox(width: 4),
-                const Column(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Language',
-                      style: TextStyle(
+                      S.of(context).language,
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Text('Sets an override for the app\'s preferred language.'),
+                    Text(S
+                        .of(context)
+                        .setsAnOverrideForTheAppsPreferredLanguage),
                   ],
                 ),
                 const Spacer(),
@@ -127,11 +131,11 @@ class _SettingsState extends State<Settings> with PageMixin {
                       });
 
                       await Global.prefs
-                          .setString('Language', currentLocale!.languageCode);
+                          .setString('Language', currentLocale.toString());
                     }
                   },
                   items: supportedLocales
-                      .map<ComboBoxItem<Locale>>((Locale locale) {
+                      ?.map<ComboBoxItem<Locale>>((Locale locale) {
                     return ComboBoxItem<Locale>(
                       value: locale,
                       child: Text('$locale'),
@@ -142,17 +146,17 @@ class _SettingsState extends State<Settings> with PageMixin {
             )),
         spacer,
         Expander(
-          header: const Column(
+          header: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               spacer,
               Text(
-                'Navigation Mode',
-                style: TextStyle(
+                S.of(context).navigationMode,
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Text('Sets the display mode of the navigation pane.'),
+              Text(S.of(context).setsTheDisplayModeOfTheNavigationPane),
               spacer,
             ],
           ),
@@ -179,17 +183,17 @@ class _SettingsState extends State<Settings> with PageMixin {
         ),
         spacer,
         Expander(
-          header: const Column(
+          header: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               spacer,
               Text(
-                'Navigation Indicator',
-                style: TextStyle(
+                S.of(context).navigationIndicator,
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Text('Sets the visibility of the navigation indicator.'),
+              Text(S.of(context).setsTheStyleOfTheNavigationIndicator),
               spacer,
             ],
           ),
@@ -218,22 +222,22 @@ class _SettingsState extends State<Settings> with PageMixin {
         ),
         spacer,
         Text(
-          'Advanced',
+          S.of(context).advanced,
           style: FluentTheme.of(context).typography.subtitle,
         ),
         spacer,
         Expander(
-          header: const Column(
+          header: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               spacer,
               Text(
-                'Proxy',
-                style: TextStyle(
+                S.of(context).proxy,
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Text('Sets Download Proxy Server.'),
+              Text(S.of(context).setsDownloadProxyServer),
               spacer,
             ],
           ),
@@ -247,8 +251,7 @@ class _SettingsState extends State<Settings> with PageMixin {
               ),
               spacer,
               TextBox(
-                placeholder:
-                    'Bypass proxy settings for these Hosts and Domains,one per line',
+                placeholder: S.of(context).bypassProxy,
                 controller: _bypassProxyEditingController,
                 expands: false,
               ),
@@ -256,7 +259,7 @@ class _SettingsState extends State<Settings> with PageMixin {
               Row(
                 children: [
                   FilledButton(
-                    child: const Text('Save & Apply'),
+                    child: Text(S.of(context).saveApply),
                     onPressed: () async {
                       setState(() {
                         Global.proxy = _proxyEditingController.text;
@@ -268,7 +271,7 @@ class _SettingsState extends State<Settings> with PageMixin {
                       // ignore: use_build_context_synchronously
                       await displayInfoBar(context, builder: (context, close) {
                         return InfoBar(
-                          title: const Text('Preferences saved successfully.'),
+                          title: Text(S.of(context).savedSuccessfully),
                           action: IconButton(
                             icon: const Icon(FluentIcons.clear),
                             onPressed: close,
@@ -285,29 +288,29 @@ class _SettingsState extends State<Settings> with PageMixin {
         ),
         spacer,
         Expander(
-          header: const Column(
+          header: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               spacer,
               Text(
-                'RPC',
-                style: TextStyle(
+                S.of(context).RPC,
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Text('Sets the RPC of the application.'),
+              Text(S.of(context).setsTheRPCOfTheApplication),
               spacer,
             ],
           ),
           content: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('RPC Listen Port'),
+              Text(S.of(context).RPCListenPort),
               Row(
                 children: [
                   Expanded(
                     child: TextBox(
-                      placeholder: 'RPC Listen Port',
+                      placeholder: S.of(context).RPCListenPort,
                       controller: _rpcPortEditingController,
                       expands: false,
                     ),
@@ -324,8 +327,7 @@ class _SettingsState extends State<Settings> with PageMixin {
                       // ignore: use_build_context_synchronously
                       await displayInfoBar(context, builder: (context, close) {
                         return InfoBar(
-                          title: const Text(
-                              'This setting modification requires application restart to take effect.'),
+                          title: Text(S.of(context).RPCInfo),
                           action: IconButton(
                             icon: const Icon(FluentIcons.clear),
                             onPressed: close,
@@ -338,12 +340,12 @@ class _SettingsState extends State<Settings> with PageMixin {
                 ],
               ),
               spacer,
-              const Text('RPC Secret'),
+              Text(S.of(context).RPCSecret),
               Row(
                 children: [
                   Expanded(
                     child: TextBox(
-                      placeholder: 'RPC Secret',
+                      placeholder: S.of(context).RPCSecret,
                       controller: _rpcSecretEditingController,
                       expands: false,
                     ),
@@ -365,8 +367,7 @@ class _SettingsState extends State<Settings> with PageMixin {
                       // ignore: use_build_context_synchronously
                       await displayInfoBar(context, builder: (context, close) {
                         return InfoBar(
-                          title: const Text(
-                              'This setting modification requires application restart to take effect.'),
+                          title: Text(S.of(context).RPCInfo),
                           action: IconButton(
                             icon: const Icon(FluentIcons.clear),
                             onPressed: close,
@@ -383,17 +384,17 @@ class _SettingsState extends State<Settings> with PageMixin {
         ),
         spacer,
         Expander(
-          header: const Column(
+          header: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               spacer,
               Text(
-                'User-Agent',
-                style: TextStyle(
+                S.of(context).UA,
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Text('Mock User-Agent.'),
+              Text(S.of(context).mockUA),
               spacer,
             ],
           ),

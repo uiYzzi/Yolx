@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:yolx/generated/l10n.dart';
 
 import '../widgets/page.dart';
 
@@ -19,10 +20,10 @@ class _WaitingPageState extends State<WaitingPage> with PageMixin {
 
     return ScaffoldPage.scrollable(
       header: PageHeader(
-        title: const Text('Waiting'),
+        title: Text(S.of(context).waiting),
         commandBar: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
           Tooltip(
-            message: 'Delete Selected Tasks',
+            message: S.of(context).deleteAllTasks,
             displayHorizontally: true,
             useMousePosition: false,
             style: const TooltipThemeData(preferBelow: true),
@@ -32,7 +33,7 @@ class _WaitingPageState extends State<WaitingPage> with PageMixin {
             ),
           ),
           Tooltip(
-            message: 'Refresh Task List',
+            message: S.of(context).refreshTaskList,
             displayHorizontally: true,
             useMousePosition: false,
             style: const TooltipThemeData(preferBelow: true),
@@ -42,7 +43,7 @@ class _WaitingPageState extends State<WaitingPage> with PageMixin {
             ),
           ),
           Tooltip(
-            message: 'Resume All Tasks',
+            message: S.of(context).resumeAllTasks,
             displayHorizontally: true,
             useMousePosition: false,
             style: const TooltipThemeData(preferBelow: true),
@@ -52,7 +53,7 @@ class _WaitingPageState extends State<WaitingPage> with PageMixin {
             ),
           ),
           Tooltip(
-            message: 'Pause All Tasks',
+            message: S.of(context).pauseAllTasks,
             displayHorizontally: true,
             useMousePosition: false,
             style: const TooltipThemeData(preferBelow: true),

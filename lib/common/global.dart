@@ -15,7 +15,8 @@ class Global {
     WidgetsFlutterBinding.ensureInitialized();
     prefs = await SharedPreferences.getInstance();
     appTheme.mode = ThemeMode.values[prefs.getInt('ThemeMode') ?? 0];
-    appTheme.locale = Locale(prefs.getString('Language') ?? 'zh');
+    appTheme.locale = Locale(prefs.getString('Language')?.split('_')[0] ?? 'zh',
+        prefs.getString('Language')?.split('_')[1] ?? 'CN');
     appTheme.displayMode =
         PaneDisplayMode.values[prefs.getInt('NavigationMode') ?? 4];
     appTheme.indicator =
