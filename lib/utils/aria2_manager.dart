@@ -8,7 +8,7 @@ import 'package:yolx/utils/file_utils.dart';
 import 'package:yolx/utils/log.dart';
 
 class Aria2Manager {
-  final _rpcUrl = RPC_URL_VALUE.replaceAll('{port}', Global.rpcPort.toString());
+  final _rpcUrl = rpcURLValue.replaceAll('{port}', Global.rpcPort.toString());
   late Future<Process> cmdProcess;
   late int processPid = 0;
   getAria2rootPath() async {

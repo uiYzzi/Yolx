@@ -65,7 +65,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         final appTheme = context.watch<AppTheme>();
         return FluentApp.router(
-          title: APP_Title,
+          title: appTitle,
           themeMode: appTheme.mode,
           debugShowCheckedModeBanner: false,
           color: appTheme.color,
@@ -182,7 +182,7 @@ class _MyDownloadingPageState extends State<MyDownloadingPage>
     _LinkPaneItemAction(
       icon: const Icon(FluentIcons.open_source),
       title: const Text('Source code'),
-      link: GITHUB_URL,
+      link: githubURL,
       body: const SizedBox.shrink(),
     ),
   ];
@@ -240,13 +240,13 @@ class _MyDownloadingPageState extends State<MyDownloadingPage>
           if (kIsWeb) {
             return const Align(
               alignment: AlignmentDirectional.centerStart,
-              child: Text(APP_Title),
+              child: Text(appTitle),
             );
           }
           return const DragToMoveArea(
             child: Align(
               alignment: AlignmentDirectional.centerStart,
-              child: Text(APP_Title),
+              child: Text(appTitle),
             ),
           );
         }(),

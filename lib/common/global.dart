@@ -6,7 +6,7 @@ import 'package:yolx/theme.dart';
 class Global {
   static late SharedPreferences prefs;
   static final appTheme = AppTheme();
-  static int rpcPort = DEFAULT_RPC_PORT;
+  static int rpcPort = defaultRPCPort;
   static String rpcSecret = '';
   static String ua = '';
   static String proxy = '';
@@ -20,7 +20,7 @@ class Global {
         PaneDisplayMode.values[prefs.getInt('NavigationMode') ?? 4];
     appTheme.indicator =
         NavigationIndicators.values[prefs.getInt('NavigationIndicator') ?? 0];
-    rpcPort = prefs.getInt('RPCPort') ?? DEFAULT_RPC_PORT;
+    rpcPort = prefs.getInt('RPCPort') ?? defaultRPCPort;
     rpcSecret = prefs.getString('RPCSecret') ?? '';
     ua = prefs.getString('UA') ??
         'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36';
