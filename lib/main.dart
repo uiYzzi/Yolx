@@ -1,12 +1,10 @@
-import 'package:flutter_acrylic/window_effect.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yolx/common/global.dart';
 import 'package:yolx/screens/downloading.dart';
 import 'package:yolx/screens/waiting.dart';
 import 'package:yolx/screens/stopped.dart';
 import 'package:yolx/screens/settings.dart';
 import 'package:fluent_ui/fluent_ui.dart' hide Page;
 import 'package:flutter/foundation.dart';
-import 'package:flutter_acrylic/flutter_acrylic.dart' as flutter_acrylic;
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:system_theme/system_theme.dart';
@@ -16,8 +14,6 @@ import 'package:window_manager/window_manager.dart';
 import 'theme.dart';
 
 const String appTitle = 'Yolx';
-
-final _appTheme = AppTheme();
 
 /// Checks if the current environment is a desktop environment.
 bool get isDesktop {
@@ -31,7 +27,7 @@ bool get isDesktop {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await Global.init();
   // if it's not on the web, windows or android, load the accent color
   if (!kIsWeb &&
       [
@@ -42,10 +38,6 @@ void main() async {
   }
 
   if (isDesktop) {
-    await flutter_acrylic.Window.initialize();
-    if (defaultTargetPlatform == TargetPlatform.windows) {
-      await flutter_acrylic.Window.hideWindowControls();
-    }
     await WindowManager.instance.ensureInitialized();
     windowManager.waitUntilReadyToShow().then((_) async {
       await windowManager.setTitleBarStyle(
@@ -58,22 +50,7 @@ void main() async {
       await windowManager.setSkipTaskbar(false);
     });
   }
-  final prefs = await SharedPreferences.getInstance();
-  _appTheme.mode = ThemeMode.values[prefs.getInt('ThemeMode') ?? 0];
-  _appTheme.locale = Locale(prefs.getString('Language') ?? 'zh');
-  _appTheme.displayMode =
-      PaneDisplayMode.values[prefs.getInt('NavigationMode') ?? 4];
-  _appTheme.indicator =
-      NavigationIndicators.values[prefs.getInt('NavigationIndicator') ?? 0];
-  // if (!kIsWeb &&
-  //     [
-  //       TargetPlatform.windows,
-  //       TargetPlatform.linux,
-  //       TargetPlatform.macOS,
-  //     ].contains(defaultTargetPlatform)) {
-  //   _appTheme.windowEffect =
-  //       WindowEffect.values[prefs.getInt('WindowEffect') ?? 0];
-  // }
+
   runApp(const MyApp());
 }
 
@@ -83,7 +60,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-      value: _appTheme,
+      value: Global.appTheme,
       builder: (context, child) {
         final appTheme = context.watch<AppTheme>();
         return FluentApp.router(
@@ -107,20 +84,6 @@ class MyApp extends StatelessWidget {
             ),
           ),
           locale: appTheme.locale,
-          builder: (context, child) {
-            return Directionality(
-              textDirection: appTheme.textDirection,
-              child: NavigationPaneTheme(
-                data: NavigationPaneThemeData(
-                  backgroundColor: appTheme.windowEffect !=
-                          flutter_acrylic.WindowEffect.disabled
-                      ? Colors.transparent
-                      : null,
-                ),
-                child: child!,
-              ),
-            );
-          },
           routeInformationParser: router.routeInformationParser,
           routerDelegate: router.routerDelegate,
           routeInformationProvider: router.routeInformationProvider,

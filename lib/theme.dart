@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_acrylic/flutter_acrylic.dart';
 import 'package:system_theme/system_theme.dart';
 
 import 'package:fluent_ui/fluent_ui.dart';
@@ -33,26 +32,6 @@ class AppTheme extends ChangeNotifier {
   set indicator(NavigationIndicators indicator) {
     _indicator = indicator;
     notifyListeners();
-  }
-
-  WindowEffect _windowEffect = WindowEffect.disabled;
-  WindowEffect get windowEffect => _windowEffect;
-  set windowEffect(WindowEffect windowEffect) {
-    _windowEffect = windowEffect;
-    notifyListeners();
-  }
-
-  void setEffect(WindowEffect effect, BuildContext context) {
-    Window.setEffect(
-      effect: effect,
-      color: [
-        WindowEffect.solid,
-        WindowEffect.acrylic,
-      ].contains(effect)
-          ? FluentTheme.of(context).micaBackgroundColor.withOpacity(0.05)
-          : Colors.transparent,
-      dark: FluentTheme.of(context).brightness.isDark,
-    );
   }
 
   TextDirection _textDirection = TextDirection.ltr;

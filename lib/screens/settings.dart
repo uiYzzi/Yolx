@@ -1,70 +1,12 @@
 // ignore_for_file: constant_identifier_names
-
-import 'package:flutter/foundation.dart';
+import 'dart:math';
 
 import 'package:fluent_ui/fluent_ui.dart';
-import 'package:flutter_acrylic/flutter_acrylic.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yolx/common/global.dart';
 
 import '../theme.dart';
 import '../widgets/page.dart';
-
-bool get kIsWindowEffectsSupported {
-  return !kIsWeb &&
-      [
-        TargetPlatform.windows,
-        TargetPlatform.linux,
-        TargetPlatform.macOS,
-      ].contains(defaultTargetPlatform);
-}
-
-const _LinuxWindowEffects = [
-  WindowEffect.disabled,
-  WindowEffect.transparent,
-];
-
-const _WindowsWindowEffects = [
-  WindowEffect.disabled,
-  WindowEffect.solid,
-  WindowEffect.transparent,
-  WindowEffect.aero,
-  WindowEffect.acrylic,
-  WindowEffect.mica,
-  WindowEffect.tabbed,
-];
-
-const _MacosWindowEffects = [
-  WindowEffect.disabled,
-  WindowEffect.titlebar,
-  WindowEffect.selection,
-  WindowEffect.menu,
-  WindowEffect.popover,
-  WindowEffect.sidebar,
-  WindowEffect.headerView,
-  WindowEffect.sheet,
-  WindowEffect.windowBackground,
-  WindowEffect.hudWindow,
-  WindowEffect.fullScreenUI,
-  WindowEffect.toolTip,
-  WindowEffect.contentBackground,
-  WindowEffect.underWindowBackground,
-  WindowEffect.underPageBackground,
-];
-
-List<WindowEffect> get currentWindowEffects {
-  if (kIsWeb) return [];
-
-  if (defaultTargetPlatform == TargetPlatform.windows) {
-    return _WindowsWindowEffects;
-  } else if (defaultTargetPlatform == TargetPlatform.linux) {
-    return _LinuxWindowEffects;
-  } else if (defaultTargetPlatform == TargetPlatform.macOS) {
-    return _MacosWindowEffects;
-  }
-
-  return [];
-}
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -74,11 +16,41 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> with PageMixin {
+  late TextEditingController _rpcPortEditingController;
+  late TextEditingController _rpcSecretEditingController;
+  late TextEditingController _uaEditingController;
+  late TextEditingController _proxyEditingController;
+  late TextEditingController _bypassProxyEditingController;
+  @override
+  void initState() {
+    super.initState();
+    _rpcPortEditingController =
+        TextEditingController(text: Global.rpcPort.toString());
+    _rpcSecretEditingController = TextEditingController(text: Global.rpcSecret);
+    _uaEditingController = TextEditingController(text: Global.ua);
+    _proxyEditingController = TextEditingController(text: Global.proxy);
+    _bypassProxyEditingController =
+        TextEditingController(text: Global.bypassProxy);
+  }
+
+  @override
+  void dispose() {
+    _rpcPortEditingController.dispose();
+    _rpcSecretEditingController.dispose();
+    _uaEditingController.dispose();
+    _proxyEditingController.dispose();
+    _bypassProxyEditingController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMediaQuery(context));
     final appTheme = context.watch<AppTheme>();
-    const spacer = SizedBox(height: 10.0);
+    const spacer = SizedBox(
+      height: 10.0,
+      width: 10.0,
+    );
 
     const supportedLocales = FluentLocalizations.supportedLocales;
     var currentLocale = appTheme.locale ?? Localizations.maybeLocaleOf(context);
@@ -116,14 +88,8 @@ class _SettingsState extends State<Settings> with PageMixin {
                   onChanged: (value) async {
                     if (value) {
                       appTheme.mode = mode;
-                      final prefs = await SharedPreferences.getInstance();
-                      await prefs.setInt('ThemeMode', mode.index);
-                      if (kIsWindowEffectsSupported) {
-                        // some window effects require on [dark] to look good.
-                        // appTheme.setEffect(WindowEffect.disabled, context);
-                        // ignore: use_build_context_synchronously
-                        appTheme.setEffect(appTheme.windowEffect, context);
-                      }
+
+                      await Global.prefs.setInt('ThemeMode', mode.index);
                     }
                   },
                   content: Text('$mode'.replaceAll('ThemeMode.', '')),
@@ -159,9 +125,9 @@ class _SettingsState extends State<Settings> with PageMixin {
                         currentLocale = newValue;
                         appTheme.locale = currentLocale;
                       });
-                      final prefs = await SharedPreferences.getInstance();
-                      await prefs.setString(
-                          'Language', currentLocale!.languageCode);
+
+                      await Global.prefs
+                          .setString('Language', currentLocale!.languageCode);
                     }
                   },
                   items: supportedLocales
@@ -200,8 +166,8 @@ class _SettingsState extends State<Settings> with PageMixin {
                   checked: appTheme.displayMode == mode,
                   onChanged: (value) async {
                     if (value) appTheme.displayMode = mode;
-                    final prefs = await SharedPreferences.getInstance();
-                    await prefs.setInt('NavigationMode', mode.index);
+
+                    await Global.prefs.setInt('NavigationMode', mode.index);
                   },
                   content: Text(
                     mode.toString().replaceAll('PaneDisplayMode.', ''),
@@ -238,8 +204,9 @@ class _SettingsState extends State<Settings> with PageMixin {
                   checked: appTheme.indicator == mode,
                   onChanged: (value) async {
                     if (value) appTheme.indicator = mode;
-                    final prefs = await SharedPreferences.getInstance();
-                    await prefs.setInt('NavigationIndicator', mode.index);
+
+                    await Global.prefs
+                        .setInt('NavigationIndicator', mode.index);
                   },
                   content: Text(
                     mode.toString().replaceAll('NavigationIndicators.', ''),
@@ -249,49 +216,254 @@ class _SettingsState extends State<Settings> with PageMixin {
             }),
           ),
         ),
-        if (kIsWindowEffectsSupported) ...[
-          spacer,
-          Expander(
-            header: const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                spacer,
-                Text(
-                  'Window Transparency',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
+        spacer,
+        Text(
+          'Advanced',
+          style: FluentTheme.of(context).typography.subtitle,
+        ),
+        spacer,
+        Expander(
+          header: const Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              spacer,
+              Text(
+                'Proxy',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
                 ),
-                Text('Sets the transparency level of the window.'),
-                spacer,
-              ],
-            ),
-            content: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: List.generate(currentWindowEffects.length, (index) {
-                final mode = currentWindowEffects[index];
-                return Padding(
-                  padding: const EdgeInsetsDirectional.only(bottom: 8.0),
-                  child: RadioButton(
-                    checked: appTheme.windowEffect == mode,
-                    onChanged: (value) async {
-                      if (value) {
-                        appTheme.windowEffect = mode;
-                        appTheme.setEffect(mode, context);
-                        final prefs = await SharedPreferences.getInstance();
-                        await prefs.setInt('WindowEffect', mode.index);
-                      }
+              ),
+              Text('Sets Download Proxy Server.'),
+              spacer,
+            ],
+          ),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextBox(
+                placeholder: '[http://][USER:PASSWORD@]HOST[:PORT]',
+                controller: _proxyEditingController,
+                expands: false,
+              ),
+              spacer,
+              TextBox(
+                placeholder:
+                    'Bypass proxy settings for these Hosts and Domains,one per line',
+                controller: _bypassProxyEditingController,
+                expands: false,
+              ),
+              spacer,
+              Row(
+                children: [
+                  FilledButton(
+                    child: const Text('Save & Apply'),
+                    onPressed: () async {
+                      setState(() {
+                        Global.proxy = _proxyEditingController.text;
+                        Global.bypassProxy = _bypassProxyEditingController.text;
+                      });
+                      await Global.prefs.setString('Proxy', Global.proxy);
+                      await Global.prefs
+                          .setString('BypassProxy', Global.bypassProxy);
+                      // ignore: use_build_context_synchronously
+                      await displayInfoBar(context, builder: (context, close) {
+                        return InfoBar(
+                          title: const Text('Preferences saved successfully.'),
+                          action: IconButton(
+                            icon: const Icon(FluentIcons.clear),
+                            onPressed: close,
+                          ),
+                          severity: InfoBarSeverity.success,
+                        );
+                      });
                     },
-                    content: Text(
-                      mode.toString().replaceAll('WindowEffect.', ''),
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
+        spacer,
+        Expander(
+          header: const Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              spacer,
+              Text(
+                'RPC',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text('Sets the RPC of the application.'),
+              spacer,
+            ],
+          ),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('RPC Listen Port'),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextBox(
+                      placeholder: 'RPC Listen Port',
+                      controller: _rpcPortEditingController,
+                      expands: false,
                     ),
                   ),
-                );
-              }),
-            ),
+                  IconButton(
+                    icon: const Icon(FluentIcons.graph_symbol, size: 24.0),
+                    onPressed: () async {
+                      setState(() {
+                        Global.rpcPort = 11000 + Random().nextInt(8999);
+                        _rpcPortEditingController.text =
+                            Global.rpcPort.toString();
+                      });
+                      await Global.prefs.setInt('RPCPort', Global.rpcPort);
+                      // ignore: use_build_context_synchronously
+                      await displayInfoBar(context, builder: (context, close) {
+                        return InfoBar(
+                          title: const Text(
+                              'This setting modification requires application restart to take effect.'),
+                          action: IconButton(
+                            icon: const Icon(FluentIcons.clear),
+                            onPressed: close,
+                          ),
+                          severity: InfoBarSeverity.warning,
+                        );
+                      });
+                    },
+                  )
+                ],
+              ),
+              spacer,
+              const Text('RPC Secret'),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextBox(
+                      placeholder: 'RPC Secret',
+                      controller: _rpcSecretEditingController,
+                      expands: false,
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(FluentIcons.graph_symbol, size: 24.0),
+                    onPressed: () async {
+                      setState(() {
+                        const availableChars =
+                            'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+                        Global.rpcSecret = List.generate(
+                            12,
+                            (index) => availableChars[Random()
+                                .nextInt(availableChars.length)]).join();
+                        _rpcSecretEditingController.text = Global.rpcSecret;
+                      });
+                      await Global.prefs
+                          .setString('RPCSecret', Global.rpcSecret);
+                      // ignore: use_build_context_synchronously
+                      await displayInfoBar(context, builder: (context, close) {
+                        return InfoBar(
+                          title: const Text(
+                              'This setting modification requires application restart to take effect.'),
+                          action: IconButton(
+                            icon: const Icon(FluentIcons.clear),
+                            onPressed: close,
+                          ),
+                          severity: InfoBarSeverity.warning,
+                        );
+                      });
+                    },
+                  )
+                ],
+              ),
+            ],
           ),
-        ],
+        ),
         spacer,
+        Expander(
+          header: const Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              spacer,
+              Text(
+                'User-Agent',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text('Mock User-Agent.'),
+              spacer,
+            ],
+          ),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Button(
+                    child: const Text('Aria2'),
+                    onPressed: () async {
+                      setState(() {
+                        Global.ua = "aria2/1.36.0";
+                        _uaEditingController.text = Global.ua;
+                      });
+                      await Global.prefs.setString('UA', Global.ua);
+                    },
+                  ),
+                  Button(
+                    child: const Text('Transmission'),
+                    onPressed: () async {
+                      setState(() {
+                        Global.ua = "Transmission/3.00";
+                        _uaEditingController.text = Global.ua;
+                      });
+                      await Global.prefs.setString('UA', Global.ua);
+                    },
+                  ),
+                  Button(
+                    child: const Text('Chrome'),
+                    onPressed: () async {
+                      setState(() {
+                        Global.ua =
+                            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36";
+                        _uaEditingController.text = Global.ua;
+                      });
+                      await Global.prefs.setString('UA', Global.ua);
+                    },
+                  ),
+                  Button(
+                    child: const Text('Edge'),
+                    onPressed: () async {
+                      setState(() {
+                        Global.ua =
+                            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36 Edg/100.0.1185.44";
+                        _uaEditingController.text = Global.ua;
+                      });
+                      await Global.prefs.setString('UA', Global.ua);
+                    },
+                  ),
+                  Button(
+                    child: const Text('Du'),
+                    onPressed: () async {
+                      setState(() {
+                        Global.ua =
+                            "netdisk;6.0.0.12;PC;PC-Windows;10.0.16299;WindowsBaiduYunGuanJia";
+                        _uaEditingController.text = Global.ua;
+                      });
+                      await Global.prefs.setString('UA', Global.ua);
+                    },
+                  ),
+                ],
+              ),
+              TextBox(
+                controller: _uaEditingController,
+                maxLines: null,
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }
