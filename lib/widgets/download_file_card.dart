@@ -6,7 +6,6 @@ import 'package:yolx/utils/common_utils.dart';
 import 'package:path/path.dart' as path;
 // ignore: library_prefixes
 import 'package:yolx/utils/ariar2_http_utils.dart' as Aria2Http;
-import 'package:yolx/utils/log.dart';
 
 class DownloadFileCard extends StatelessWidget {
   final DownloadItem downloadFile;

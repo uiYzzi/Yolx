@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_single_instance/flutter_single_instance.dart';
 import 'package:yolx/common/const.dart';
 import 'package:yolx/common/global.dart';
 import 'package:yolx/generated/l10n.dart';
@@ -17,6 +20,7 @@ import 'package:system_theme/system_theme.dart';
 import 'package:url_launcher/link.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:yolx/utils/aria2_manager.dart';
+import 'package:yolx/utils/log.dart';
 
 import 'theme.dart';
 
@@ -32,6 +36,10 @@ bool get isDesktop {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  if (!await FlutterSingleInstance.platform.isFirstInstance()) {
+    Log.w("App is already running");
+    exit(0);
+  }
   await Global.init();
   // if it's not on the web, windows or android, load the accent color
   if (!kIsWeb &&
