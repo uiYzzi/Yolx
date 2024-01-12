@@ -262,6 +262,22 @@ unpause(String aria2url, String gid) async {
   }
 }
 
+forceRemove(String aria2url, String gid) async {
+  try {
+    var rpcSecret = Global.rpcSecret;
+    var r = await http.post(Uri.parse(aria2url),
+        body: json.encode({
+          "jsonrpc": "2.0",
+          "method": "aria2.forceRemove",
+          "id": 'forceRemove',
+          "params": ['token:$rpcSecret', gid]
+        }));
+    Log.i(r.body);
+  } catch (e) {
+    Log.e(e);
+  }
+}
+
 removeDownloadResult(String aria2url, String gid) async {
   try {
     var rpcSecret = Global.rpcSecret;

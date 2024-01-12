@@ -6,6 +6,7 @@ import 'package:yolx/utils/common_utils.dart';
 import 'package:path/path.dart' as path;
 // ignore: library_prefixes
 import 'package:yolx/utils/ariar2_http_utils.dart' as Aria2Http;
+import 'package:yolx/utils/log.dart';
 
 class DownloadFileCard extends StatelessWidget {
   final DownloadItem downloadFile;
@@ -35,8 +36,14 @@ class DownloadFileCard extends StatelessWidget {
                 child: IconButton(
                   icon: const Icon(FluentIcons.clear, size: 12.0),
                   onPressed: () async {
-                    await Aria2Http.removeDownloadResult(
-                        Global.rpcUrl, downloadFile.gid);
+                    if (downloadFile.status == "paused" ||
+                        downloadFile.status == "active") {
+                      await Aria2Http.forceRemove(
+                          Global.rpcUrl, downloadFile.gid);
+                    } else {
+                      await Aria2Http.removeDownloadResult(
+                          Global.rpcUrl, downloadFile.gid);
+                    }
                   },
                 ),
               ),
