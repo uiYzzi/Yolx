@@ -49,6 +49,8 @@ class _NewDownloadDialogState extends State<NewDownloadDialog> {
               _urlEditingController.text.split("\n"),
               {"dir": _downloadPathEditingController.text}
             ], Global.rpcUrl);
+            // ignore: use_build_context_synchronously
+            Navigator.pop(context, 'ok');
           },
         ),
       ],
