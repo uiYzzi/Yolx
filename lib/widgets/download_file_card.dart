@@ -27,6 +27,21 @@ class DownloadFileCard extends StatelessWidget {
               Text(path.basename(downloadFile.path),
                   style: FluentTheme.of(context).typography.body),
               const Spacer(),
+              if (downloadFile.status == 'paused') ...[
+                Tooltip(
+                  message: S.of(context).topping,
+                  displayHorizontally: true,
+                  useMousePosition: false,
+                  style: const TooltipThemeData(preferBelow: true),
+                  child: IconButton(
+                    icon: const Icon(FluentIcons.up, size: 12.0),
+                    onPressed: () async {
+                      await Aria2Http.changePosition(
+                          Global.rpcUrl, downloadFile.gid, 0, 'POS_SET');
+                    },
+                  ),
+                ),
+              ],
               Tooltip(
                 message: S.of(context).deleteThisTasks,
                 displayHorizontally: true,

@@ -78,6 +78,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "stopped": MessageLookupByLibrary.simpleMessage("已停止"),
         "submit": MessageLookupByLibrary.simpleMessage("提交"),
         "theme": MessageLookupByLibrary.simpleMessage("主题"),
+        "topping": MessageLookupByLibrary.simpleMessage("优先下载"),
         "torrent": MessageLookupByLibrary.simpleMessage("种子任务"),
         "waiting": MessageLookupByLibrary.simpleMessage("等待中"),
         "yes": MessageLookupByLibrary.simpleMessage("是的")

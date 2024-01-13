@@ -48,5 +48,6 @@
     "resumeThisTasks":"Resume This Tasks",
     "pauseThisTasks":"Pause This Tasks",
     "rememberWindowSize":"Remember Window Size",
-    "rememberWindowSizeInfo":"Restore the previous window size at startup"
+    "rememberWindowSizeInfo":"Restore the previous window size at startup",
+    "topping":"Topping"
 }

@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:yolx/common/global.dart';
 import 'package:yolx/utils/log.dart';
 
-var uuid = Uuid();
+var uuid = const Uuid();
 
 getVersion(aria2url) async {
   String aria2Version = '0';
@@ -31,6 +31,7 @@ getVersion(aria2url) async {
 changeGlobalOption(params, aria2url) async {
   try {
     var rpcSecret = Global.rpcSecret;
+
     var res = await http.post(Uri.parse(aria2url),
         body: json.encode({
           "jsonrpc": "2.0",
@@ -287,6 +288,22 @@ removeDownloadResult(String aria2url, String gid) async {
           "method": "aria2.removeDownloadResult",
           "id": 'removeDownloadResult',
           "params": ['token:$rpcSecret', gid]
+        }));
+    Log.i(r.body);
+  } catch (e) {
+    Log.e(e);
+  }
+}
+
+changePosition(String aria2url, String gid, int pos, String how) async {
+  try {
+    var rpcSecret = Global.rpcSecret;
+    var r = await http.post(Uri.parse(aria2url),
+        body: json.encode({
+          "jsonrpc": "2.0",
+          "method": "aria2.changePosition",
+          "id": 'changePosition',
+          "params": ['token:$rpcSecret', gid, pos, how]
         }));
     Log.i(r.body);
   } catch (e) {
