@@ -46,5 +46,7 @@
     "path":"Path",
     "deleteThisTasks":"Delete This Tasks",
     "resumeThisTasks":"Resume This Tasks",
-    "pauseThisTasks":"Pause This Tasks"
+    "pauseThisTasks":"Pause This Tasks",
+    "rememberWindowSize":"Remember Window Size",
+    "rememberWindowSizeInfo":"Restore the previous window size at startup"
 }

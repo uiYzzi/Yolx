@@ -25,6 +25,7 @@ class _SettingsState extends State<Settings> with PageMixin {
   late TextEditingController _proxyEditingController;
   late TextEditingController _bypassProxyEditingController;
   late TextEditingController _downloadPathEditingController;
+  late bool _rememberWindowSize;
   @override
   void initState() {
     super.initState();
@@ -37,6 +38,7 @@ class _SettingsState extends State<Settings> with PageMixin {
         TextEditingController(text: Global.bypassProxy);
     _downloadPathEditingController =
         TextEditingController(text: Global.downloadPath);
+    _rememberWindowSize = Global.rememberWindowSize;
   }
 
   @override
@@ -150,6 +152,37 @@ class _SettingsState extends State<Settings> with PageMixin {
               ],
             )),
         spacer,
+        Card(
+            borderRadius: const BorderRadius.all(Radius.circular(6.0)),
+            child: Row(
+              children: [
+                const SizedBox(width: 4),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      S.of(context).rememberWindowSize,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(S.of(context).rememberWindowSizeInfo),
+                  ],
+                ),
+                const Spacer(),
+                ToggleSwitch(
+                  checked: _rememberWindowSize,
+                  onChanged: (bool value) {
+                    setState(() {
+                      _rememberWindowSize = value; // 更新状态
+                      Global.rememberWindowSize = value;
+                      Global.prefs.setBool('RememberWindowSize', value);
+                    });
+                  },
+                ),
+              ],
+            )),
+        spacer,
         Expander(
           header: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -253,7 +286,7 @@ class _SettingsState extends State<Settings> with PageMixin {
                   ),
                 ),
                 IconButton(
-                    icon: const Icon(FluentIcons.fabric_folder, size: 24.0),
+                    icon: const Icon(FluentIcons.fabric_folder, size: 18.0),
                     onPressed: () async {
                       final String? path = await getDirectoryPath();
                       if (path != null) {

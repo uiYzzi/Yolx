@@ -66,6 +66,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Purge Task Record"),
         "refreshTaskList":
             MessageLookupByLibrary.simpleMessage("Refresh Task List"),
+        "rememberWindowSize":
+            MessageLookupByLibrary.simpleMessage("Remember Window Size"),
+        "rememberWindowSizeInfo": MessageLookupByLibrary.simpleMessage(
+            "Restore the previous window size at startup"),
         "resumeAllTasks":
             MessageLookupByLibrary.simpleMessage("Resume All Tasks"),
         "resumeThisTasks":

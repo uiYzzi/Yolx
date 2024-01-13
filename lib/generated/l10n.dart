@@ -529,6 +529,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Remember Window Size`
+  String get rememberWindowSize {
+    return Intl.message(
+      'Remember Window Size',
+      name: 'rememberWindowSize',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Restore the previous window size at startup`
+  String get rememberWindowSizeInfo {
+    return Intl.message(
+      'Restore the previous window size at startup',
+      name: 'rememberWindowSizeInfo',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

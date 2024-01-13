@@ -58,6 +58,8 @@ void main() async {
         windowButtonVisibility: false,
       );
       await windowManager.setMinimumSize(const Size(500, 600));
+      await windowManager
+          .setSize(Size(Global.windowWidth, Global.windowHeight));
       await windowManager.show();
       await windowManager.setPreventClose(true);
       await windowManager.setSkipTaskbar(false);
@@ -323,8 +325,14 @@ class _MyDownloadingPageState extends State<MyDownloadingPage>
             actions: [
               FilledButton(
                 child: Text(S.of(context).yes),
-                onPressed: () {
+                onPressed: () async {
                   Navigator.pop(context);
+                  if (Global.rememberWindowSize) {
+                    await windowManager.getSize().then((size) {
+                      Global.prefs.setDouble('WindowWidth', size.width);
+                      Global.prefs.setDouble('WindowHeight', size.height);
+                    });
+                  }
                   windowManager.destroy();
                   Aria2Manager().closeServer();
                 },

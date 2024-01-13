@@ -46,5 +46,7 @@
     "path":"存储路径",
     "deleteThisTasks":"删除本任务",
     "resumeThisTasks":"继续本任务",
-    "pauseThisTasks":"暂停本任务"
+    "pauseThisTasks":"暂停本任务",
+    "rememberWindowSize":"记住窗口大小",
+    "rememberWindowSizeInfo":"启动时恢复上次的窗口大小"
 }

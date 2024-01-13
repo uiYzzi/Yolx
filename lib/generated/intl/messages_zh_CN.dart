@@ -54,6 +54,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "proxy": MessageLookupByLibrary.simpleMessage("代理"),
         "purgeTaskRecord": MessageLookupByLibrary.simpleMessage("清除任务记录"),
         "refreshTaskList": MessageLookupByLibrary.simpleMessage("刷新任务列表"),
+        "rememberWindowSize": MessageLookupByLibrary.simpleMessage("记住窗口大小"),
+        "rememberWindowSizeInfo":
+            MessageLookupByLibrary.simpleMessage("启动时恢复上次的窗口大小"),
         "resumeAllTasks": MessageLookupByLibrary.simpleMessage("继续所有任务"),
         "resumeThisTasks": MessageLookupByLibrary.simpleMessage("继续本任务"),
         "saveApply": MessageLookupByLibrary.simpleMessage("保存并应用"),

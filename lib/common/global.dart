@@ -16,6 +16,9 @@ class Global {
   static String proxy = '';
   static String bypassProxy = '';
   static String downloadPath = '';
+  static double windowWidth = defaultWindowWidth;
+  static double windowHeight = defaultWindowHeight;
+  static bool rememberWindowSize = true;
   static String rpcUrl =
       rpcURLValue.replaceAll('{port}', Global.rpcPort.toString());
   static Future init() async {
@@ -42,5 +45,10 @@ class Global {
     bypassProxy = prefs.getString('BypassProxy') ?? '';
     Directory? dir = await getDownloadsDirectory();
     downloadPath = (prefs.getString('DownloadPath') ?? dir?.path)!;
+    rememberWindowSize = prefs.getBool('RememberWindowSize') ?? true;
+    if (rememberWindowSize) {
+      windowWidth = prefs.getDouble('WindowWidth') ?? defaultWindowWidth;
+      windowHeight = prefs.getDouble('WindowHeight') ?? defaultWindowHeight;
+    }
   }
 }
