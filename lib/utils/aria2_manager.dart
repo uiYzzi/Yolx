@@ -44,11 +44,14 @@ class Aria2Manager {
     }
     int port = Global.rpcPort;
     String secret = Global.rpcSecret;
-    cmdProcess = Process.start(exe, [
+    List<String> arguments = [
       '--conf-path=$conf',
       '--rpc-listen-port=$port',
-      '--rpc-secret=$secret'
-    ]);
+    ];
+    if (secret.isNotEmpty) {
+      arguments.add('--rpc-secret=$secret');
+    }
+    cmdProcess = Process.start(exe, arguments);
     cmdProcess.then((processResult) {
       processPid = processResult.pid;
       processResult.exitCode.then((value) => Log.i(value));
