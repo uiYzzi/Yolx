@@ -50,18 +50,23 @@ class _DownloadingPageState extends State<DownloadingPage> with PageMixin {
     return downloadList;
   }
 
+  void updateList() async {
+    var res = await Aria2Http.tellActive(Global.rpcUrl);
+    if (res == null) {
+      return;
+    }
+    var downloadListModel =
+        // ignore: use_build_context_synchronously
+        Provider.of<DownloadingListModel>(context, listen: false);
+    downloadListModel.updateDownloadList(parseDownloadList(res));
+  }
+
   @override
   void initState() {
     super.initState();
+    updateList();
     time = Timer.periodic(const Duration(milliseconds: 1000), (t) async {
-      var res = await Aria2Http.tellActive(Global.rpcUrl);
-      if (res == null) {
-        return;
-      }
-      var downloadListModel =
-          // ignore: use_build_context_synchronously
-          Provider.of<DownloadingListModel>(context, listen: false);
-      downloadListModel.updateDownloadList(parseDownloadList(res));
+      updateList();
     });
   }
 
