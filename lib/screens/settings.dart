@@ -571,6 +571,8 @@ class _SettingsState extends State<Settings> with PageMixin {
                         _uaEditingController.text = Global.ua;
                       });
                       await Global.prefs.setString('UA', Global.ua);
+                      Aria2Http.changeGlobalOption(
+                          {'user-agent': Global.ua}, Global.rpcUrl);
                     },
                   ),
                 ],

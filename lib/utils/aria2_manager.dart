@@ -72,7 +72,8 @@ class Aria2Manager {
         }
       });
     });
-    Aria2Http.changeGlobalOption({'dir': Global.downloadPath}, Global.rpcUrl);
+    Aria2Http.changeGlobalOption(
+        {'dir': Global.downloadPath, 'user-agent': Global.ua}, Global.rpcUrl);
   }
 
   closeServer() {
