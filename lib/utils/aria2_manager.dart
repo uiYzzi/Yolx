@@ -74,6 +74,10 @@ class Aria2Manager {
     });
     Aria2Http.changeGlobalOption(
         {'dir': Global.downloadPath, 'user-agent': Global.ua}, Global.rpcUrl);
+    if (Global.proxy.isNotEmpty) {
+      Aria2Http.changeGlobalOption(
+          parseProxyString(Global.proxy), Global.rpcUrl);
+    }
   }
 
   closeServer() {

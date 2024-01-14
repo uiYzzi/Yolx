@@ -8,6 +8,7 @@ import 'package:yolx/common/global.dart';
 import 'package:yolx/generated/l10n.dart';
 // ignore: library_prefixes
 import 'package:yolx/utils/ariar2_http_utils.dart' as Aria2Http;
+import 'package:yolx/utils/common_utils.dart';
 import '../theme.dart';
 import '../widgets/page.dart';
 
@@ -348,6 +349,8 @@ class _SettingsState extends State<Settings> with PageMixin {
                       await Global.prefs.setString('Proxy', Global.proxy);
                       await Global.prefs
                           .setString('BypassProxy', Global.bypassProxy);
+                      Aria2Http.changeGlobalOption(
+                          parseProxyString(Global.proxy), Global.rpcUrl);
                       // ignore: use_build_context_synchronously
                       await displayInfoBar(context, builder: (context, close) {
                         return InfoBar(
