@@ -28,8 +28,8 @@ DisableProgramGroupPage=yes
 LicenseFile={#MyAppRootPath}LICENSE
 ; Remove the following line to run in administrative install mode (install for all users.)
 PrivilegesRequired=lowest
-OutputDir={#MyAppRootPath}windows\installers
-OutputBaseFilename=yolx-setup
+OutputDir={#MyAppRootPath}build\windows\x64\installer
+OutputBaseFilename=yolx-setup-{#MyAppVersion}
 SetupIconFile={#MyAppRootPath}windows\runner\resources\app_icon.ico
 Compression=lzma
 SolidCompression=yes
