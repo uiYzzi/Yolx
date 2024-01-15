@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:path_provider/path_provider.dart';
 import 'package:yolx/common/const.dart';
 import 'package:yolx/common/global.dart';
 import 'package:yolx/utils/common_utils.dart';
@@ -30,8 +31,15 @@ class Aria2Manager {
     if (Platform.isWindows || Platform.isLinux) {
       String dir = await getPlugAssetsDir('aria2');
       String confName = 'yolx_aria2.conf';
-      return '$dir/$confName';
+      String pathSeparator = Platform.pathSeparator;
+      return '$dir$pathSeparator$confName';
     }
+  }
+
+  getAria2Session() async {
+    Directory appDocumentsCacheDirectory = await getApplicationCacheDirectory();
+    String pathSeparator = Platform.pathSeparator;
+    return '${appDocumentsCacheDirectory.path}${pathSeparator}download.session';
   }
 
   void startServer() async {
@@ -46,9 +54,18 @@ class Aria2Manager {
     }
     int port = Global.rpcPort;
     String secret = Global.rpcSecret;
+    String session = await getAria2Session();
+    File file = File(session);
+    bool fileExists = await file.exists();
+
+    if (!fileExists) {
+      await file.create(recursive: true);
+    }
     List<String> arguments = [
       '--conf-path=$conf',
       '--rpc-listen-port=$port',
+      '--input-file=$session',
+      '--save-session=$session'
     ];
     if (secret.isNotEmpty) {
       arguments.add('--rpc-secret=$secret');
