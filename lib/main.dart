@@ -125,8 +125,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyDownloadingPage extends StatefulWidget {
-  const MyDownloadingPage({
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({
     super.key,
     required this.child,
     required this.shellContext,
@@ -136,11 +136,10 @@ class MyDownloadingPage extends StatefulWidget {
   final BuildContext? shellContext;
 
   @override
-  State<MyDownloadingPage> createState() => _MyDownloadingPageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyDownloadingPageState extends State<MyDownloadingPage>
-    with WindowListener {
+class _MyHomePageState extends State<MyHomePage> with WindowListener {
   bool value = false;
 
   // int index = 0;
@@ -413,7 +412,7 @@ final router = GoRouter(navigatorKey: rootNavigatorKey, routes: [
   ShellRoute(
     navigatorKey: _shellNavigatorKey,
     builder: (context, state, child) {
-      return MyDownloadingPage(
+      return MyHomePage(
         shellContext: _shellNavigatorKey.currentContext,
         child: child,
       );
