@@ -619,6 +619,86 @@ class S {
       args: [],
     );
   }
+
+  /// `Classification Saving`
+  String get classificationSaving {
+    return Intl.message(
+      'Classification Saving',
+      name: 'classificationSaving',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enabling category saving will create category directories in the download path.`
+  String get classificationSavingInfo {
+    return Intl.message(
+      'Enabling category saving will create category directories in the download path.',
+      name: 'classificationSavingInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `General`
+  String get general {
+    return Intl.message(
+      'General',
+      name: 'general',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Compressed-Files`
+  String get compressedFiles {
+    return Intl.message(
+      'Compressed-Files',
+      name: 'compressedFiles',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Documents`
+  String get documents {
+    return Intl.message(
+      'Documents',
+      name: 'documents',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Music`
+  String get music {
+    return Intl.message(
+      'Music',
+      name: 'music',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Programs`
+  String get programs {
+    return Intl.message(
+      'Programs',
+      name: 'programs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Videos`
+  String get videos {
+    return Intl.message(
+      'Videos',
+      name: 'videos',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

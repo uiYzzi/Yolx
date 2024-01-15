@@ -37,17 +37,25 @@ class MessageLookup extends MessageLookupByLibrary {
         "bypassProxy": MessageLookupByLibrary.simpleMessage(
             "Bypass proxy settings for these Hosts and Domains,a comma separated"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "classificationSaving":
+            MessageLookupByLibrary.simpleMessage("Classification Saving"),
+        "classificationSavingInfo": MessageLookupByLibrary.simpleMessage(
+            "Enabling category saving will create category directories in the download path."),
         "closeInfo": MessageLookupByLibrary.simpleMessage(
             "Are you sure you want to close this window?"),
+        "compressedFiles":
+            MessageLookupByLibrary.simpleMessage("Compressed-Files"),
         "confirmClose": MessageLookupByLibrary.simpleMessage("Confirm close"),
         "deleteAllTasks":
             MessageLookupByLibrary.simpleMessage("Delete All Tasks"),
         "deleteThisTasks":
             MessageLookupByLibrary.simpleMessage("Delete This Tasks"),
+        "documents": MessageLookupByLibrary.simpleMessage("Documents"),
         "downloadPath": MessageLookupByLibrary.simpleMessage("Download Path"),
         "downloadPathInfo":
             MessageLookupByLibrary.simpleMessage("Set default download path"),
         "downloading": MessageLookupByLibrary.simpleMessage("Downloading"),
+        "general": MessageLookupByLibrary.simpleMessage("General"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
         "maxDownloadLimit":
             MessageLookupByLibrary.simpleMessage("Max Download Limit"),
@@ -58,6 +66,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "maxUploadLimit":
             MessageLookupByLibrary.simpleMessage("Max Upload Limit"),
         "mockUA": MessageLookupByLibrary.simpleMessage("Mock User-Agent."),
+        "music": MessageLookupByLibrary.simpleMessage("Music"),
         "navigationIndicator":
             MessageLookupByLibrary.simpleMessage("Navigation Indicator"),
         "navigationMode":
@@ -69,6 +78,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Pause All Tasks"),
         "pauseThisTasks":
             MessageLookupByLibrary.simpleMessage("Pause This Tasks"),
+        "programs": MessageLookupByLibrary.simpleMessage("Programs"),
         "proxy": MessageLookupByLibrary.simpleMessage("Proxy"),
         "purgeTaskRecord":
             MessageLookupByLibrary.simpleMessage("Purge Task Record"),
@@ -110,6 +120,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "theme": MessageLookupByLibrary.simpleMessage("Theme"),
         "topping": MessageLookupByLibrary.simpleMessage("Topping"),
         "torrent": MessageLookupByLibrary.simpleMessage("Torrent"),
+        "videos": MessageLookupByLibrary.simpleMessage("Videos"),
         "waiting": MessageLookupByLibrary.simpleMessage("Waiting"),
         "yes": MessageLookupByLibrary.simpleMessage("Yes")
       };

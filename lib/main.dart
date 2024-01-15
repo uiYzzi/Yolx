@@ -41,6 +41,7 @@ void main() async {
     exit(0);
   }
   await Global.init();
+  if (Global.classificationSaving) {}
   // if it's not on the web, windows or android, load the accent color
   if (!kIsWeb &&
       [

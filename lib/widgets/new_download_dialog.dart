@@ -3,6 +3,8 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:yolx/common/global.dart';
 import 'package:yolx/generated/l10n.dart';
 import 'package:yolx/utils/ariar2_http_utils.dart' as Aria2Http;
+import 'package:yolx/utils/file_utils.dart';
+import 'package:yolx/utils/url_utils.dart';
 
 class NewDownloadDialog extends StatefulWidget {
   const NewDownloadDialog({super.key});
@@ -48,7 +50,20 @@ class _NewDownloadDialogState extends State<NewDownloadDialog> {
           child: Text(S.of(context).submit),
           onPressed: () async {
             if (currentIndex == 0) {
-              var params = {"dir": _downloadPathEditingController.text};
+              String downloadPath;
+              if (Global.classificationSaving) {
+                createClassificationFolder();
+                if (_downloadPathEditingController.text !=
+                    Global.downloadPath) {
+                  downloadPath = _downloadPathEditingController.text;
+                } else {
+                  downloadPath = getDownloadDirectory(
+                      await getFileType(_urlEditingController.text));
+                }
+              } else {
+                downloadPath = _downloadPathEditingController.text;
+              }
+              var params = {"dir": downloadPath};
               if (_downloadLimitEditingController.text.isNotEmpty) {
                 params['max-download-limit'] =
                     (double.parse(_downloadLimitEditingController.text) *
@@ -56,6 +71,7 @@ class _NewDownloadDialogState extends State<NewDownloadDialog> {
                         .toInt()
                         .toString();
               }
+
               await Aria2Http.addUrl(
                   [_urlEditingController.text.split("\n"), params],
                   Global.rpcUrl);

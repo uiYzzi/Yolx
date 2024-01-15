@@ -31,6 +31,7 @@ class _SettingsState extends State<Settings> with PageMixin {
   late TextEditingController _maxOverallUploadLimitEditingController;
   late TextEditingController _maxUploadLimitEditingController;
   late bool _rememberWindowSize;
+  late bool _classificationSaving;
   @override
   void initState() {
     super.initState();
@@ -52,6 +53,7 @@ class _SettingsState extends State<Settings> with PageMixin {
         TextEditingController(text: Global.maxOverallUploadLimit.toString());
     _maxUploadLimitEditingController =
         TextEditingController(text: Global.maxUploadLimit.toString());
+    _classificationSaving = Global.classificationSaving;
   }
 
   @override
@@ -315,6 +317,37 @@ class _SettingsState extends State<Settings> with PageMixin {
                             {'dir': Global.downloadPath}, Global.rpcUrl);
                       }
                     })
+              ],
+            )),
+        spacer,
+        Card(
+            borderRadius: const BorderRadius.all(Radius.circular(6.0)),
+            child: Row(
+              children: [
+                const SizedBox(width: 4),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      S.of(context).classificationSaving,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(S.of(context).classificationSavingInfo),
+                  ],
+                ),
+                const Spacer(),
+                ToggleSwitch(
+                  checked: _classificationSaving,
+                  onChanged: (bool value) {
+                    setState(() {
+                      _classificationSaving = value; // 更新状态
+                      Global.classificationSaving = value;
+                      Global.prefs.setBool('ClassificationSaving', value);
+                    });
+                  },
+                ),
               ],
             )),
         spacer,

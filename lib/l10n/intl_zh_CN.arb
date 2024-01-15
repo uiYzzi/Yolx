@@ -55,5 +55,13 @@
     "maxOverallDownloadLimit":"最大全局下载速度",
     "maxDownloadLimit":"最大单任务下载速度",
     "maxOverallUploadLimit":"最大全局上传速度",
-    "maxUploadLimit":"最大单任务上传速度"
+    "maxUploadLimit":"最大单任务上传速度",
+    "classificationSaving":"分类存放",
+    "classificationSavingInfo":"启用分类存放后将在下载路径创建分类目录",
+    "general":"常规",
+    "compressedFiles":"压缩文件",
+    "documents":"文档",
+    "music":"音乐",
+    "programs":"程序",
+    "videos":"视频"
 }

@@ -35,13 +35,19 @@ class MessageLookup extends MessageLookupByLibrary {
         "bypassProxy":
             MessageLookupByLibrary.simpleMessage("绕过这些主机和域的代理设置，多个使用逗号分隔"),
         "cancel": MessageLookupByLibrary.simpleMessage("取消"),
+        "classificationSaving": MessageLookupByLibrary.simpleMessage("分类存放"),
+        "classificationSavingInfo":
+            MessageLookupByLibrary.simpleMessage("启用分类存放后将在下载路径创建分类目录"),
         "closeInfo": MessageLookupByLibrary.simpleMessage("您确定要关闭此窗口吗？"),
+        "compressedFiles": MessageLookupByLibrary.simpleMessage("压缩文件"),
         "confirmClose": MessageLookupByLibrary.simpleMessage("确认关闭"),
         "deleteAllTasks": MessageLookupByLibrary.simpleMessage("删除所有任务"),
         "deleteThisTasks": MessageLookupByLibrary.simpleMessage("删除本任务"),
+        "documents": MessageLookupByLibrary.simpleMessage("文档"),
         "downloadPath": MessageLookupByLibrary.simpleMessage("下载路径"),
         "downloadPathInfo": MessageLookupByLibrary.simpleMessage("设置默认下载路径"),
         "downloading": MessageLookupByLibrary.simpleMessage("下载中"),
+        "general": MessageLookupByLibrary.simpleMessage("常规"),
         "language": MessageLookupByLibrary.simpleMessage("语言"),
         "maxDownloadLimit": MessageLookupByLibrary.simpleMessage("最大单任务下载速度"),
         "maxOverallDownloadLimit":
@@ -50,6 +56,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("最大全局上传速度"),
         "maxUploadLimit": MessageLookupByLibrary.simpleMessage("最大单任务上传速度"),
         "mockUA": MessageLookupByLibrary.simpleMessage("模拟用户代理"),
+        "music": MessageLookupByLibrary.simpleMessage("音乐"),
         "navigationIndicator": MessageLookupByLibrary.simpleMessage("导航指示器"),
         "navigationMode": MessageLookupByLibrary.simpleMessage("导航模式"),
         "newDownload": MessageLookupByLibrary.simpleMessage("新建"),
@@ -57,6 +64,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "path": MessageLookupByLibrary.simpleMessage("存储路径"),
         "pauseAllTasks": MessageLookupByLibrary.simpleMessage("暂停所有任务"),
         "pauseThisTasks": MessageLookupByLibrary.simpleMessage("暂停本任务"),
+        "programs": MessageLookupByLibrary.simpleMessage("程序"),
         "proxy": MessageLookupByLibrary.simpleMessage("代理"),
         "purgeTaskRecord": MessageLookupByLibrary.simpleMessage("清除任务记录"),
         "refreshTaskList": MessageLookupByLibrary.simpleMessage("刷新任务列表"),
@@ -88,6 +96,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "theme": MessageLookupByLibrary.simpleMessage("主题"),
         "topping": MessageLookupByLibrary.simpleMessage("优先下载"),
         "torrent": MessageLookupByLibrary.simpleMessage("种子任务"),
+        "videos": MessageLookupByLibrary.simpleMessage("视频"),
         "waiting": MessageLookupByLibrary.simpleMessage("等待中"),
         "yes": MessageLookupByLibrary.simpleMessage("是的")
       };

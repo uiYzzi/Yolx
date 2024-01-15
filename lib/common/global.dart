@@ -25,6 +25,13 @@ class Global {
   static double maxUploadLimit = 0;
   static String rpcUrl =
       rpcURLValue.replaceAll('{port}', Global.rpcPort.toString());
+  static bool classificationSaving = false;
+  static String compressedFilesRule = 'zip,rar,arj,gz,sit,sitx,sea,ace,bz2,7z';
+  static String documentsRule = 'doc,pdf,ppt,pps,docx,pptx';
+  static String musicRule = 'mp3,wav,wma,mpa,ram,ra,aac,aif,m4a,tsa';
+  static String programsRule = 'exe,msi';
+  static String videosRule =
+      'avi,mpg,mpe,mpeg,asf,wmv,mov,qt,rm,mp4,flv,m4v,webm,ogv,ogg,mkv,ts,tsv';
   static Future init() async {
     WidgetsFlutterBinding.ensureInitialized();
     prefs = await SharedPreferences.getInstance();
@@ -58,5 +65,6 @@ class Global {
     maxDownloadLimit = prefs.getDouble('MaxDownloadLimit') ?? 0;
     maxOverallUploadLimit = prefs.getDouble('MaxOverallUploadLimit') ?? 0;
     maxUploadLimit = prefs.getDouble('MaxUploadLimit') ?? 0;
+    classificationSaving = prefs.getBool('ClassificationSaving') ?? false;
   }
 }

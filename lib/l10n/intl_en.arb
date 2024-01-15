@@ -55,5 +55,13 @@
     "maxOverallDownloadLimit":"Max Overall Download Limit",
     "maxDownloadLimit":"Max Download Limit",
     "maxOverallUploadLimit":"Max Overall Upload Limit",
-    "maxUploadLimit":"Max Upload Limit"
+    "maxUploadLimit":"Max Upload Limit",
+    "classificationSaving":"Classification Saving",
+    "classificationSavingInfo":"Enabling category saving will create category directories in the download path.",
+    "general":"General",
+    "compressedFiles":"Compressed-Files",
+    "documents":"Documents",
+    "music":"Music",
+    "programs":"Programs",
+    "videos":"Videos"
 }
