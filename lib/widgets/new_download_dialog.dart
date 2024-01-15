@@ -15,12 +15,14 @@ class NewDownloadDialog extends StatefulWidget {
 class _NewDownloadDialogState extends State<NewDownloadDialog> {
   late TextEditingController _urlEditingController;
   late TextEditingController _downloadPathEditingController;
+  late TextEditingController _downloadLimitEditingController;
   @override
   void initState() {
     super.initState();
     _urlEditingController = TextEditingController(text: "");
     _downloadPathEditingController =
         TextEditingController(text: Global.downloadPath);
+    _downloadLimitEditingController = TextEditingController(text: "");
   }
 
   @override
@@ -45,10 +47,20 @@ class _NewDownloadDialogState extends State<NewDownloadDialog> {
         FilledButton(
           child: Text(S.of(context).submit),
           onPressed: () async {
-            await Aria2Http.addUrl([
-              _urlEditingController.text.split("\n"),
-              {"dir": _downloadPathEditingController.text}
-            ], Global.rpcUrl);
+            if (currentIndex == 0) {
+              var params = {"dir": _downloadPathEditingController.text};
+              if (_downloadLimitEditingController.text.isNotEmpty) {
+                params['max-download-limit'] =
+                    (double.parse(_downloadLimitEditingController.text) *
+                            1048576)
+                        .toInt()
+                        .toString();
+              }
+              await Aria2Http.addUrl(
+                  [_urlEditingController.text.split("\n"), params],
+                  Global.rpcUrl);
+            }
+
             // ignore: use_build_context_synchronously
             Navigator.pop(context, 'ok');
           },
@@ -67,6 +79,9 @@ class _NewDownloadDialogState extends State<NewDownloadDialog> {
                   children: [
                     TextBox(
                       placeholder: S.current.URLTextBox,
+                      placeholderStyle: const TextStyle(
+                        overflow: TextOverflow.visible,
+                      ),
                       controller: _urlEditingController,
                       minLines: 3,
                       maxLines: null,
@@ -94,7 +109,20 @@ class _NewDownloadDialogState extends State<NewDownloadDialog> {
                               }
                             })
                       ],
-                    )
+                    ),
+                    const SizedBox(height: 4),
+                    Text(S.of(context).speedLimit),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextBox(
+                            placeholder: S.current.maxDownloadLimit,
+                            controller: _downloadLimitEditingController,
+                          ),
+                        ),
+                        const Text("MB/s"),
+                      ],
+                    ),
                   ],
                 )),
             Tab(

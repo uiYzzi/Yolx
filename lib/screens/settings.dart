@@ -6,9 +6,9 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:yolx/common/global.dart';
 import 'package:yolx/generated/l10n.dart';
+import 'package:yolx/utils/aria2_manager.dart';
 // ignore: library_prefixes
 import 'package:yolx/utils/ariar2_http_utils.dart' as Aria2Http;
-import 'package:yolx/utils/common_utils.dart';
 import '../theme.dart';
 import '../widgets/page.dart';
 
@@ -26,6 +26,10 @@ class _SettingsState extends State<Settings> with PageMixin {
   late TextEditingController _proxyEditingController;
   late TextEditingController _bypassProxyEditingController;
   late TextEditingController _downloadPathEditingController;
+  late TextEditingController _maxOverallDownloadLimitEditingController;
+  late TextEditingController _maxDownloadLimitEditingController;
+  late TextEditingController _maxOverallUploadLimitEditingController;
+  late TextEditingController _maxUploadLimitEditingController;
   late bool _rememberWindowSize;
   @override
   void initState() {
@@ -40,6 +44,14 @@ class _SettingsState extends State<Settings> with PageMixin {
     _downloadPathEditingController =
         TextEditingController(text: Global.downloadPath);
     _rememberWindowSize = Global.rememberWindowSize;
+    _maxOverallDownloadLimitEditingController =
+        TextEditingController(text: Global.maxOverallDownloadLimit.toString());
+    _maxDownloadLimitEditingController =
+        TextEditingController(text: Global.maxDownloadLimit.toString());
+    _maxOverallUploadLimitEditingController =
+        TextEditingController(text: Global.maxOverallUploadLimit.toString());
+    _maxUploadLimitEditingController =
+        TextEditingController(text: Global.maxUploadLimit.toString());
   }
 
   @override
@@ -49,6 +61,10 @@ class _SettingsState extends State<Settings> with PageMixin {
     _uaEditingController.dispose();
     _proxyEditingController.dispose();
     _bypassProxyEditingController.dispose();
+    _maxOverallDownloadLimitEditingController.dispose();
+    _maxDownloadLimitEditingController.dispose();
+    _maxOverallUploadLimitEditingController.dispose();
+    _maxUploadLimitEditingController.dispose();
     super.dispose();
   }
 
@@ -279,7 +295,7 @@ class _SettingsState extends State<Settings> with PageMixin {
                 ),
                 const Spacer(),
                 SizedBox(
-                  width: 400,
+                  width: 200,
                   child: TextBox(
                     enabled: false,
                     controller: _downloadPathEditingController,
@@ -301,6 +317,149 @@ class _SettingsState extends State<Settings> with PageMixin {
                     })
               ],
             )),
+        spacer,
+        Expander(
+          header: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              spacer,
+              Text(
+                S.of(context).speedLimit,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(S.of(context).speedLimitInfo),
+              spacer,
+            ],
+          ),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(S.of(context).maxOverallDownloadLimit),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextBox(
+                      controller: _maxOverallDownloadLimitEditingController,
+                      expands: false,
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  const Text("MB/s"),
+                ],
+              ),
+              spacer,
+              Text(S.of(context).maxDownloadLimit),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextBox(
+                      controller: _maxDownloadLimitEditingController,
+                      expands: false,
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  const Text("MB/s"),
+                ],
+              ),
+              spacer,
+              Text(S.of(context).maxOverallUploadLimit),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextBox(
+                      controller: _maxOverallUploadLimitEditingController,
+                      expands: false,
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  const Text("MB/s"),
+                ],
+              ),
+              spacer,
+              Text(S.of(context).maxUploadLimit),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextBox(
+                      controller: _maxUploadLimitEditingController,
+                      expands: false,
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  const Text("MB/s"),
+                ],
+              ),
+              spacer,
+              Row(
+                children: [
+                  FilledButton(
+                    child: Text(S.of(context).saveApply),
+                    onPressed: () async {
+                      setState(() {
+                        if (_maxOverallDownloadLimitEditingController
+                            .text.isNotEmpty) {
+                          Global.maxOverallDownloadLimit = double.parse(
+                              _maxOverallDownloadLimitEditingController.text);
+                        }
+                        if (_maxDownloadLimitEditingController
+                            .text.isNotEmpty) {
+                          Global.maxDownloadLimit = double.parse(
+                              _maxDownloadLimitEditingController.text);
+                        }
+                        if (_maxOverallUploadLimitEditingController
+                            .text.isNotEmpty) {
+                          Global.maxOverallUploadLimit = double.parse(
+                              _maxOverallUploadLimitEditingController.text);
+                        }
+                        if (_maxUploadLimitEditingController.text.isNotEmpty) {
+                          Global.maxUploadLimit = double.parse(
+                              _maxUploadLimitEditingController.text);
+                        }
+                      });
+                      await Global.prefs.setDouble('MaxOverallDownloadLimit',
+                          Global.maxOverallDownloadLimit);
+                      await Global.prefs.setDouble(
+                          'MaxDownloadLimit', Global.maxDownloadLimit);
+                      await Global.prefs.setDouble('MaxOverallUploadLimit',
+                          Global.maxOverallUploadLimit);
+                      await Global.prefs
+                          .setDouble('MaxUploadLimit', Global.maxUploadLimit);
+                      Aria2Http.changeGlobalOption({
+                        'max-overall-download-limit':
+                            (Global.maxOverallDownloadLimit * 1048576)
+                                .toInt()
+                                .toString(),
+                        'max-download-limit':
+                            (Global.maxDownloadLimit * 1048576)
+                                .toInt()
+                                .toString(),
+                        'max-overall-upload-limit':
+                            (Global.maxOverallUploadLimit * 1048576)
+                                .toInt()
+                                .toString(),
+                        'max-upload-limit':
+                            (Global.maxUploadLimit * 1048576).toInt().toString()
+                      }, Global.rpcUrl);
+                      // ignore: use_build_context_synchronously
+                      await displayInfoBar(context, builder: (context, close) {
+                        return InfoBar(
+                          title: Text(S.of(context).savedSuccessfully),
+                          action: IconButton(
+                            icon: const Icon(FluentIcons.clear),
+                            onPressed: close,
+                          ),
+                          severity: InfoBarSeverity.success,
+                        );
+                      });
+                    },
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
         spacer,
         Text(
           S.of(context).advanced,
@@ -349,8 +508,14 @@ class _SettingsState extends State<Settings> with PageMixin {
                       await Global.prefs.setString('Proxy', Global.proxy);
                       await Global.prefs
                           .setString('BypassProxy', Global.bypassProxy);
-                      Aria2Http.changeGlobalOption(
-                          parseProxyString(Global.proxy), Global.rpcUrl);
+                      if (Global.proxy.isNotEmpty) {
+                        Aria2Http.changeGlobalOption(
+                            {'all-proxy': Global.proxy}, Global.rpcUrl);
+                      }
+                      if (Global.bypassProxy.isNotEmpty) {
+                        Aria2Http.changeGlobalOption(
+                            {'no-proxy': Global.bypassProxy}, Global.rpcUrl);
+                      }
                       // ignore: use_build_context_synchronously
                       await displayInfoBar(context, builder: (context, close) {
                         return InfoBar(
@@ -396,45 +561,14 @@ class _SettingsState extends State<Settings> with PageMixin {
                       placeholder: S.of(context).RPCListenPort,
                       controller: _rpcPortEditingController,
                       expands: false,
-                      onSubmitted: (String text) async {
-                        setState(() {
-                          Global.rpcPort = int.parse(text);
-                        });
-                        await Global.prefs.setInt('RPCPort', Global.rpcPort);
-                        // ignore: use_build_context_synchronously
-                        await displayInfoBar(context,
-                            builder: (context, close) {
-                          return InfoBar(
-                            title: Text(S.of(context).RPCInfo),
-                            action: IconButton(
-                              icon: const Icon(FluentIcons.clear),
-                              onPressed: close,
-                            ),
-                            severity: InfoBarSeverity.warning,
-                          );
-                        });
-                      },
                     ),
                   ),
                   IconButton(
                     icon: const Icon(FluentIcons.graph_symbol, size: 24.0),
                     onPressed: () async {
                       setState(() {
-                        Global.rpcPort = 11000 + Random().nextInt(8999);
                         _rpcPortEditingController.text =
-                            Global.rpcPort.toString();
-                      });
-                      await Global.prefs.setInt('RPCPort', Global.rpcPort);
-                      // ignore: use_build_context_synchronously
-                      await displayInfoBar(context, builder: (context, close) {
-                        return InfoBar(
-                          title: Text(S.of(context).RPCInfo),
-                          action: IconButton(
-                            icon: const Icon(FluentIcons.clear),
-                            onPressed: close,
-                          ),
-                          severity: InfoBarSeverity.warning,
-                        );
+                            (11000 + Random().nextInt(8999)).toString();
                       });
                     },
                   )
@@ -449,25 +583,6 @@ class _SettingsState extends State<Settings> with PageMixin {
                       placeholder: S.of(context).RPCSecret,
                       controller: _rpcSecretEditingController,
                       expands: false,
-                      onSubmitted: (String text) async {
-                        setState(() {
-                          Global.rpcSecret = text;
-                        });
-                        await Global.prefs
-                            .setString('RPCSecret', Global.rpcSecret);
-                        // ignore: use_build_context_synchronously
-                        await displayInfoBar(context,
-                            builder: (context, close) {
-                          return InfoBar(
-                            title: Text(S.of(context).RPCInfo),
-                            action: IconButton(
-                              icon: const Icon(FluentIcons.clear),
-                              onPressed: close,
-                            ),
-                            severity: InfoBarSeverity.warning,
-                          );
-                        });
-                      },
                     ),
                   ),
                   IconButton(
@@ -476,14 +591,28 @@ class _SettingsState extends State<Settings> with PageMixin {
                       setState(() {
                         const availableChars =
                             'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-                        Global.rpcSecret = List.generate(
+                        _rpcSecretEditingController.text = List.generate(
                             12,
                             (index) => availableChars[Random()
                                 .nextInt(availableChars.length)]).join();
-                        _rpcSecretEditingController.text = Global.rpcSecret;
                       });
+                    },
+                  )
+                ],
+              ),
+              spacer,
+              Row(
+                children: [
+                  FilledButton(
+                    child: Text(S.of(context).saveApply),
+                    onPressed: () async {
+                      Global.rpcSecret = _rpcSecretEditingController.text;
                       await Global.prefs
                           .setString('RPCSecret', Global.rpcSecret);
+                      Global.rpcPort =
+                          int.parse(_rpcPortEditingController.text);
+                      await Global.prefs.setInt('RPCPort', Global.rpcPort);
+                      Aria2Manager().startServer();
                       // ignore: use_build_context_synchronously
                       await displayInfoBar(context, builder: (context, close) {
                         return InfoBar(
@@ -498,7 +627,7 @@ class _SettingsState extends State<Settings> with PageMixin {
                     },
                   )
                 ],
-              ),
+              )
             ],
           ),
         ),
@@ -527,63 +656,76 @@ class _SettingsState extends State<Settings> with PageMixin {
                     child: const Text('Aria2'),
                     onPressed: () async {
                       setState(() {
-                        Global.ua = "aria2/1.36.0";
-                        _uaEditingController.text = Global.ua;
+                        _uaEditingController.text = "aria2/1.36.0";
                       });
-                      await Global.prefs.setString('UA', Global.ua);
                     },
                   ),
                   Button(
                     child: const Text('Transmission'),
                     onPressed: () async {
                       setState(() {
-                        Global.ua = "Transmission/3.00";
-                        _uaEditingController.text = Global.ua;
+                        _uaEditingController.text = "Transmission/3.00";
                       });
-                      await Global.prefs.setString('UA', Global.ua);
                     },
                   ),
                   Button(
                     child: const Text('Chrome'),
                     onPressed: () async {
                       setState(() {
-                        Global.ua =
+                        _uaEditingController.text =
                             "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36";
-                        _uaEditingController.text = Global.ua;
                       });
-                      await Global.prefs.setString('UA', Global.ua);
                     },
                   ),
                   Button(
                     child: const Text('Edge'),
                     onPressed: () async {
                       setState(() {
-                        Global.ua =
+                        _uaEditingController.text =
                             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36 Edg/100.0.1185.44";
-                        _uaEditingController.text = Global.ua;
                       });
-                      await Global.prefs.setString('UA', Global.ua);
                     },
                   ),
                   Button(
                     child: const Text('Du'),
                     onPressed: () async {
                       setState(() {
-                        Global.ua =
+                        _uaEditingController.text =
                             "netdisk;6.0.0.12;PC;PC-Windows;10.0.16299;WindowsBaiduYunGuanJia";
-                        _uaEditingController.text = Global.ua;
                       });
-                      await Global.prefs.setString('UA', Global.ua);
-                      Aria2Http.changeGlobalOption(
-                          {'user-agent': Global.ua}, Global.rpcUrl);
                     },
                   ),
                 ],
               ),
+              spacer,
               TextBox(
                 controller: _uaEditingController,
                 maxLines: null,
               ),
+              spacer,
+              Row(
+                children: [
+                  FilledButton(
+                    child: Text(S.of(context).saveApply),
+                    onPressed: () async {
+                      Global.ua = _uaEditingController.text;
+                      Aria2Http.changeGlobalOption(
+                          {'user-agent': Global.ua}, Global.rpcUrl);
+                      // ignore: use_build_context_synchronously
+                      await displayInfoBar(context, builder: (context, close) {
+                        return InfoBar(
+                          title: Text(S.of(context).savedSuccessfully),
+                          action: IconButton(
+                            icon: const Icon(FluentIcons.clear),
+                            onPressed: close,
+                          ),
+                          severity: InfoBarSeverity.success,
+                        );
+                      });
+                    },
+                  )
+                ],
+              )
             ],
           ),
         ),

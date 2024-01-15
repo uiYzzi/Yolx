@@ -20,13 +20,13 @@
     "advanced":"Advanced",
     "setsDownloadProxyServer":"Sets Download Proxy Server.",
     "proxy":"Proxy",
-    "bypassProxy":"Bypass proxy settings for these Hosts and Domains,one per line",
+    "bypassProxy":"Bypass proxy settings for these Hosts and Domains,a comma separated",
     "saveApply":"Save & Apply",
     "savedSuccessfully":"Preferences saved successfully.",
     "RPC":"RPC",
     "setsTheRPCOfTheApplication":"Sets the RPC of the application.",
     "RPCListenPort":"RPC Listen Port",
-    "RPCInfo":"This setting modification requires application restart to take effect.",
+    "RPCInfo":"Restarting aria2 service to take effect settings.",
     "RPCSecret":"RPC Secret",
     "UA":"User-Agent",
     "mockUA":"Mock User-Agent.",
@@ -49,5 +49,11 @@
     "pauseThisTasks":"Pause This Tasks",
     "rememberWindowSize":"Remember Window Size",
     "rememberWindowSizeInfo":"Restore the previous window size at startup",
-    "topping":"Topping"
+    "topping":"Topping",
+    "speedLimit":"Speed Limit",
+    "speedLimitInfo":"Restrict download or upload speed",
+    "maxOverallDownloadLimit":"Max Overall Download Limit",
+    "maxDownloadLimit":"Max Download Limit",
+    "maxOverallUploadLimit":"Max Overall Upload Limit",
+    "maxUploadLimit":"Max Upload Limit"
 }

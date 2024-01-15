@@ -19,6 +19,10 @@ class Global {
   static double windowWidth = defaultWindowWidth;
   static double windowHeight = defaultWindowHeight;
   static bool rememberWindowSize = true;
+  static double maxOverallDownloadLimit = 0;
+  static double maxDownloadLimit = 0;
+  static double maxOverallUploadLimit = 0;
+  static double maxUploadLimit = 0;
   static String rpcUrl =
       rpcURLValue.replaceAll('{port}', Global.rpcPort.toString());
   static Future init() async {
@@ -50,5 +54,9 @@ class Global {
       windowWidth = prefs.getDouble('WindowWidth') ?? defaultWindowWidth;
       windowHeight = prefs.getDouble('WindowHeight') ?? defaultWindowHeight;
     }
+    maxOverallDownloadLimit = prefs.getDouble('MaxOverallDownloadLimit') ?? 0;
+    maxDownloadLimit = prefs.getDouble('MaxDownloadLimit') ?? 0;
+    maxOverallUploadLimit = prefs.getDouble('MaxOverallUploadLimit') ?? 0;
+    maxUploadLimit = prefs.getDouble('MaxUploadLimit') ?? 0;
   }
 }

@@ -27,7 +27,8 @@ class DownloadFileCard extends StatelessWidget {
               Text(path.basename(downloadFile.path),
                   style: FluentTheme.of(context).typography.body),
               const Spacer(),
-              if (downloadFile.status == 'paused') ...[
+              if (downloadFile.status == 'paused' ||
+                  downloadFile.status == 'waiting') ...[
                 Tooltip(
                   message: S.of(context).topping,
                   displayHorizontally: true,
@@ -128,6 +129,10 @@ class DownloadFileCard extends StatelessWidget {
                   size: 14,
                 ),
                 Text('${formatFileSize(downloadFile.uploadSpeed)}/s',
+                    style: FluentTheme.of(context).typography.caption),
+              ],
+              if (downloadFile.status == 'waiting') ...[
+                Text(S.of(context).waiting,
                     style: FluentTheme.of(context).typography.caption),
               ]
             ],

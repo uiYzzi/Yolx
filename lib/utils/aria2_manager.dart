@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:yolx/common/const.dart';
 import 'package:yolx/common/global.dart';
 import 'package:yolx/utils/common_utils.dart';
 import 'package:yolx/utils/file_utils.dart';
@@ -35,6 +36,7 @@ class Aria2Manager {
 
   void startServer() async {
     closeServer();
+    Global.rpcUrl = rpcURLValue.replaceAll('{port}', Global.rpcPort.toString());
     var exe = await getAria2ExePath();
     var conf = await getAria2ConfPath();
     // print(File(conf).existsSync());
@@ -75,8 +77,11 @@ class Aria2Manager {
     Aria2Http.changeGlobalOption(
         {'dir': Global.downloadPath, 'user-agent': Global.ua}, Global.rpcUrl);
     if (Global.proxy.isNotEmpty) {
+      Aria2Http.changeGlobalOption({'all-proxy': Global.proxy}, Global.rpcUrl);
+    }
+    if (Global.bypassProxy.isNotEmpty) {
       Aria2Http.changeGlobalOption(
-          parseProxyString(Global.proxy), Global.rpcUrl);
+          {'no-proxy': Global.bypassProxy}, Global.rpcUrl);
     }
   }
 

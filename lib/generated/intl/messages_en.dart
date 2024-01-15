@@ -24,7 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "RPC": MessageLookupByLibrary.simpleMessage("RPC"),
         "RPCInfo": MessageLookupByLibrary.simpleMessage(
-            "This setting modification requires application restart to take effect."),
+            "Restarting aria2 service to take effect settings."),
         "RPCListenPort":
             MessageLookupByLibrary.simpleMessage("RPC Listen Port"),
         "RPCSecret": MessageLookupByLibrary.simpleMessage("RPC Secret"),
@@ -35,7 +35,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "advanced": MessageLookupByLibrary.simpleMessage("Advanced"),
         "basic": MessageLookupByLibrary.simpleMessage("Basic"),
         "bypassProxy": MessageLookupByLibrary.simpleMessage(
-            "Bypass proxy settings for these Hosts and Domains,one per line"),
+            "Bypass proxy settings for these Hosts and Domains,a comma separated"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "closeInfo": MessageLookupByLibrary.simpleMessage(
             "Are you sure you want to close this window?"),
@@ -49,6 +49,14 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Set default download path"),
         "downloading": MessageLookupByLibrary.simpleMessage("Downloading"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
+        "maxDownloadLimit":
+            MessageLookupByLibrary.simpleMessage("Max Download Limit"),
+        "maxOverallDownloadLimit":
+            MessageLookupByLibrary.simpleMessage("Max Overall Download Limit"),
+        "maxOverallUploadLimit":
+            MessageLookupByLibrary.simpleMessage("Max Overall Upload Limit"),
+        "maxUploadLimit":
+            MessageLookupByLibrary.simpleMessage("Max Upload Limit"),
         "mockUA": MessageLookupByLibrary.simpleMessage("Mock User-Agent."),
         "navigationIndicator":
             MessageLookupByLibrary.simpleMessage("Navigation Indicator"),
@@ -94,6 +102,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "Sets the theme of the application."),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
         "sourceCode": MessageLookupByLibrary.simpleMessage("Source code"),
+        "speedLimit": MessageLookupByLibrary.simpleMessage("Speed Limit"),
+        "speedLimitInfo": MessageLookupByLibrary.simpleMessage(
+            "Restrict download or upload speed"),
         "stopped": MessageLookupByLibrary.simpleMessage("Stopped"),
         "submit": MessageLookupByLibrary.simpleMessage("Submit"),
         "theme": MessageLookupByLibrary.simpleMessage("Theme"),

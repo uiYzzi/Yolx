@@ -23,7 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "RPC": MessageLookupByLibrary.simpleMessage("RPC"),
-        "RPCInfo": MessageLookupByLibrary.simpleMessage("此设置修改需要重新启动应用程序才能生效"),
+        "RPCInfo": MessageLookupByLibrary.simpleMessage("正在重启aria2服务以生效设置项"),
         "RPCListenPort": MessageLookupByLibrary.simpleMessage("RPC侦听端口"),
         "RPCSecret": MessageLookupByLibrary.simpleMessage("RPC密钥"),
         "UA": MessageLookupByLibrary.simpleMessage("User-Agent"),
@@ -33,7 +33,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "advanced": MessageLookupByLibrary.simpleMessage("先进的"),
         "basic": MessageLookupByLibrary.simpleMessage("基础"),
         "bypassProxy":
-            MessageLookupByLibrary.simpleMessage("绕过这些主机和域的代理设置，每行一个"),
+            MessageLookupByLibrary.simpleMessage("绕过这些主机和域的代理设置，多个使用逗号分隔"),
         "cancel": MessageLookupByLibrary.simpleMessage("取消"),
         "closeInfo": MessageLookupByLibrary.simpleMessage("您确定要关闭此窗口吗？"),
         "confirmClose": MessageLookupByLibrary.simpleMessage("确认关闭"),
@@ -43,6 +43,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "downloadPathInfo": MessageLookupByLibrary.simpleMessage("设置默认下载路径"),
         "downloading": MessageLookupByLibrary.simpleMessage("下载中"),
         "language": MessageLookupByLibrary.simpleMessage("语言"),
+        "maxDownloadLimit": MessageLookupByLibrary.simpleMessage("最大单任务下载速度"),
+        "maxOverallDownloadLimit":
+            MessageLookupByLibrary.simpleMessage("最大全局下载速度"),
+        "maxOverallUploadLimit":
+            MessageLookupByLibrary.simpleMessage("最大全局上传速度"),
+        "maxUploadLimit": MessageLookupByLibrary.simpleMessage("最大单任务上传速度"),
         "mockUA": MessageLookupByLibrary.simpleMessage("模拟用户代理"),
         "navigationIndicator": MessageLookupByLibrary.simpleMessage("导航指示器"),
         "navigationMode": MessageLookupByLibrary.simpleMessage("导航模式"),
@@ -75,6 +81,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("设置应用程序的主题"),
         "settings": MessageLookupByLibrary.simpleMessage("设置"),
         "sourceCode": MessageLookupByLibrary.simpleMessage("源代码"),
+        "speedLimit": MessageLookupByLibrary.simpleMessage("速度限制"),
+        "speedLimitInfo": MessageLookupByLibrary.simpleMessage("限制下载或上传速度"),
         "stopped": MessageLookupByLibrary.simpleMessage("已停止"),
         "submit": MessageLookupByLibrary.simpleMessage("提交"),
         "theme": MessageLookupByLibrary.simpleMessage("主题"),

@@ -260,10 +260,10 @@ class S {
     );
   }
 
-  /// `Bypass proxy settings for these Hosts and Domains,one per line`
+  /// `Bypass proxy settings for these Hosts and Domains,a comma separated`
   String get bypassProxy {
     return Intl.message(
-      'Bypass proxy settings for these Hosts and Domains,one per line',
+      'Bypass proxy settings for these Hosts and Domains,a comma separated',
       name: 'bypassProxy',
       desc: '',
       args: [],
@@ -320,10 +320,10 @@ class S {
     );
   }
 
-  /// `This setting modification requires application restart to take effect.`
+  /// `Restarting aria2 service to take effect settings.`
   String get RPCInfo {
     return Intl.message(
-      'This setting modification requires application restart to take effect.',
+      'Restarting aria2 service to take effect settings.',
       name: 'RPCInfo',
       desc: '',
       args: [],
@@ -555,6 +555,66 @@ class S {
     return Intl.message(
       'Topping',
       name: 'topping',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Speed Limit`
+  String get speedLimit {
+    return Intl.message(
+      'Speed Limit',
+      name: 'speedLimit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Restrict download or upload speed`
+  String get speedLimitInfo {
+    return Intl.message(
+      'Restrict download or upload speed',
+      name: 'speedLimitInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Max Overall Download Limit`
+  String get maxOverallDownloadLimit {
+    return Intl.message(
+      'Max Overall Download Limit',
+      name: 'maxOverallDownloadLimit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Max Download Limit`
+  String get maxDownloadLimit {
+    return Intl.message(
+      'Max Download Limit',
+      name: 'maxDownloadLimit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Max Overall Upload Limit`
+  String get maxOverallUploadLimit {
+    return Intl.message(
+      'Max Overall Upload Limit',
+      name: 'maxOverallUploadLimit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Max Upload Limit`
+  String get maxUploadLimit {
+    return Intl.message(
+      'Max Upload Limit',
+      name: 'maxUploadLimit',
       desc: '',
       args: [],
     );
