@@ -75,7 +75,7 @@ void main() async {
         ChangeNotifierProvider(create: (context) => WaitingListModel()),
         ChangeNotifierProvider(create: (context) => StoppedListModel()),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }

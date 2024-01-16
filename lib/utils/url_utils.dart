@@ -1,18 +1,23 @@
 import 'package:http/http.dart' as http;
+import 'package:yolx/utils/log.dart';
 
 Future<String> getFileTypeFromHeader(String url) async {
-  var response = await http.head(Uri.parse(url));
-  // 获取文件名
-  var filename = response.headers['content-disposition'];
-  if (filename != null) {
-    filename = filename.split('filename=')[1];
-    int dotPos = filename.lastIndexOf('.');
-    if (dotPos != -1 && dotPos < filename.length - 1) {
-      // extract and return the file extension
-      return filename.substring(dotPos + 1);
-    } else {
-      return '';
+  try {
+    var response = await http.head(Uri.parse(url));
+    // 获取文件名
+    var filename = response.headers['content-disposition'];
+    if (filename != null) {
+      filename = filename.split('filename=')[1];
+      int dotPos = filename.lastIndexOf('.');
+      if (dotPos != -1 && dotPos < filename.length - 1) {
+        // extract and return the file extension
+        return filename.substring(dotPos + 1);
+      } else {
+        return '';
+      }
     }
+  } catch (e) {
+    Log.w(e);
   }
   return '';
 }

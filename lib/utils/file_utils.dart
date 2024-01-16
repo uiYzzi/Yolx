@@ -4,14 +4,14 @@ import 'package:yolx/common/global.dart';
 import 'package:yolx/generated/l10n.dart';
 
 getPlugAssetsDir(String plugName) async {
-  String pathSeparator = Platform.pathSeparator;
   if (Platform.isWindows || Platform.isLinux) {
-    String plugDir = 'data${pathSeparator}plugin$pathSeparator$plugName';
+    String plugDir =
+        'data${Global.pathSeparator}plugin${Global.pathSeparator}$plugName';
     String exePath = Platform.resolvedExecutable;
-    List<String> pathList = exePath.split(pathSeparator);
+    List<String> pathList = exePath.split(Global.pathSeparator);
     // String basename = path.basename(exePath);
     pathList[pathList.length - 1] = plugDir;
-    return pathList.join(pathSeparator);
+    return pathList.join(Global.pathSeparator);
   }
   return null;
 }
@@ -26,24 +26,21 @@ void createFolderIfNotExists(String folderPath) {
 }
 
 void createClassificationFolder() {
-  String pathSeparator = Platform.pathSeparator;
   createFolderIfNotExists(
-      "${Global.downloadPath}$pathSeparator${S.current.general}");
+      "${Global.downloadPath}${Global.pathSeparator}${S.current.general}");
   createFolderIfNotExists(
-      "${Global.downloadPath}$pathSeparator${S.current.compressedFiles}");
+      "${Global.downloadPath}${Global.pathSeparator}${S.current.compressedFiles}");
   createFolderIfNotExists(
-      "${Global.downloadPath}$pathSeparator${S.current.documents}");
+      "${Global.downloadPath}${Global.pathSeparator}${S.current.documents}");
   createFolderIfNotExists(
-      "${Global.downloadPath}$pathSeparator${S.current.music}");
+      "${Global.downloadPath}${Global.pathSeparator}${S.current.music}");
   createFolderIfNotExists(
-      "${Global.downloadPath}$pathSeparator${S.current.programs}");
+      "${Global.downloadPath}${Global.pathSeparator}${S.current.programs}");
   createFolderIfNotExists(
-      "${Global.downloadPath}$pathSeparator${S.current.videos}");
+      "${Global.downloadPath}${Global.pathSeparator}${S.current.videos}");
 }
 
-String getDownloadDirectory(String fileType) {
-  String pathSeparator = Platform.pathSeparator;
-
+int getDownloadDirectory(String fileType) {
   List<String> fileTypeRules = [
     Global.compressedFilesRule,
     Global.documentsRule,
@@ -52,20 +49,12 @@ String getDownloadDirectory(String fileType) {
     Global.videosRule,
   ];
 
-  List<String> ruleNames = [
-    S.current.compressedFiles,
-    S.current.documents,
-    S.current.music,
-    S.current.programs,
-    S.current.videos,
-  ];
-
   for (int i = 0; i < fileTypeRules.length; i++) {
     List<String> extensions = fileTypeRules[i].split(',');
     if (extensions.contains(fileType)) {
-      return '${Global.downloadPath}$pathSeparator${ruleNames[i]}';
+      return i;
     }
   }
 
-  return '${Global.downloadPath}$pathSeparator${S.current.general}';
+  return 5;
 }

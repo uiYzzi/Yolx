@@ -10,6 +10,7 @@ import 'package:yolx/theme.dart';
 class Global {
   static late SharedPreferences prefs;
   static final appTheme = AppTheme();
+  static String pathSeparator = Platform.pathSeparator;
   static int rpcPort = defaultRPCPort;
   static String rpcSecret = '';
   static String ua = '';

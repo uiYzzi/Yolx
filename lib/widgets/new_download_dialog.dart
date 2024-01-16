@@ -51,19 +51,8 @@ class _NewDownloadDialogState extends State<NewDownloadDialog> {
           onPressed: () async {
             if (currentIndex == 0) {
               String downloadPath;
-              if (Global.classificationSaving) {
-                createClassificationFolder();
-                if (_downloadPathEditingController.text !=
-                    Global.downloadPath) {
-                  downloadPath = _downloadPathEditingController.text;
-                } else {
-                  downloadPath = getDownloadDirectory(
-                      await getFileType(_urlEditingController.text));
-                }
-              } else {
-                downloadPath = _downloadPathEditingController.text;
-              }
-              var params = {"dir": downloadPath};
+              var params = {};
+              var urls = _urlEditingController.text.split("\n");
               if (_downloadLimitEditingController.text.isNotEmpty) {
                 params['max-download-limit'] =
                     (double.parse(_downloadLimitEditingController.text) *
@@ -71,10 +60,42 @@ class _NewDownloadDialogState extends State<NewDownloadDialog> {
                         .toInt()
                         .toString();
               }
-
-              await Aria2Http.addUrl(
-                  [_urlEditingController.text.split("\n"), params],
-                  Global.rpcUrl);
+              if (Global.classificationSaving &&
+                  _downloadPathEditingController.text == Global.downloadPath) {
+                createClassificationFolder();
+                var downloadList = [[], [], [], [], [], []];
+                for (int i = 0; i < urls.length; i++) {
+                  var j = getDownloadDirectory(await getFileType(urls[i]));
+                  downloadList[j].add(urls[i]);
+                }
+                List<String> ruleNames = [
+                  S.current.compressedFiles,
+                  S.current.documents,
+                  S.current.music,
+                  S.current.programs,
+                  S.current.videos,
+                  S.current.general
+                ];
+                for (int i = 0; i < downloadList.length; i++) {
+                  if (downloadList[i].isNotEmpty) {
+                    params["dir"] =
+                        '${Global.downloadPath}${Global.pathSeparator}${ruleNames[i]}';
+                    await Aria2Http.addUrl(
+                        [downloadList[i], params], Global.rpcUrl);
+                  }
+                }
+              } else {
+                downloadPath = _downloadPathEditingController.text;
+                params["dir"] = downloadPath;
+                for (int i = 0; i < urls.length; i++) {
+                  if (urls[i].isNotEmpty) {
+                    await Aria2Http.addUrl([
+                      [urls[i]],
+                      params
+                    ], Global.rpcUrl);
+                  }
+                }
+              }
             }
 
             // ignore: use_build_context_synchronously
@@ -100,7 +121,7 @@ class _NewDownloadDialogState extends State<NewDownloadDialog> {
                       ),
                       controller: _urlEditingController,
                       minLines: 3,
-                      maxLines: null,
+                      maxLines: 4,
                     ),
                     const SizedBox(height: 4),
                     Text(S.of(context).path),

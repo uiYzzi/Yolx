@@ -31,15 +31,13 @@ class Aria2Manager {
     if (Platform.isWindows || Platform.isLinux) {
       String dir = await getPlugAssetsDir('aria2');
       String confName = 'yolx_aria2.conf';
-      String pathSeparator = Platform.pathSeparator;
-      return '$dir$pathSeparator$confName';
+      return '$dir${Global.pathSeparator}$confName';
     }
   }
 
   getAria2Session() async {
     Directory appDocumentsCacheDirectory = await getApplicationCacheDirectory();
-    String pathSeparator = Platform.pathSeparator;
-    return '${appDocumentsCacheDirectory.path}${pathSeparator}download.session';
+    return '${appDocumentsCacheDirectory.path}${Global.pathSeparator}download.session';
   }
 
   void startServer() async {
