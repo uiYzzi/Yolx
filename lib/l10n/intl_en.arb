@@ -63,5 +63,11 @@
     "documents":"Documents",
     "music":"Music",
     "programs":"Programs",
-    "videos":"Videos"
+    "videos":"Videos",
+    "classificationSavingRules":"Classification Saving Rules",
+    "classificationSavingRulesInfo":"Customization of classification saving rules",
+    "taskManagement":"Task Management",
+    "taskManagementInfo":"Download task related settings",
+    "maxConcurrentDownloads": "Max Concurrent Downloads",
+    "maxConnectionPerServer":"Max Connection Per Server"
 }

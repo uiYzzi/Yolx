@@ -38,6 +38,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "classificationSaving": MessageLookupByLibrary.simpleMessage("分类存放"),
         "classificationSavingInfo":
             MessageLookupByLibrary.simpleMessage("启用分类存放后将在下载路径创建分类目录"),
+        "classificationSavingRules":
+            MessageLookupByLibrary.simpleMessage("分类存放规则"),
+        "classificationSavingRulesInfo":
+            MessageLookupByLibrary.simpleMessage("自定义分类存放规则"),
         "closeInfo": MessageLookupByLibrary.simpleMessage("您确定要关闭此窗口吗？"),
         "compressedFiles": MessageLookupByLibrary.simpleMessage("压缩文件"),
         "confirmClose": MessageLookupByLibrary.simpleMessage("确认关闭"),
@@ -49,6 +53,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "downloading": MessageLookupByLibrary.simpleMessage("下载中"),
         "general": MessageLookupByLibrary.simpleMessage("常规"),
         "language": MessageLookupByLibrary.simpleMessage("语言"),
+        "maxConcurrentDownloads":
+            MessageLookupByLibrary.simpleMessage("最大同时下载数"),
+        "maxConnectionPerServer":
+            MessageLookupByLibrary.simpleMessage("单服务器最大连接数"),
         "maxDownloadLimit": MessageLookupByLibrary.simpleMessage("最大单任务下载速度"),
         "maxOverallDownloadLimit":
             MessageLookupByLibrary.simpleMessage("最大全局下载速度"),
@@ -93,6 +101,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "speedLimitInfo": MessageLookupByLibrary.simpleMessage("限制下载或上传速度"),
         "stopped": MessageLookupByLibrary.simpleMessage("已停止"),
         "submit": MessageLookupByLibrary.simpleMessage("提交"),
+        "taskManagement": MessageLookupByLibrary.simpleMessage("任务管理"),
+        "taskManagementInfo": MessageLookupByLibrary.simpleMessage("下载任务相关设置项"),
         "theme": MessageLookupByLibrary.simpleMessage("主题"),
         "topping": MessageLookupByLibrary.simpleMessage("优先下载"),
         "torrent": MessageLookupByLibrary.simpleMessage("种子任务"),

@@ -30,6 +30,13 @@ class _SettingsState extends State<Settings> with PageMixin {
   late TextEditingController _maxDownloadLimitEditingController;
   late TextEditingController _maxOverallUploadLimitEditingController;
   late TextEditingController _maxUploadLimitEditingController;
+  late TextEditingController _compressedFilesEditingController;
+  late TextEditingController _documentsEditingController;
+  late TextEditingController _musicEditingController;
+  late TextEditingController _programsEditingController;
+  late TextEditingController _videosEditingController;
+  late int _maxConcurrentDownloads;
+  late int _maxConnectionPerServer;
   late bool _rememberWindowSize;
   late bool _classificationSaving;
   @override
@@ -54,6 +61,16 @@ class _SettingsState extends State<Settings> with PageMixin {
     _maxUploadLimitEditingController =
         TextEditingController(text: Global.maxUploadLimit.toString());
     _classificationSaving = Global.classificationSaving;
+    _compressedFilesEditingController =
+        TextEditingController(text: Global.compressedFilesRule);
+    _documentsEditingController =
+        TextEditingController(text: Global.documentsRule);
+    _musicEditingController = TextEditingController(text: Global.musicRule);
+    _programsEditingController =
+        TextEditingController(text: Global.programsRule);
+    _videosEditingController = TextEditingController(text: Global.videosRule);
+    _maxConcurrentDownloads = Global.maxConcurrentDownloads;
+    _maxConnectionPerServer = Global.maxConnectionPerServer;
   }
 
   @override
@@ -67,6 +84,11 @@ class _SettingsState extends State<Settings> with PageMixin {
     _maxDownloadLimitEditingController.dispose();
     _maxOverallUploadLimitEditingController.dispose();
     _maxUploadLimitEditingController.dispose();
+    _compressedFilesEditingController.dispose();
+    _documentsEditingController.dispose();
+    _musicEditingController.dispose();
+    _programsEditingController.dispose();
+    _videosEditingController.dispose();
     super.dispose();
   }
 
@@ -494,6 +516,89 @@ class _SettingsState extends State<Settings> with PageMixin {
           ),
         ),
         spacer,
+        Expander(
+          header: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              spacer,
+              Text(
+                S.of(context).taskManagement,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(S.of(context).taskManagementInfo),
+              spacer,
+            ],
+          ),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(S.of(context).maxConcurrentDownloads),
+              NumberBox(
+                value: _maxConcurrentDownloads,
+                min: 0,
+                onChanged: (value) {
+                  if (value is int) {
+                    setState(() {
+                      _maxConcurrentDownloads = value;
+                    });
+                  }
+                },
+                mode: SpinButtonPlacementMode.inline,
+              ),
+              spacer,
+              Text(S.of(context).maxConnectionPerServer),
+              NumberBox(
+                value: _maxConnectionPerServer,
+                min: 0,
+                max: 16,
+                onChanged: (value) {
+                  if (value is int) {
+                    setState(() {
+                      _maxConnectionPerServer = value;
+                    });
+                  }
+                },
+                mode: SpinButtonPlacementMode.inline,
+              ),
+              spacer,
+              Row(
+                children: [
+                  FilledButton(
+                    child: Text(S.of(context).saveApply),
+                    onPressed: () async {
+                      Global.maxConcurrentDownloads = _maxConcurrentDownloads;
+                      await Global.prefs.setInt('MaxConcurrentDownloads',
+                          Global.maxConcurrentDownloads);
+                      Global.maxConnectionPerServer = _maxConnectionPerServer;
+                      await Global.prefs.setInt('MaxConnectionPerServer',
+                          Global.maxConnectionPerServer);
+                      Aria2Http.changeGlobalOption({
+                        'max-concurrent-downloads':
+                            Global.maxConcurrentDownloads.toString(),
+                        'max-connection-per-server':
+                            Global.maxConnectionPerServer.toString()
+                      }, Global.rpcUrl);
+                      // ignore: use_build_context_synchronously
+                      await displayInfoBar(context, builder: (context, close) {
+                        return InfoBar(
+                          title: Text(S.of(context).savedSuccessfully),
+                          action: IconButton(
+                            icon: const Icon(FluentIcons.clear),
+                            onPressed: close,
+                          ),
+                          severity: InfoBarSeverity.success,
+                        );
+                      });
+                    },
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
+        spacer,
         Text(
           S.of(context).advanced,
           style: FluentTheme.of(context).typography.subtitle,
@@ -744,6 +849,106 @@ class _SettingsState extends State<Settings> with PageMixin {
                       Global.ua = _uaEditingController.text;
                       Aria2Http.changeGlobalOption(
                           {'user-agent': Global.ua}, Global.rpcUrl);
+                      // ignore: use_build_context_synchronously
+                      await displayInfoBar(context, builder: (context, close) {
+                        return InfoBar(
+                          title: Text(S.of(context).savedSuccessfully),
+                          action: IconButton(
+                            icon: const Icon(FluentIcons.clear),
+                            onPressed: close,
+                          ),
+                          severity: InfoBarSeverity.success,
+                        );
+                      });
+                    },
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
+        spacer,
+        Expander(
+          header: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              spacer,
+              Text(
+                S.of(context).classificationSavingRules,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(S.of(context).classificationSavingRulesInfo),
+              spacer,
+            ],
+          ),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(S.of(context).compressedFiles),
+              TextBox(
+                controller: _compressedFilesEditingController,
+                expands: false,
+              ),
+              spacer,
+              Text(S.of(context).documents),
+              TextBox(
+                controller: _documentsEditingController,
+                expands: false,
+              ),
+              spacer,
+              Text(S.of(context).music),
+              TextBox(
+                controller: _musicEditingController,
+                expands: false,
+              ),
+              spacer,
+              Text(S.of(context).programs),
+              TextBox(
+                controller: _programsEditingController,
+                expands: false,
+              ),
+              spacer,
+              Text(S.of(context).videos),
+              TextBox(
+                controller: _videosEditingController,
+                expands: false,
+              ),
+              spacer,
+              Row(
+                children: [
+                  FilledButton(
+                    child: Text(S.of(context).saveApply),
+                    onPressed: () async {
+                      setState(() {
+                        if (_compressedFilesEditingController.text.isNotEmpty) {
+                          Global.compressedFilesRule =
+                              _compressedFilesEditingController.text;
+                          Global.prefs.setString("CompressedFilesRule",
+                              Global.compressedFilesRule);
+                        }
+                        if (_documentsEditingController.text.isNotEmpty) {
+                          Global.documentsRule =
+                              _documentsEditingController.text;
+                          Global.prefs
+                              .setString("DocumentsRule", Global.documentsRule);
+                        }
+                        if (_musicEditingController.text.isNotEmpty) {
+                          Global.musicRule = _musicEditingController.text;
+                          Global.prefs.setString("MusicRule", Global.musicRule);
+                        }
+                        if (_programsEditingController.text.isNotEmpty) {
+                          Global.programsRule = _programsEditingController.text;
+                          Global.prefs
+                              .setString("ProgramsRule", Global.programsRule);
+                        }
+                        if (_videosEditingController.text.isNotEmpty) {
+                          Global.videosRule = _videosEditingController.text;
+                          Global.prefs
+                              .setString("VideosRule", Global.videosRule);
+                        }
+                      });
                       // ignore: use_build_context_synchronously
                       await displayInfoBar(context, builder: (context, close) {
                         return InfoBar(

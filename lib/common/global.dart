@@ -27,12 +27,13 @@ class Global {
   static String rpcUrl =
       rpcURLValue.replaceAll('{port}', Global.rpcPort.toString());
   static bool classificationSaving = false;
-  static String compressedFilesRule = 'zip,rar,arj,gz,sit,sitx,sea,ace,bz2,7z';
-  static String documentsRule = 'doc,pdf,ppt,pps,docx,pptx';
-  static String musicRule = 'mp3,wav,wma,mpa,ram,ra,aac,aif,m4a,tsa';
-  static String programsRule = 'exe,msi';
-  static String videosRule =
-      'avi,mpg,mpe,mpeg,asf,wmv,mov,qt,rm,mp4,flv,m4v,webm,ogv,ogg,mkv,ts,tsv';
+  static String compressedFilesRule = defaultCompressedFilesRule;
+  static String documentsRule = defaultDocumentsRule;
+  static String musicRule = defaultMusicRule;
+  static String programsRule = defaultProgramsRule;
+  static String videosRule = defaultVideosRule;
+  static int maxConcurrentDownloads = defaultMaxConcurrentDownloads;
+  static int maxConnectionPerServer = defaultMaxConnectionPerServer;
   static Future init() async {
     WidgetsFlutterBinding.ensureInitialized();
     prefs = await SharedPreferences.getInstance();
@@ -67,5 +68,24 @@ class Global {
     maxOverallUploadLimit = prefs.getDouble('MaxOverallUploadLimit') ?? 0;
     maxUploadLimit = prefs.getDouble('MaxUploadLimit') ?? 0;
     classificationSaving = prefs.getBool('ClassificationSaving') ?? false;
+    compressedFilesRule =
+        prefs.getString('CompressedFilesRule') ?? defaultCompressedFilesRule;
+    documentsRule = prefs.getString('DocumentsRule') ?? defaultDocumentsRule;
+    musicRule = prefs.getString('MusicRule') ?? defaultMusicRule;
+    programsRule = prefs.getString('ProgramsRule') ?? defaultProgramsRule;
+    videosRule = prefs.getString('VideosRule') ?? defaultVideosRule;
+    maxConcurrentDownloads =
+        prefs.getInt('MaxConcurrentDownloads') ?? defaultMaxConcurrentDownloads;
+    maxConnectionPerServer =
+        prefs.getInt('MaxConnectionPerServer') ?? defaultMaxConnectionPerServer;
+    if (maxConcurrentDownloads < 1) {
+      maxConcurrentDownloads = 1;
+    }
+    if (maxConnectionPerServer < 1) {
+      maxConnectionPerServer = 1;
+    }
+    if (maxConnectionPerServer > 16) {
+      maxConnectionPerServer = 16;
+    }
   }
 }

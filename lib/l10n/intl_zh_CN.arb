@@ -63,5 +63,11 @@
     "documents":"文档",
     "music":"音乐",
     "programs":"程序",
-    "videos":"视频"
+    "videos":"视频",
+    "classificationSavingRules":"分类存放规则",
+    "classificationSavingRulesInfo":"自定义分类存放规则",
+    "taskManagement":"任务管理",
+    "taskManagementInfo":"下载任务相关设置项",
+    "maxConcurrentDownloads": "最大同时下载数",
+    "maxConnectionPerServer":"单服务器最大连接数"
 }

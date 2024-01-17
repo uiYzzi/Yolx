@@ -98,6 +98,10 @@ class Aria2Manager {
       Aria2Http.changeGlobalOption(
           {'no-proxy': Global.bypassProxy}, Global.rpcUrl);
     }
+    Aria2Http.changeGlobalOption({
+      'max-concurrent-downloads': Global.maxConcurrentDownloads.toString(),
+      'max-connection-per-server': Global.maxConnectionPerServer.toString()
+    }, Global.rpcUrl);
   }
 
   closeServer() {

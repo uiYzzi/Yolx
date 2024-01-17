@@ -699,6 +699,66 @@ class S {
       args: [],
     );
   }
+
+  /// `Classification Saving Rules`
+  String get classificationSavingRules {
+    return Intl.message(
+      'Classification Saving Rules',
+      name: 'classificationSavingRules',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Customization of classification saving rules`
+  String get classificationSavingRulesInfo {
+    return Intl.message(
+      'Customization of classification saving rules',
+      name: 'classificationSavingRulesInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Task Management`
+  String get taskManagement {
+    return Intl.message(
+      'Task Management',
+      name: 'taskManagement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Download task related settings`
+  String get taskManagementInfo {
+    return Intl.message(
+      'Download task related settings',
+      name: 'taskManagementInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Max Concurrent Downloads`
+  String get maxConcurrentDownloads {
+    return Intl.message(
+      'Max Concurrent Downloads',
+      name: 'maxConcurrentDownloads',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Max Connection Per Server`
+  String get maxConnectionPerServer {
+    return Intl.message(
+      'Max Connection Per Server',
+      name: 'maxConnectionPerServer',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

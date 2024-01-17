@@ -41,6 +41,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Classification Saving"),
         "classificationSavingInfo": MessageLookupByLibrary.simpleMessage(
             "Enabling category saving will create category directories in the download path."),
+        "classificationSavingRules":
+            MessageLookupByLibrary.simpleMessage("Classification Saving Rules"),
+        "classificationSavingRulesInfo": MessageLookupByLibrary.simpleMessage(
+            "Customization of classification saving rules"),
         "closeInfo": MessageLookupByLibrary.simpleMessage(
             "Are you sure you want to close this window?"),
         "compressedFiles":
@@ -57,6 +61,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "downloading": MessageLookupByLibrary.simpleMessage("Downloading"),
         "general": MessageLookupByLibrary.simpleMessage("General"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
+        "maxConcurrentDownloads":
+            MessageLookupByLibrary.simpleMessage("Max Concurrent Downloads"),
+        "maxConnectionPerServer":
+            MessageLookupByLibrary.simpleMessage("Max Connection Per Server"),
         "maxDownloadLimit":
             MessageLookupByLibrary.simpleMessage("Max Download Limit"),
         "maxOverallDownloadLimit":
@@ -117,6 +125,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "Restrict download or upload speed"),
         "stopped": MessageLookupByLibrary.simpleMessage("Stopped"),
         "submit": MessageLookupByLibrary.simpleMessage("Submit"),
+        "taskManagement":
+            MessageLookupByLibrary.simpleMessage("Task Management"),
+        "taskManagementInfo": MessageLookupByLibrary.simpleMessage(
+            "Download task related settings"),
         "theme": MessageLookupByLibrary.simpleMessage("Theme"),
         "topping": MessageLookupByLibrary.simpleMessage("Topping"),
         "torrent": MessageLookupByLibrary.simpleMessage("Torrent"),
