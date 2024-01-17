@@ -1,5 +1,21 @@
+// ignore: depend_on_referenced_packages
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:yolx/utils/log.dart';
+
+String getURLFromThunder(String url) {
+  String base64Input = url.substring("thunder://".length);
+  String base64Output = utf8.decode(base64.decode(base64Input));
+  if (base64Output.startsWith("AA")) {
+    base64Output = base64Output.substring("AA".length);
+  }
+
+  if (base64Output.endsWith("ZZ")) {
+    base64Output = base64Output.substring(0, base64Output.length - "ZZ".length);
+  }
+  return base64Output;
+}
 
 Future<String> getFileTypeFromHeader(String url) async {
   try {

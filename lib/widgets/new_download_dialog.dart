@@ -63,11 +63,6 @@ class _NewDownloadDialogState extends State<NewDownloadDialog> {
               if (Global.classificationSaving &&
                   _downloadPathEditingController.text == Global.downloadPath) {
                 createClassificationFolder();
-                var downloadList = [[], [], [], [], [], []];
-                for (int i = 0; i < urls.length; i++) {
-                  var j = getDownloadDirectory(await getFileType(urls[i]));
-                  downloadList[j].add(urls[i]);
-                }
                 List<String> ruleNames = [
                   S.current.compressedFiles,
                   S.current.documents,
@@ -76,19 +71,26 @@ class _NewDownloadDialogState extends State<NewDownloadDialog> {
                   S.current.videos,
                   S.current.general
                 ];
-                for (int i = 0; i < downloadList.length; i++) {
-                  if (downloadList[i].isNotEmpty) {
-                    params["dir"] =
-                        '${Global.downloadPath}${Global.pathSeparator}${ruleNames[i]}';
-                    await Aria2Http.addUrl(
-                        [downloadList[i], params], Global.rpcUrl);
+                for (int i = 0; i < urls.length; i++) {
+                  if (urls[i].startsWith("thunder://")) {
+                    urls[i] = getURLFromThunder(urls[i]);
                   }
+                  var j = getDownloadDirectory(await getFileType(urls[i]));
+                  params["dir"] =
+                      '${Global.downloadPath}${Global.pathSeparator}${ruleNames[j]}';
+                  await Aria2Http.addUrl([
+                    [urls[i]],
+                    params
+                  ], Global.rpcUrl);
                 }
               } else {
                 downloadPath = _downloadPathEditingController.text;
                 params["dir"] = downloadPath;
                 for (int i = 0; i < urls.length; i++) {
                   if (urls[i].isNotEmpty) {
+                    if (urls[i].startsWith("thunder://")) {
+                      urls[i] = getURLFromThunder(urls[i]);
+                    }
                     await Aria2Http.addUrl([
                       [urls[i]],
                       params

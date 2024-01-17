@@ -40,7 +40,7 @@
     "newDownload":"New",
     "URL":"URL",
     "torrent":"Torrent",
-    "URLTextBox":"One task url per line (supports magnet)",
+    "URLTextBox":"One task url per line (supports magnet and thunder://)",
     "cancel":"Cancel",
     "submit":"Submit",
     "path":"Path",

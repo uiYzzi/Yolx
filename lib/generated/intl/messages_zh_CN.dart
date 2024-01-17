@@ -29,7 +29,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "UA": MessageLookupByLibrary.simpleMessage("User-Agent"),
         "URL": MessageLookupByLibrary.simpleMessage("链接任务"),
         "URLTextBox": MessageLookupByLibrary.simpleMessage(
-            "添加多个下载链接时，请确保每行只有一个链接（支持磁力链）"),
+            "添加多个下载链接时，请确保每行只有一个链接（支持磁力链和thunder://）"),
         "advanced": MessageLookupByLibrary.simpleMessage("先进的"),
         "basic": MessageLookupByLibrary.simpleMessage("基础"),
         "bypassProxy":
