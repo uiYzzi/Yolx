@@ -21,7 +21,7 @@ getVersion(aria2url) async {
       aria2Version = resJson['result']['version'];
     }
   } catch (e) {
-    print(e);
+    Log.e(e);
   }
   //{"id":1,"jsonrpc":"2.0","result":{"enabledFeatures":["Async DNS","BitTorrent","Firefox3 Cookie","GZip","HTTPS","Message Digest","Metalink","XML-RPC","SFTP"],"version":"1.36.0"}}
   // print(aria2Version);
@@ -97,9 +97,9 @@ tellStopped(String aria2url) async {
           ]
         }));
     if (res.statusCode == 200) {
-      var jsonResponse = json.decode(res.body);
-      var result = jsonResponse['result']; // 获取result字段
-      return result; // 处理result
+      var jsonResponse = json.decode(utf8.decode(res.bodyBytes));
+      var result = jsonResponse['result'];
+      return result;
     } else {
       Log.e('${res.reasonPhrase}');
     }
@@ -138,9 +138,9 @@ tellWaiting(String aria2url) async {
           ]
         }));
     if (res.statusCode == 200) {
-      var jsonResponse = json.decode(res.body);
-      var result = jsonResponse['result']; // 获取result字段
-      return result; // 处理result
+      var jsonResponse = json.decode(utf8.decode(res.bodyBytes));
+      var result = jsonResponse['result'];
+      return result;
     } else {
       Log.e('${res.reasonPhrase}');
     }
@@ -177,9 +177,9 @@ tellActive(String aria2url) async {
           ]
         }));
     if (res.statusCode == 200) {
-      var jsonResponse = json.decode(res.body);
-      var result = jsonResponse['result']; // 获取result字段
-      return result; // 处理result
+      var jsonResponse = json.decode(utf8.decode(res.bodyBytes));
+      var result = jsonResponse['result'];
+      return result;
     } else {
       Log.e('${res.reasonPhrase}');
     }
