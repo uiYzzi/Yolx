@@ -27,24 +27,19 @@ class DownloadFileCard extends StatelessWidget {
           children: [
             Text(S.of(context).removeTaskInfo),
             const SizedBox(height: 4),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ValueListenableBuilder<bool>(
-                  valueListenable: checkboxValue,
-                  builder: (context, value, child) {
-                    return Checkbox(
-                      checked: value,
-                      onChanged: (newValue) {
-                        checkboxValue.value = newValue ?? false;
-                      },
-                    );
+            ValueListenableBuilder<bool>(
+              valueListenable: checkboxValue,
+              builder: (context, value, child) {
+                return Checkbox(
+                  content: Text(S.of(context).deleteFile),
+                  checked: value,
+                  onChanged: (newValue) {
+                    checkboxValue.value = newValue ?? false;
                   },
-                ),
-                const SizedBox(width: 4),
-                Text(S.of(context).deleteFile)
-              ],
-            )
+                );
+              },
+            ),
+            const SizedBox(width: 4),
           ],
         ),
         actions: [
