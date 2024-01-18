@@ -69,5 +69,9 @@
     "taskManagement":"Task Management",
     "taskManagementInfo":"Download task related settings",
     "maxConcurrentDownloads": "Max Concurrent Downloads",
-    "maxConnectionPerServer":"Max Connection Per Server"
+    "maxConnectionPerServer":"Max Connection Per Server",
+    "removeTask":"Remove Task",
+    "removeTaskInfo":"Are you sure you want to remove this download task?",
+    "delete":"Delete",
+    "deleteFile":"Delete files when removing tasks"
 }

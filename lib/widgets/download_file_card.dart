@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:yolx/common/global.dart';
 import 'package:yolx/generated/l10n.dart';
@@ -12,6 +14,73 @@ class DownloadFileCard extends StatelessWidget {
 
   const DownloadFileCard({Key? key, required this.downloadFile})
       : super(key: key);
+
+  void showContentDialog(BuildContext context) async {
+    final ValueNotifier<bool> checkboxValue = ValueNotifier<bool>(false);
+    await showDialog<String>(
+      context: context,
+      builder: (context) => ContentDialog(
+        title: Text(S.of(context).removeTask),
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(S.of(context).removeTaskInfo),
+            const SizedBox(height: 4),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ValueListenableBuilder<bool>(
+                  valueListenable: checkboxValue,
+                  builder: (context, value, child) {
+                    return Checkbox(
+                      checked: value,
+                      onChanged: (newValue) {
+                        checkboxValue.value = newValue ?? false;
+                      },
+                    );
+                  },
+                ),
+                const SizedBox(width: 4),
+                Text(S.of(context).deleteFile)
+              ],
+            )
+          ],
+        ),
+        actions: [
+          Button(
+            child: Text(S.of(context).delete),
+            onPressed: () async {
+              if (downloadFile.status == "paused" ||
+                  downloadFile.status == "active") {
+                await Aria2Http.forceRemove(Global.rpcUrl, downloadFile.gid);
+              } else {
+                await Aria2Http.removeDownloadResult(
+                    Global.rpcUrl, downloadFile.gid);
+              }
+              if (checkboxValue.value) {
+                File file = File(downloadFile.path);
+                print(downloadFile.path);
+                if (file.existsSync()) {
+                  file.deleteSync();
+                }
+                File aria2file = File('${downloadFile.path}.aria2');
+                if (aria2file.existsSync()) {
+                  aria2file.deleteSync();
+                }
+              }
+              // ignore: use_build_context_synchronously
+              Navigator.pop(context);
+            },
+          ),
+          FilledButton(
+            child: Text(S.of(context).cancel),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,16 +119,7 @@ class DownloadFileCard extends StatelessWidget {
                 style: const TooltipThemeData(preferBelow: true),
                 child: IconButton(
                   icon: const Icon(FluentIcons.clear, size: 12.0),
-                  onPressed: () async {
-                    if (downloadFile.status == "paused" ||
-                        downloadFile.status == "active") {
-                      await Aria2Http.forceRemove(
-                          Global.rpcUrl, downloadFile.gid);
-                    } else {
-                      await Aria2Http.removeDownloadResult(
-                          Global.rpcUrl, downloadFile.gid);
-                    }
-                  },
+                  onPressed: () => showContentDialog(context),
                 ),
               ),
               Tooltip(

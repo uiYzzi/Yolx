@@ -759,6 +759,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Remove Task`
+  String get removeTask {
+    return Intl.message(
+      'Remove Task',
+      name: 'removeTask',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to remove this download task?`
+  String get removeTaskInfo {
+    return Intl.message(
+      'Are you sure you want to remove this download task?',
+      name: 'removeTaskInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete`
+  String get delete {
+    return Intl.message(
+      'Delete',
+      name: 'delete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete files when removing tasks`
+  String get deleteFile {
+    return Intl.message(
+      'Delete files when removing tasks',
+      name: 'deleteFile',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

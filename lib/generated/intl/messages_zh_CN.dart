@@ -45,7 +45,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "closeInfo": MessageLookupByLibrary.simpleMessage("您确定要关闭此窗口吗？"),
         "compressedFiles": MessageLookupByLibrary.simpleMessage("压缩文件"),
         "confirmClose": MessageLookupByLibrary.simpleMessage("确认关闭"),
+        "delete": MessageLookupByLibrary.simpleMessage("移除"),
         "deleteAllTasks": MessageLookupByLibrary.simpleMessage("删除所有任务"),
+        "deleteFile": MessageLookupByLibrary.simpleMessage("移除任务时删除文件"),
         "deleteThisTasks": MessageLookupByLibrary.simpleMessage("删除本任务"),
         "documents": MessageLookupByLibrary.simpleMessage("文档"),
         "downloadPath": MessageLookupByLibrary.simpleMessage("下载路径"),
@@ -79,6 +81,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "rememberWindowSize": MessageLookupByLibrary.simpleMessage("记住窗口大小"),
         "rememberWindowSizeInfo":
             MessageLookupByLibrary.simpleMessage("启动时恢复上次的窗口大小"),
+        "removeTask": MessageLookupByLibrary.simpleMessage("移除任务"),
+        "removeTaskInfo": MessageLookupByLibrary.simpleMessage("您确定要移除本下载任务吗？"),
         "resumeAllTasks": MessageLookupByLibrary.simpleMessage("继续所有任务"),
         "resumeThisTasks": MessageLookupByLibrary.simpleMessage("继续本任务"),
         "saveApply": MessageLookupByLibrary.simpleMessage("保存并应用"),

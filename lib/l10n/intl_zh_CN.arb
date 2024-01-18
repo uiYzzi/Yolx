@@ -69,5 +69,9 @@
     "taskManagement":"任务管理",
     "taskManagementInfo":"下载任务相关设置项",
     "maxConcurrentDownloads": "最大同时下载数",
-    "maxConnectionPerServer":"单服务器最大连接数"
+    "maxConnectionPerServer":"单服务器最大连接数",
+    "removeTask":"移除任务",
+    "removeTaskInfo":"您确定要移除本下载任务吗？",
+    "delete":"移除",
+    "deleteFile":"移除任务时删除文件"
 }

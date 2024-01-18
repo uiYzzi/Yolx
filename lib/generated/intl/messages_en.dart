@@ -50,8 +50,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "compressedFiles":
             MessageLookupByLibrary.simpleMessage("Compressed-Files"),
         "confirmClose": MessageLookupByLibrary.simpleMessage("Confirm close"),
+        "delete": MessageLookupByLibrary.simpleMessage("Delete"),
         "deleteAllTasks":
             MessageLookupByLibrary.simpleMessage("Delete All Tasks"),
+        "deleteFile": MessageLookupByLibrary.simpleMessage(
+            "Delete files when removing tasks"),
         "deleteThisTasks":
             MessageLookupByLibrary.simpleMessage("Delete This Tasks"),
         "documents": MessageLookupByLibrary.simpleMessage("Documents"),
@@ -96,6 +99,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Remember Window Size"),
         "rememberWindowSizeInfo": MessageLookupByLibrary.simpleMessage(
             "Restore the previous window size at startup"),
+        "removeTask": MessageLookupByLibrary.simpleMessage("Remove Task"),
+        "removeTaskInfo": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to remove this download task?"),
         "resumeAllTasks":
             MessageLookupByLibrary.simpleMessage("Resume All Tasks"),
         "resumeThisTasks":
