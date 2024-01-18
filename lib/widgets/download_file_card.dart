@@ -60,7 +60,6 @@ class DownloadFileCard extends StatelessWidget {
               }
               if (checkboxValue.value) {
                 File file = File(downloadFile.path);
-                print(downloadFile.path);
                 if (file.existsSync()) {
                   file.deleteSync();
                 }
