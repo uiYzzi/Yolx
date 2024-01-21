@@ -9,6 +9,7 @@ import 'package:yolx/generated/l10n.dart';
 import 'package:yolx/utils/aria2_manager.dart';
 // ignore: library_prefixes
 import 'package:yolx/utils/ariar2_http_utils.dart' as Aria2Http;
+import 'package:yolx/widgets/settings_card.dart';
 import '../theme.dart';
 import '../widgets/page.dart';
 
@@ -105,870 +106,719 @@ class _SettingsState extends State<Settings> with PageMixin {
         context.findAncestorWidgetOfExactType<FluentApp>()?.supportedLocales;
     var currentLocale = appTheme.locale ?? Localizations.maybeLocaleOf(context);
     return ScaffoldPage.scrollable(
-      header: PageHeader(title: Text(S.of(context).settings)),
-      children: [
-        Text(
-          S.of(context).basic,
-          style: FluentTheme.of(context).typography.subtitle,
-        ),
-        spacer,
-        Expander(
-          header: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              spacer,
-              Text(
-                S.of(context).theme,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(S.of(context).setsTheThemeOfTheApplication),
-              spacer,
-            ],
+        header: PageHeader(title: Text(S.of(context).settings)),
+        children: [
+          Text(
+            S.of(context).basic,
+            style: FluentTheme.of(context).typography.subtitle,
           ),
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: List.generate(ThemeMode.values.length, (index) {
-              final mode = ThemeMode.values[index];
-              return Padding(
-                padding: const EdgeInsetsDirectional.only(bottom: 8.0),
-                child: RadioButton(
-                  checked: appTheme.mode == mode,
-                  onChanged: (value) async {
-                    if (value) {
-                      appTheme.mode = mode;
+          spacer,
+          SettingsCard(
+            title: S.of(context).theme,
+            subtitle: S.of(context).setsTheThemeOfTheApplication,
+            isExpander: true,
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: List.generate(ThemeMode.values.length, (index) {
+                final mode = ThemeMode.values[index];
+                return Padding(
+                  padding: const EdgeInsetsDirectional.only(bottom: 8.0),
+                  child: RadioButton(
+                    checked: appTheme.mode == mode,
+                    onChanged: (value) async {
+                      if (value) {
+                        appTheme.mode = mode;
 
-                      await Global.prefs.setInt('ThemeMode', mode.index);
-                    }
-                  },
-                  content: Text('$mode'.replaceAll('ThemeMode.', '')),
-                ),
-              );
-            }),
+                        await Global.prefs.setInt('ThemeMode', mode.index);
+                      }
+                    },
+                    content: Text('$mode'.replaceAll('ThemeMode.', '')),
+                  ),
+                );
+              }),
+            ),
           ),
-        ),
-        spacer,
-        Card(
-            borderRadius: const BorderRadius.all(Radius.circular(6.0)),
-            child: Row(
-              children: [
-                const SizedBox(width: 4),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      S.of(context).language,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
+          spacer,
+          SettingsCard(
+            title: S.of(context).language,
+            subtitle: S.of(context).setsAnOverrideForTheAppsPreferredLanguage,
+            content: ComboBox<Locale>(
+              value: currentLocale,
+              onChanged: (Locale? newValue) async {
+                if (newValue != null) {
+                  setState(() {
+                    currentLocale = newValue;
+                    appTheme.locale = currentLocale;
+                  });
+
+                  await Global.prefs
+                      .setString('Language', currentLocale.toString());
+                }
+              },
+              items:
+                  supportedLocales?.map<ComboBoxItem<Locale>>((Locale locale) {
+                return ComboBoxItem<Locale>(
+                  value: locale,
+                  child: Text('$locale'),
+                );
+              }).toList(),
+            ),
+          ),
+          spacer,
+          SettingsCard(
+            title: S.of(context).rememberWindowSize,
+            subtitle: S.of(context).rememberWindowSizeInfo,
+            content: ToggleSwitch(
+              checked: _rememberWindowSize,
+              onChanged: (bool value) {
+                setState(() {
+                  _rememberWindowSize = value; // 更新状态
+                  Global.rememberWindowSize = value;
+                  Global.prefs.setBool('RememberWindowSize', value);
+                });
+              },
+            ),
+          ),
+          spacer,
+          SettingsCard(
+            title: S.of(context).navigationMode,
+            subtitle: S.of(context).setsTheDisplayModeOfTheNavigationPane,
+            isExpander: true,
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: List.generate(PaneDisplayMode.values.length, (index) {
+                final mode = PaneDisplayMode.values[index];
+                return Padding(
+                  padding: const EdgeInsetsDirectional.only(bottom: 8.0),
+                  child: RadioButton(
+                    checked: appTheme.displayMode == mode,
+                    onChanged: (value) async {
+                      if (value) appTheme.displayMode = mode;
+
+                      await Global.prefs.setInt('NavigationMode', mode.index);
+                    },
+                    content: Text(
+                      mode.toString().replaceAll('PaneDisplayMode.', ''),
                     ),
-                    Text(S
-                        .of(context)
-                        .setsAnOverrideForTheAppsPreferredLanguage),
-                  ],
-                ),
-                const Spacer(),
-                ComboBox<Locale>(
-                  value: currentLocale,
-                  onChanged: (Locale? newValue) async {
-                    if (newValue != null) {
-                      setState(() {
-                        currentLocale = newValue;
-                        appTheme.locale = currentLocale;
-                      });
+                  ),
+                );
+              }),
+            ),
+          ),
+          spacer,
+          SettingsCard(
+            title: S.of(context).navigationIndicator,
+            subtitle: S.of(context).setsTheStyleOfTheNavigationIndicator,
+            isExpander: true,
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children:
+                  List.generate(NavigationIndicators.values.length, (index) {
+                final mode = NavigationIndicators.values[index];
+                return Padding(
+                  padding: const EdgeInsetsDirectional.only(bottom: 8.0),
+                  child: RadioButton(
+                    checked: appTheme.indicator == mode,
+                    onChanged: (value) async {
+                      if (value) appTheme.indicator = mode;
 
                       await Global.prefs
-                          .setString('Language', currentLocale.toString());
-                    }
-                  },
-                  items: supportedLocales
-                      ?.map<ComboBoxItem<Locale>>((Locale locale) {
-                    return ComboBoxItem<Locale>(
-                      value: locale,
-                      child: Text('$locale'),
-                    );
-                  }).toList(),
-                ),
-              ],
-            )),
-        spacer,
-        Card(
-            borderRadius: const BorderRadius.all(Radius.circular(6.0)),
-            child: Row(
+                          .setInt('NavigationIndicator', mode.index);
+                    },
+                    content: Text(
+                      mode.toString().replaceAll('NavigationIndicators.', ''),
+                    ),
+                  ),
+                );
+              }),
+            ),
+          ),
+          spacer,
+          SettingsCard(
+              title: S.of(context).downloadPath,
+              subtitle: S.of(context).downloadPathInfo,
+              content: Row(
+                children: [
+                  SizedBox(
+                    width: 200,
+                    child: TextBox(
+                      enabled: false,
+                      controller: _downloadPathEditingController,
+                      expands: false,
+                    ),
+                  ),
+                  IconButton(
+                      icon: const Icon(FluentIcons.fabric_folder, size: 18.0),
+                      onPressed: () async {
+                        final String? path = await getDirectoryPath();
+                        if (path != null) {
+                          setState(() {
+                            Global.downloadPath = path;
+                            _downloadPathEditingController.text = path;
+                          });
+                          Aria2Http.changeGlobalOption(
+                              {'dir': Global.downloadPath}, Global.rpcUrl);
+                        }
+                      })
+                ],
+              )),
+          spacer,
+          SettingsCard(
+            title: S.of(context).classificationSaving,
+            subtitle: S.of(context).classificationSavingInfo,
+            content: ToggleSwitch(
+              checked: _classificationSaving,
+              onChanged: (bool value) {
+                setState(() {
+                  _classificationSaving = value; // 更新状态
+                  Global.classificationSaving = value;
+                  Global.prefs.setBool('ClassificationSaving', value);
+                });
+              },
+            ),
+          ),
+          spacer,
+          SettingsCard(
+            title: S.of(context).speedLimit,
+            subtitle: S.of(context).speedLimitInfo,
+            isExpander: true,
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(width: 4),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Text(S.of(context).maxOverallDownloadLimit),
+                Row(
                   children: [
-                    Text(
-                      S.of(context).rememberWindowSize,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
+                    Expanded(
+                      child: TextBox(
+                        controller: _maxOverallDownloadLimitEditingController,
+                        expands: false,
                       ),
                     ),
-                    Text(S.of(context).rememberWindowSizeInfo),
+                    const SizedBox(width: 4),
+                    const Text("MB/s"),
                   ],
                 ),
-                const Spacer(),
-                ToggleSwitch(
-                  checked: _rememberWindowSize,
-                  onChanged: (bool value) {
-                    setState(() {
-                      _rememberWindowSize = value; // 更新状态
-                      Global.rememberWindowSize = value;
-                      Global.prefs.setBool('RememberWindowSize', value);
-                    });
-                  },
-                ),
-              ],
-            )),
-        spacer,
-        Expander(
-          header: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              spacer,
-              Text(
-                S.of(context).navigationMode,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(S.of(context).setsTheDisplayModeOfTheNavigationPane),
-              spacer,
-            ],
-          ),
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: List.generate(PaneDisplayMode.values.length, (index) {
-              final mode = PaneDisplayMode.values[index];
-              return Padding(
-                padding: const EdgeInsetsDirectional.only(bottom: 8.0),
-                child: RadioButton(
-                  checked: appTheme.displayMode == mode,
-                  onChanged: (value) async {
-                    if (value) appTheme.displayMode = mode;
-
-                    await Global.prefs.setInt('NavigationMode', mode.index);
-                  },
-                  content: Text(
-                    mode.toString().replaceAll('PaneDisplayMode.', ''),
-                  ),
-                ),
-              );
-            }),
-          ),
-        ),
-        spacer,
-        Expander(
-          header: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              spacer,
-              Text(
-                S.of(context).navigationIndicator,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(S.of(context).setsTheStyleOfTheNavigationIndicator),
-              spacer,
-            ],
-          ),
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children:
-                List.generate(NavigationIndicators.values.length, (index) {
-              final mode = NavigationIndicators.values[index];
-              return Padding(
-                padding: const EdgeInsetsDirectional.only(bottom: 8.0),
-                child: RadioButton(
-                  checked: appTheme.indicator == mode,
-                  onChanged: (value) async {
-                    if (value) appTheme.indicator = mode;
-
-                    await Global.prefs
-                        .setInt('NavigationIndicator', mode.index);
-                  },
-                  content: Text(
-                    mode.toString().replaceAll('NavigationIndicators.', ''),
-                  ),
-                ),
-              );
-            }),
-          ),
-        ),
-        spacer,
-        Card(
-            borderRadius: const BorderRadius.all(Radius.circular(6.0)),
-            child: Row(
-              children: [
-                const SizedBox(width: 4),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                spacer,
+                Text(S.of(context).maxDownloadLimit),
+                Row(
                   children: [
-                    Text(
-                      S.of(context).downloadPath,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
+                    Expanded(
+                      child: TextBox(
+                        controller: _maxDownloadLimitEditingController,
+                        expands: false,
                       ),
                     ),
-                    Text(S.of(context).downloadPathInfo),
+                    const SizedBox(width: 4),
+                    const Text("MB/s"),
                   ],
                 ),
-                const Spacer(),
-                SizedBox(
-                  width: 200,
-                  child: TextBox(
-                    enabled: false,
-                    controller: _downloadPathEditingController,
-                    expands: false,
-                  ),
+                spacer,
+                Text(S.of(context).maxOverallUploadLimit),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextBox(
+                        controller: _maxOverallUploadLimitEditingController,
+                        expands: false,
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    const Text("MB/s"),
+                  ],
                 ),
-                IconButton(
-                    icon: const Icon(FluentIcons.fabric_folder, size: 18.0),
-                    onPressed: () async {
-                      final String? path = await getDirectoryPath();
-                      if (path != null) {
+                spacer,
+                Text(S.of(context).maxUploadLimit),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextBox(
+                        controller: _maxUploadLimitEditingController,
+                        expands: false,
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    const Text("MB/s"),
+                  ],
+                ),
+                spacer,
+                Row(
+                  children: [
+                    FilledButton(
+                      child: Text(S.of(context).saveApply),
+                      onPressed: () async {
                         setState(() {
-                          Global.downloadPath = path;
-                          _downloadPathEditingController.text = path;
+                          if (_maxOverallDownloadLimitEditingController
+                              .text.isNotEmpty) {
+                            Global.maxOverallDownloadLimit = double.parse(
+                                _maxOverallDownloadLimitEditingController.text);
+                          }
+                          if (_maxDownloadLimitEditingController
+                              .text.isNotEmpty) {
+                            Global.maxDownloadLimit = double.parse(
+                                _maxDownloadLimitEditingController.text);
+                          }
+                          if (_maxOverallUploadLimitEditingController
+                              .text.isNotEmpty) {
+                            Global.maxOverallUploadLimit = double.parse(
+                                _maxOverallUploadLimitEditingController.text);
+                          }
+                          if (_maxUploadLimitEditingController
+                              .text.isNotEmpty) {
+                            Global.maxUploadLimit = double.parse(
+                                _maxUploadLimitEditingController.text);
+                          }
                         });
-                        Aria2Http.changeGlobalOption(
-                            {'dir': Global.downloadPath}, Global.rpcUrl);
-                      }
-                    })
+                        await Global.prefs.setDouble('MaxOverallDownloadLimit',
+                            Global.maxOverallDownloadLimit);
+                        await Global.prefs.setDouble(
+                            'MaxDownloadLimit', Global.maxDownloadLimit);
+                        await Global.prefs.setDouble('MaxOverallUploadLimit',
+                            Global.maxOverallUploadLimit);
+                        await Global.prefs
+                            .setDouble('MaxUploadLimit', Global.maxUploadLimit);
+                        Aria2Http.changeGlobalOption({
+                          'max-overall-download-limit':
+                              (Global.maxOverallDownloadLimit * 1048576)
+                                  .toInt()
+                                  .toString(),
+                          'max-download-limit':
+                              (Global.maxDownloadLimit * 1048576)
+                                  .toInt()
+                                  .toString(),
+                          'max-overall-upload-limit':
+                              (Global.maxOverallUploadLimit * 1048576)
+                                  .toInt()
+                                  .toString(),
+                          'max-upload-limit': (Global.maxUploadLimit * 1048576)
+                              .toInt()
+                              .toString()
+                        }, Global.rpcUrl);
+                        // ignore: use_build_context_synchronously
+                        await displayInfoBar(context,
+                            builder: (context, close) {
+                          return InfoBar(
+                            title: Text(S.of(context).savedSuccessfully),
+                            action: IconButton(
+                              icon: const Icon(FluentIcons.clear),
+                              onPressed: close,
+                            ),
+                            severity: InfoBarSeverity.success,
+                          );
+                        });
+                      },
+                    )
+                  ],
+                )
               ],
-            )),
-        spacer,
-        Card(
-            borderRadius: const BorderRadius.all(Radius.circular(6.0)),
-            child: Row(
+            ),
+          ),
+          spacer,
+          SettingsCard(
+            title: S.of(context).taskManagement,
+            subtitle: S.of(context).taskManagementInfo,
+            isExpander: true,
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(width: 4),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Text(S.of(context).maxConcurrentDownloads),
+                NumberBox(
+                  value: _maxConcurrentDownloads,
+                  min: 0,
+                  onChanged: (value) {
+                    if (value is int) {
+                      setState(() {
+                        _maxConcurrentDownloads = value;
+                      });
+                    }
+                  },
+                  mode: SpinButtonPlacementMode.inline,
+                ),
+                spacer,
+                Text(S.of(context).maxConnectionPerServer),
+                NumberBox(
+                  value: _maxConnectionPerServer,
+                  min: 0,
+                  max: 16,
+                  onChanged: (value) {
+                    if (value is int) {
+                      setState(() {
+                        _maxConnectionPerServer = value;
+                      });
+                    }
+                  },
+                  mode: SpinButtonPlacementMode.inline,
+                ),
+                spacer,
+                Row(
                   children: [
-                    Text(
-                      S.of(context).classificationSaving,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
+                    FilledButton(
+                      child: Text(S.of(context).saveApply),
+                      onPressed: () async {
+                        Global.maxConcurrentDownloads = _maxConcurrentDownloads;
+                        await Global.prefs.setInt('MaxConcurrentDownloads',
+                            Global.maxConcurrentDownloads);
+                        Global.maxConnectionPerServer = _maxConnectionPerServer;
+                        await Global.prefs.setInt('MaxConnectionPerServer',
+                            Global.maxConnectionPerServer);
+                        Aria2Http.changeGlobalOption({
+                          'max-concurrent-downloads':
+                              Global.maxConcurrentDownloads.toString(),
+                          'max-connection-per-server':
+                              Global.maxConnectionPerServer.toString()
+                        }, Global.rpcUrl);
+                        // ignore: use_build_context_synchronously
+                        await displayInfoBar(context,
+                            builder: (context, close) {
+                          return InfoBar(
+                            title: Text(S.of(context).savedSuccessfully),
+                            action: IconButton(
+                              icon: const Icon(FluentIcons.clear),
+                              onPressed: close,
+                            ),
+                            severity: InfoBarSeverity.success,
+                          );
+                        });
+                      },
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+          spacer,
+          Text(
+            S.of(context).advanced,
+            style: FluentTheme.of(context).typography.subtitle,
+          ),
+          spacer,
+          SettingsCard(
+            title: S.of(context).proxy,
+            subtitle: S.of(context).setsDownloadProxyServer,
+            isExpander: true,
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextBox(
+                  placeholder: '[http://][USER:PASSWORD@]HOST[:PORT]',
+                  controller: _proxyEditingController,
+                  expands: false,
+                ),
+                spacer,
+                TextBox(
+                  placeholder: S.of(context).bypassProxy,
+                  controller: _bypassProxyEditingController,
+                  expands: false,
+                ),
+                spacer,
+                Row(
+                  children: [
+                    FilledButton(
+                      child: Text(S.of(context).saveApply),
+                      onPressed: () async {
+                        setState(() {
+                          Global.proxy = _proxyEditingController.text;
+                          Global.bypassProxy =
+                              _bypassProxyEditingController.text;
+                        });
+                        await Global.prefs.setString('Proxy', Global.proxy);
+                        await Global.prefs
+                            .setString('BypassProxy', Global.bypassProxy);
+                        if (Global.proxy.isNotEmpty) {
+                          Aria2Http.changeGlobalOption(
+                              {'all-proxy': Global.proxy}, Global.rpcUrl);
+                        }
+                        if (Global.bypassProxy.isNotEmpty) {
+                          Aria2Http.changeGlobalOption(
+                              {'no-proxy': Global.bypassProxy}, Global.rpcUrl);
+                        }
+                        // ignore: use_build_context_synchronously
+                        await displayInfoBar(context,
+                            builder: (context, close) {
+                          return InfoBar(
+                            title: Text(S.of(context).savedSuccessfully),
+                            action: IconButton(
+                              icon: const Icon(FluentIcons.clear),
+                              onPressed: close,
+                            ),
+                            severity: InfoBarSeverity.success,
+                          );
+                        });
+                      },
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+          spacer,
+          SettingsCard(
+            title: S.of(context).RPC,
+            subtitle: S.of(context).setsTheRPCOfTheApplication,
+            isExpander: true,
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(S.of(context).RPCListenPort),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextBox(
+                        placeholder: S.of(context).RPCListenPort,
+                        controller: _rpcPortEditingController,
+                        expands: false,
                       ),
                     ),
-                    Text(S.of(context).classificationSavingInfo),
+                    IconButton(
+                      icon: const Icon(FluentIcons.graph_symbol, size: 24.0),
+                      onPressed: () async {
+                        setState(() {
+                          _rpcPortEditingController.text =
+                              (11000 + Random().nextInt(8999)).toString();
+                        });
+                      },
+                    )
                   ],
                 ),
-                const Spacer(),
-                ToggleSwitch(
-                  checked: _classificationSaving,
-                  onChanged: (bool value) {
-                    setState(() {
-                      _classificationSaving = value; // 更新状态
-                      Global.classificationSaving = value;
-                      Global.prefs.setBool('ClassificationSaving', value);
-                    });
-                  },
+                spacer,
+                Text(S.of(context).RPCSecret),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextBox(
+                        placeholder: S.of(context).RPCSecret,
+                        controller: _rpcSecretEditingController,
+                        expands: false,
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(FluentIcons.graph_symbol, size: 24.0),
+                      onPressed: () async {
+                        setState(() {
+                          const availableChars =
+                              'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+                          _rpcSecretEditingController.text = List.generate(
+                              12,
+                              (index) => availableChars[Random()
+                                  .nextInt(availableChars.length)]).join();
+                        });
+                      },
+                    )
+                  ],
                 ),
+                spacer,
+                Row(
+                  children: [
+                    FilledButton(
+                      child: Text(S.of(context).saveApply),
+                      onPressed: () async {
+                        Global.rpcSecret = _rpcSecretEditingController.text;
+                        await Global.prefs
+                            .setString('RPCSecret', Global.rpcSecret);
+                        Global.rpcPort =
+                            int.parse(_rpcPortEditingController.text);
+                        await Global.prefs.setInt('RPCPort', Global.rpcPort);
+                        Aria2Manager().startServer();
+                        // ignore: use_build_context_synchronously
+                        await displayInfoBar(context,
+                            builder: (context, close) {
+                          return InfoBar(
+                            title: Text(S.of(context).RPCInfo),
+                            action: IconButton(
+                              icon: const Icon(FluentIcons.clear),
+                              onPressed: close,
+                            ),
+                            severity: InfoBarSeverity.warning,
+                          );
+                        });
+                      },
+                    )
+                  ],
+                )
               ],
-            )),
-        spacer,
-        Expander(
-          header: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              spacer,
-              Text(
-                S.of(context).speedLimit,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
+            ),
+          ),
+          spacer,
+          SettingsCard(
+            title: S.of(context).UA,
+            subtitle: S.of(context).mockUA,
+            isExpander: true,
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Button(
+                      child: const Text('Aria2'),
+                      onPressed: () async {
+                        setState(() {
+                          _uaEditingController.text = "aria2/1.36.0";
+                        });
+                      },
+                    ),
+                    Button(
+                      child: const Text('Transmission'),
+                      onPressed: () async {
+                        setState(() {
+                          _uaEditingController.text = "Transmission/3.00";
+                        });
+                      },
+                    ),
+                    Button(
+                      child: const Text('Chrome'),
+                      onPressed: () async {
+                        setState(() {
+                          _uaEditingController.text =
+                              "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36";
+                        });
+                      },
+                    ),
+                    Button(
+                      child: const Text('Edge'),
+                      onPressed: () async {
+                        setState(() {
+                          _uaEditingController.text =
+                              "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36 Edg/100.0.1185.44";
+                        });
+                      },
+                    ),
+                    Button(
+                      child: const Text('Du'),
+                      onPressed: () async {
+                        setState(() {
+                          _uaEditingController.text =
+                              "netdisk;6.0.0.12;PC;PC-Windows;10.0.16299;WindowsBaiduYunGuanJia";
+                        });
+                      },
+                    ),
+                  ],
                 ),
-              ),
-              Text(S.of(context).speedLimitInfo),
-              spacer,
-            ],
-          ),
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(S.of(context).maxOverallDownloadLimit),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextBox(
-                      controller: _maxOverallDownloadLimitEditingController,
-                      expands: false,
-                    ),
-                  ),
-                  const SizedBox(width: 4),
-                  const Text("MB/s"),
-                ],
-              ),
-              spacer,
-              Text(S.of(context).maxDownloadLimit),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextBox(
-                      controller: _maxDownloadLimitEditingController,
-                      expands: false,
-                    ),
-                  ),
-                  const SizedBox(width: 4),
-                  const Text("MB/s"),
-                ],
-              ),
-              spacer,
-              Text(S.of(context).maxOverallUploadLimit),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextBox(
-                      controller: _maxOverallUploadLimitEditingController,
-                      expands: false,
-                    ),
-                  ),
-                  const SizedBox(width: 4),
-                  const Text("MB/s"),
-                ],
-              ),
-              spacer,
-              Text(S.of(context).maxUploadLimit),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextBox(
-                      controller: _maxUploadLimitEditingController,
-                      expands: false,
-                    ),
-                  ),
-                  const SizedBox(width: 4),
-                  const Text("MB/s"),
-                ],
-              ),
-              spacer,
-              Row(
-                children: [
-                  FilledButton(
-                    child: Text(S.of(context).saveApply),
-                    onPressed: () async {
-                      setState(() {
-                        if (_maxOverallDownloadLimitEditingController
-                            .text.isNotEmpty) {
-                          Global.maxOverallDownloadLimit = double.parse(
-                              _maxOverallDownloadLimitEditingController.text);
-                        }
-                        if (_maxDownloadLimitEditingController
-                            .text.isNotEmpty) {
-                          Global.maxDownloadLimit = double.parse(
-                              _maxDownloadLimitEditingController.text);
-                        }
-                        if (_maxOverallUploadLimitEditingController
-                            .text.isNotEmpty) {
-                          Global.maxOverallUploadLimit = double.parse(
-                              _maxOverallUploadLimitEditingController.text);
-                        }
-                        if (_maxUploadLimitEditingController.text.isNotEmpty) {
-                          Global.maxUploadLimit = double.parse(
-                              _maxUploadLimitEditingController.text);
-                        }
-                      });
-                      await Global.prefs.setDouble('MaxOverallDownloadLimit',
-                          Global.maxOverallDownloadLimit);
-                      await Global.prefs.setDouble(
-                          'MaxDownloadLimit', Global.maxDownloadLimit);
-                      await Global.prefs.setDouble('MaxOverallUploadLimit',
-                          Global.maxOverallUploadLimit);
-                      await Global.prefs
-                          .setDouble('MaxUploadLimit', Global.maxUploadLimit);
-                      Aria2Http.changeGlobalOption({
-                        'max-overall-download-limit':
-                            (Global.maxOverallDownloadLimit * 1048576)
-                                .toInt()
-                                .toString(),
-                        'max-download-limit':
-                            (Global.maxDownloadLimit * 1048576)
-                                .toInt()
-                                .toString(),
-                        'max-overall-upload-limit':
-                            (Global.maxOverallUploadLimit * 1048576)
-                                .toInt()
-                                .toString(),
-                        'max-upload-limit':
-                            (Global.maxUploadLimit * 1048576).toInt().toString()
-                      }, Global.rpcUrl);
-                      // ignore: use_build_context_synchronously
-                      await displayInfoBar(context, builder: (context, close) {
-                        return InfoBar(
-                          title: Text(S.of(context).savedSuccessfully),
-                          action: IconButton(
-                            icon: const Icon(FluentIcons.clear),
-                            onPressed: close,
-                          ),
-                          severity: InfoBarSeverity.success,
-                        );
-                      });
-                    },
-                  )
-                ],
-              )
-            ],
-          ),
-        ),
-        spacer,
-        Expander(
-          header: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              spacer,
-              Text(
-                S.of(context).taskManagement,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
+                spacer,
+                TextBox(
+                  controller: _uaEditingController,
+                  maxLines: null,
                 ),
-              ),
-              Text(S.of(context).taskManagementInfo),
-              spacer,
-            ],
-          ),
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(S.of(context).maxConcurrentDownloads),
-              NumberBox(
-                value: _maxConcurrentDownloads,
-                min: 0,
-                onChanged: (value) {
-                  if (value is int) {
-                    setState(() {
-                      _maxConcurrentDownloads = value;
-                    });
-                  }
-                },
-                mode: SpinButtonPlacementMode.inline,
-              ),
-              spacer,
-              Text(S.of(context).maxConnectionPerServer),
-              NumberBox(
-                value: _maxConnectionPerServer,
-                min: 0,
-                max: 16,
-                onChanged: (value) {
-                  if (value is int) {
-                    setState(() {
-                      _maxConnectionPerServer = value;
-                    });
-                  }
-                },
-                mode: SpinButtonPlacementMode.inline,
-              ),
-              spacer,
-              Row(
-                children: [
-                  FilledButton(
-                    child: Text(S.of(context).saveApply),
-                    onPressed: () async {
-                      Global.maxConcurrentDownloads = _maxConcurrentDownloads;
-                      await Global.prefs.setInt('MaxConcurrentDownloads',
-                          Global.maxConcurrentDownloads);
-                      Global.maxConnectionPerServer = _maxConnectionPerServer;
-                      await Global.prefs.setInt('MaxConnectionPerServer',
-                          Global.maxConnectionPerServer);
-                      Aria2Http.changeGlobalOption({
-                        'max-concurrent-downloads':
-                            Global.maxConcurrentDownloads.toString(),
-                        'max-connection-per-server':
-                            Global.maxConnectionPerServer.toString()
-                      }, Global.rpcUrl);
-                      // ignore: use_build_context_synchronously
-                      await displayInfoBar(context, builder: (context, close) {
-                        return InfoBar(
-                          title: Text(S.of(context).savedSuccessfully),
-                          action: IconButton(
-                            icon: const Icon(FluentIcons.clear),
-                            onPressed: close,
-                          ),
-                          severity: InfoBarSeverity.success,
-                        );
-                      });
-                    },
-                  )
-                ],
-              )
-            ],
-          ),
-        ),
-        spacer,
-        Text(
-          S.of(context).advanced,
-          style: FluentTheme.of(context).typography.subtitle,
-        ),
-        spacer,
-        Expander(
-          header: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              spacer,
-              Text(
-                S.of(context).proxy,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(S.of(context).setsDownloadProxyServer),
-              spacer,
-            ],
-          ),
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextBox(
-                placeholder: '[http://][USER:PASSWORD@]HOST[:PORT]',
-                controller: _proxyEditingController,
-                expands: false,
-              ),
-              spacer,
-              TextBox(
-                placeholder: S.of(context).bypassProxy,
-                controller: _bypassProxyEditingController,
-                expands: false,
-              ),
-              spacer,
-              Row(
-                children: [
-                  FilledButton(
-                    child: Text(S.of(context).saveApply),
-                    onPressed: () async {
-                      setState(() {
-                        Global.proxy = _proxyEditingController.text;
-                        Global.bypassProxy = _bypassProxyEditingController.text;
-                      });
-                      await Global.prefs.setString('Proxy', Global.proxy);
-                      await Global.prefs
-                          .setString('BypassProxy', Global.bypassProxy);
-                      if (Global.proxy.isNotEmpty) {
+                spacer,
+                Row(
+                  children: [
+                    FilledButton(
+                      child: Text(S.of(context).saveApply),
+                      onPressed: () async {
+                        Global.ua = _uaEditingController.text;
                         Aria2Http.changeGlobalOption(
-                            {'all-proxy': Global.proxy}, Global.rpcUrl);
-                      }
-                      if (Global.bypassProxy.isNotEmpty) {
-                        Aria2Http.changeGlobalOption(
-                            {'no-proxy': Global.bypassProxy}, Global.rpcUrl);
-                      }
-                      // ignore: use_build_context_synchronously
-                      await displayInfoBar(context, builder: (context, close) {
-                        return InfoBar(
-                          title: Text(S.of(context).savedSuccessfully),
-                          action: IconButton(
-                            icon: const Icon(FluentIcons.clear),
-                            onPressed: close,
-                          ),
-                          severity: InfoBarSeverity.success,
-                        );
-                      });
-                    },
-                  )
-                ],
-              )
-            ],
+                            {'user-agent': Global.ua}, Global.rpcUrl);
+                        // ignore: use_build_context_synchronously
+                        await displayInfoBar(context,
+                            builder: (context, close) {
+                          return InfoBar(
+                            title: Text(S.of(context).savedSuccessfully),
+                            action: IconButton(
+                              icon: const Icon(FluentIcons.clear),
+                              onPressed: close,
+                            ),
+                            severity: InfoBarSeverity.success,
+                          );
+                        });
+                      },
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
-        ),
-        spacer,
-        Expander(
-          header: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              spacer,
-              Text(
-                S.of(context).RPC,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
+          spacer,
+          SettingsCard(
+            title: S.of(context).classificationSavingRules,
+            subtitle: S.of(context).classificationSavingRulesInfo,
+            isExpander: true,
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(S.of(context).compressedFiles),
+                TextBox(
+                  controller: _compressedFilesEditingController,
+                  expands: false,
                 ),
-              ),
-              Text(S.of(context).setsTheRPCOfTheApplication),
-              spacer,
-            ],
-          ),
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(S.of(context).RPCListenPort),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextBox(
-                      placeholder: S.of(context).RPCListenPort,
-                      controller: _rpcPortEditingController,
-                      expands: false,
-                    ),
-                  ),
-                  IconButton(
-                    icon: const Icon(FluentIcons.graph_symbol, size: 24.0),
-                    onPressed: () async {
-                      setState(() {
-                        _rpcPortEditingController.text =
-                            (11000 + Random().nextInt(8999)).toString();
-                      });
-                    },
-                  )
-                ],
-              ),
-              spacer,
-              Text(S.of(context).RPCSecret),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextBox(
-                      placeholder: S.of(context).RPCSecret,
-                      controller: _rpcSecretEditingController,
-                      expands: false,
-                    ),
-                  ),
-                  IconButton(
-                    icon: const Icon(FluentIcons.graph_symbol, size: 24.0),
-                    onPressed: () async {
-                      setState(() {
-                        const availableChars =
-                            'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-                        _rpcSecretEditingController.text = List.generate(
-                            12,
-                            (index) => availableChars[Random()
-                                .nextInt(availableChars.length)]).join();
-                      });
-                    },
-                  )
-                ],
-              ),
-              spacer,
-              Row(
-                children: [
-                  FilledButton(
-                    child: Text(S.of(context).saveApply),
-                    onPressed: () async {
-                      Global.rpcSecret = _rpcSecretEditingController.text;
-                      await Global.prefs
-                          .setString('RPCSecret', Global.rpcSecret);
-                      Global.rpcPort =
-                          int.parse(_rpcPortEditingController.text);
-                      await Global.prefs.setInt('RPCPort', Global.rpcPort);
-                      Aria2Manager().startServer();
-                      // ignore: use_build_context_synchronously
-                      await displayInfoBar(context, builder: (context, close) {
-                        return InfoBar(
-                          title: Text(S.of(context).RPCInfo),
-                          action: IconButton(
-                            icon: const Icon(FluentIcons.clear),
-                            onPressed: close,
-                          ),
-                          severity: InfoBarSeverity.warning,
-                        );
-                      });
-                    },
-                  )
-                ],
-              )
-            ],
-          ),
-        ),
-        spacer,
-        Expander(
-          header: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              spacer,
-              Text(
-                S.of(context).UA,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
+                spacer,
+                Text(S.of(context).documents),
+                TextBox(
+                  controller: _documentsEditingController,
+                  expands: false,
                 ),
-              ),
-              Text(S.of(context).mockUA),
-              spacer,
-            ],
-          ),
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Button(
-                    child: const Text('Aria2'),
-                    onPressed: () async {
-                      setState(() {
-                        _uaEditingController.text = "aria2/1.36.0";
-                      });
-                    },
-                  ),
-                  Button(
-                    child: const Text('Transmission'),
-                    onPressed: () async {
-                      setState(() {
-                        _uaEditingController.text = "Transmission/3.00";
-                      });
-                    },
-                  ),
-                  Button(
-                    child: const Text('Chrome'),
-                    onPressed: () async {
-                      setState(() {
-                        _uaEditingController.text =
-                            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36";
-                      });
-                    },
-                  ),
-                  Button(
-                    child: const Text('Edge'),
-                    onPressed: () async {
-                      setState(() {
-                        _uaEditingController.text =
-                            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36 Edg/100.0.1185.44";
-                      });
-                    },
-                  ),
-                  Button(
-                    child: const Text('Du'),
-                    onPressed: () async {
-                      setState(() {
-                        _uaEditingController.text =
-                            "netdisk;6.0.0.12;PC;PC-Windows;10.0.16299;WindowsBaiduYunGuanJia";
-                      });
-                    },
-                  ),
-                ],
-              ),
-              spacer,
-              TextBox(
-                controller: _uaEditingController,
-                maxLines: null,
-              ),
-              spacer,
-              Row(
-                children: [
-                  FilledButton(
-                    child: Text(S.of(context).saveApply),
-                    onPressed: () async {
-                      Global.ua = _uaEditingController.text;
-                      Aria2Http.changeGlobalOption(
-                          {'user-agent': Global.ua}, Global.rpcUrl);
-                      // ignore: use_build_context_synchronously
-                      await displayInfoBar(context, builder: (context, close) {
-                        return InfoBar(
-                          title: Text(S.of(context).savedSuccessfully),
-                          action: IconButton(
-                            icon: const Icon(FluentIcons.clear),
-                            onPressed: close,
-                          ),
-                          severity: InfoBarSeverity.success,
-                        );
-                      });
-                    },
-                  )
-                ],
-              )
-            ],
-          ),
-        ),
-        spacer,
-        Expander(
-          header: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              spacer,
-              Text(
-                S.of(context).classificationSavingRules,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
+                spacer,
+                Text(S.of(context).music),
+                TextBox(
+                  controller: _musicEditingController,
+                  expands: false,
                 ),
-              ),
-              Text(S.of(context).classificationSavingRulesInfo),
-              spacer,
-            ],
+                spacer,
+                Text(S.of(context).programs),
+                TextBox(
+                  controller: _programsEditingController,
+                  expands: false,
+                ),
+                spacer,
+                Text(S.of(context).videos),
+                TextBox(
+                  controller: _videosEditingController,
+                  expands: false,
+                ),
+                spacer,
+                Row(
+                  children: [
+                    FilledButton(
+                      child: Text(S.of(context).saveApply),
+                      onPressed: () async {
+                        setState(() {
+                          if (_compressedFilesEditingController
+                              .text.isNotEmpty) {
+                            Global.compressedFilesRule =
+                                _compressedFilesEditingController.text;
+                            Global.prefs.setString("CompressedFilesRule",
+                                Global.compressedFilesRule);
+                          }
+                          if (_documentsEditingController.text.isNotEmpty) {
+                            Global.documentsRule =
+                                _documentsEditingController.text;
+                            Global.prefs.setString(
+                                "DocumentsRule", Global.documentsRule);
+                          }
+                          if (_musicEditingController.text.isNotEmpty) {
+                            Global.musicRule = _musicEditingController.text;
+                            Global.prefs
+                                .setString("MusicRule", Global.musicRule);
+                          }
+                          if (_programsEditingController.text.isNotEmpty) {
+                            Global.programsRule =
+                                _programsEditingController.text;
+                            Global.prefs
+                                .setString("ProgramsRule", Global.programsRule);
+                          }
+                          if (_videosEditingController.text.isNotEmpty) {
+                            Global.videosRule = _videosEditingController.text;
+                            Global.prefs
+                                .setString("VideosRule", Global.videosRule);
+                          }
+                        });
+                        // ignore: use_build_context_synchronously
+                        await displayInfoBar(context,
+                            builder: (context, close) {
+                          return InfoBar(
+                            title: Text(S.of(context).savedSuccessfully),
+                            action: IconButton(
+                              icon: const Icon(FluentIcons.clear),
+                              onPressed: close,
+                            ),
+                            severity: InfoBarSeverity.success,
+                          );
+                        });
+                      },
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(S.of(context).compressedFiles),
-              TextBox(
-                controller: _compressedFilesEditingController,
-                expands: false,
-              ),
-              spacer,
-              Text(S.of(context).documents),
-              TextBox(
-                controller: _documentsEditingController,
-                expands: false,
-              ),
-              spacer,
-              Text(S.of(context).music),
-              TextBox(
-                controller: _musicEditingController,
-                expands: false,
-              ),
-              spacer,
-              Text(S.of(context).programs),
-              TextBox(
-                controller: _programsEditingController,
-                expands: false,
-              ),
-              spacer,
-              Text(S.of(context).videos),
-              TextBox(
-                controller: _videosEditingController,
-                expands: false,
-              ),
-              spacer,
-              Row(
-                children: [
-                  FilledButton(
-                    child: Text(S.of(context).saveApply),
-                    onPressed: () async {
-                      setState(() {
-                        if (_compressedFilesEditingController.text.isNotEmpty) {
-                          Global.compressedFilesRule =
-                              _compressedFilesEditingController.text;
-                          Global.prefs.setString("CompressedFilesRule",
-                              Global.compressedFilesRule);
-                        }
-                        if (_documentsEditingController.text.isNotEmpty) {
-                          Global.documentsRule =
-                              _documentsEditingController.text;
-                          Global.prefs
-                              .setString("DocumentsRule", Global.documentsRule);
-                        }
-                        if (_musicEditingController.text.isNotEmpty) {
-                          Global.musicRule = _musicEditingController.text;
-                          Global.prefs.setString("MusicRule", Global.musicRule);
-                        }
-                        if (_programsEditingController.text.isNotEmpty) {
-                          Global.programsRule = _programsEditingController.text;
-                          Global.prefs
-                              .setString("ProgramsRule", Global.programsRule);
-                        }
-                        if (_videosEditingController.text.isNotEmpty) {
-                          Global.videosRule = _videosEditingController.text;
-                          Global.prefs
-                              .setString("VideosRule", Global.videosRule);
-                        }
-                      });
-                      // ignore: use_build_context_synchronously
-                      await displayInfoBar(context, builder: (context, close) {
-                        return InfoBar(
-                          title: Text(S.of(context).savedSuccessfully),
-                          action: IconButton(
-                            icon: const Icon(FluentIcons.clear),
-                            onPressed: close,
-                          ),
-                          severity: InfoBarSeverity.success,
-                        );
-                      });
-                    },
-                  )
-                ],
-              )
-            ],
-          ),
-        ),
-      ],
-    );
+        ]);
   }
 
   void updateRPCPort(BuildContext context) async {
