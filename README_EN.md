@@ -1,0 +1,45 @@
+<p align="center">
+<img src="./assets/logo.png" style="width:100px;height:100px;"/>
+</p>
+
+<div align="center">
+
+# Yolx
+
+`Yolx` is a modern download tool!
+
+</div>
+
+---
+
+English | [简体中文](../)
+
+`Yolx` is a modern download tool with "Aria 2" at its core.
+
+## 🙌 Getting Started
+
+To install Yolx, please open the [Release](https://github.com/uiYzzi/Yolx/releases) page on the right, find the latest version, and select the installation package suitable for your current system.
+
+**Watch** the project for updates on the application.
+
+## 🚀 Collaboration
+
+Thank you very much to developers or enthusiasts interested in participating in the `Yolx` project. Share your insights and ideas.
+
+## 🍭 Compilation
+
+### Windows
+#### Dependency Installation
+
+1. Follow the [official documentation](https://flutter.cn/docs/get-started/install/windows) to install `Flutter SDK` and [Visual Studio 2022 Build Tools](https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2022).
+
+2. Install the packaging tool [Inno Setup 6](https://jrsoftware.org/isinfo.php), and add the [Chinese language packs](https://jrsoftware.org/files/istrans/) `ChineseSimplified.isl` and `ChineseTraditional.isl` to the `C:\Program Files (x86)\Inno Setup 6\Languages` directory.
+
+3. Follow the [official documentation](https://distributor.leanflutter.dev/zh-hans/getting-started/) to install the build tools.
+#### Packaging and Building
+
+Run the following command in the project directory to compile and package. After the build is complete, you can find the installation package in the `dist` folder.
+
+```
+flutter_distributor release --name windows
+```

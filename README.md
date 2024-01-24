@@ -13,11 +13,13 @@
 
 ---
 
+简体中文 | [English](/README_EN.md)
+
 `Yolx` 是一款以「Aria 2」作为核心的现代化下载工具。
 
 ## 🙌 简单的开始
 
-如果想安装Yolx，请打开右侧的 [Release](/releases) 页面，找到最新版本，并选择适用于当前系统的安装包下载。
+如果想安装Yolx，请打开右侧的 [Release](https://github.com/uiYzzi/Yolx/releases) 页面，找到最新版本，并选择适用于当前系统的安装包下载。
 
 
 **Watch** 项目，以获取应用的更新动态。
