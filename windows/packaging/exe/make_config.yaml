@@ -1,0 +1,12 @@
+script_template: inno_setup.iss
+app_id: 700162B8-7C36-43BC-A167-9C34486E0099
+publisher_name: Yoyo
+publisher_url: https://github.com/uiYzzi/Yolx
+display_name: Yolx
+create_desktop_icon: true
+install_dir_name: Yolx
+privileges_required: lowest
+setup_icon_file: ..\..\windows\runner\resources\app_icon.ico
+locales:
+  - en
+  - zh

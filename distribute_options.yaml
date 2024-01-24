@@ -1,0 +1,17 @@
+output: dist/
+artifact_name: "{{name}}-{{platform}}{{#flavor}}-{{flavor}}{{/flavor}}{{#channel}}-{{channel}}{{/channel}}-{{version}}{{#is_installer}}-setup{{/is_installer}}.{{ext}}"
+releases:
+  - name: windows
+    jobs:
+      - name: exe
+        package:
+          platform: windows
+          target: exe
+          obfuscate:
+            split-debug-info: symbols
+      - name: zip
+        package:
+          platform: windows
+          target: zip
+          obfuscate:
+            split-debug-info: symbols
