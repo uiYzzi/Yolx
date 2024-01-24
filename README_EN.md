@@ -12,7 +12,7 @@
 
 ---
 
-English | [简体中文](../)
+English | [简体中文](../../)
 
 `Yolx` is a modern download tool with "Aria 2" at its core.
 
