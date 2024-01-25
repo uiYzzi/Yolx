@@ -1,0 +1,20 @@
+icon: assets/logo.png
+summary: An aria2 client application
+group: Application/Emulator
+vendor: Yoyo
+packager: Yoyo
+packagerEmail: admin@yzzi.icu
+license: GPLv3
+url: https://github.com/uiYzzi/Yolx
+
+display_name: Yolx
+
+keywords:
+  - Application
+
+generic_name: An aria2 client application
+
+categories:
+  - Awesome
+
+startup_notify: true

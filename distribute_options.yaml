@@ -15,3 +15,23 @@ releases:
           target: zip
           obfuscate:
             split-debug-info: symbols
+  - name: linux
+    jobs:
+      - name: deb
+        package:
+          platform: linux
+          target: deb
+          obfuscate:
+            split-debug-info: symbols
+      - name: appimage
+        package:
+          platform: linux
+          target: appimage
+          obfuscate:
+            split-debug-info: symbols
+      - name: rpm
+        package:
+          platform: linux
+          target: rpm
+          obfuscate:
+            split-debug-info: symbols

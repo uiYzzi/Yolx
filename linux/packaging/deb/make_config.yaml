@@ -1,0 +1,29 @@
+display_name: Yolx
+package_name: yolx
+maintainer:
+  name: Yoyo
+  email: admin@yzzi.icu
+co_authors:
+  - name: Yoyo
+    email: admin@yzzi.icu
+priority: optional
+section: x11
+installed_size: 6604
+essential: false
+icon: assets/logo.png
+
+postinstall_scripts:
+  - echo "Installed Yolx"
+postuninstall_scripts:
+  - echo "Surprised Pickachu face"
+
+keywords:
+  - Application
+
+generic_name: Downloader Application
+
+categories:
+  - Downloader
+  - Media
+
+startup_notify: true
