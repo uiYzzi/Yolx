@@ -43,3 +43,31 @@ Run the following command in the project directory to compile and package. After
 ```
 flutter_distributor release --name windows
 ```
+
+### Linux
+#### Dependency Installation
+
+1. Follow the [official documentation](https://flutter.cn/docs/get-started/install/linux) to install `Flutter SDK`.
+
+2. Enter the following command to install build dependencies:
+```
+sudo apt-get install clang cmake git ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
+```
+
+3. Follow the [official documentation](https://distributor.leanflutter.dev/zh-hans/getting-started/) to install the build tools.
+
+4. Enter the following command to install packaging dependencies:
+```
+sudo apt install rpm patchelf locate
+wget -O appimagetool "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+chmod +x appimagetool
+sudo mv appimagetool /usr/local/bin/
+```
+
+#### Packaging and Building
+
+Run the following command in the project directory to compile and package. After the build is complete, you can find the installation package in the `dist` folder.
+
+```
+flutter_distributor release --name linux
+```

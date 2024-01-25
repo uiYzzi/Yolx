@@ -45,3 +45,31 @@
 ```
 flutter_distributor release --name windows
 ```
+
+### Linux
+#### 依赖安装
+
+1、按照[官方文档](https://flutter.cn/docs/get-started/install/linux)安装`Flutter SDK`
+
+2、输入以下命令安装构建依赖
+```
+sudo apt-get install clang cmake git ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
+
+```
+
+3、按照[官方文档](https://distributor.leanflutter.dev/zh-hans/getting-started/)安装构建工具
+
+4、输入以下命令安装打包依赖
+```
+sudo apt install rpm patchelf locate
+wget -O appimagetool "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+chmod +x appimagetool
+sudo mv appimagetool /usr/local/bin/
+```
+#### 打包构建
+
+在项目目录运行下面命令进行编译打包，构建完成后可在 `dist` 文件夹内找到安装包
+
+```
+flutter_distributor release --name linux
+```
