@@ -799,6 +799,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Show Window`
+  String get showWindow {
+    return Intl.message(
+      'Show Window',
+      name: 'showWindow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Exit App`
+  String get exitApp {
+    return Intl.message(
+      'Exit App',
+      name: 'exitApp',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

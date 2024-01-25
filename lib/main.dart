@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:tray_manager/tray_manager.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_single_instance/flutter_single_instance.dart';
 import 'package:yolx/common/const.dart';
@@ -41,8 +41,6 @@ void main() async {
     exit(0);
   }
   await Global.init();
-  if (Global.classificationSaving) {}
-  // if it's not on the web, windows or android, load the accent color
   if (!kIsWeb &&
       [
         TargetPlatform.windows,
@@ -66,6 +64,25 @@ void main() async {
       await windowManager.setSkipTaskbar(false);
     });
     Aria2Manager().startServer();
+    await trayManager.setIcon(
+      Platform.isWindows ? 'assets/logo.ico' : 'assets/logo.png',
+    );
+    final strings = await S.load(Locale.fromSubtags(
+        languageCode: Global.prefs.getString('Language') ?? 'en'));
+    Menu menu = Menu(
+      items: [
+        MenuItem(
+          key: 'show_window',
+          label: strings.showWindow,
+        ),
+        MenuItem.separator(),
+        MenuItem(
+          key: 'exit_app',
+          label: strings.exitApp,
+        ),
+      ],
+    );
+    await trayManager.setContextMenu(menu);
   }
 
   runApp(
@@ -140,7 +157,8 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with WindowListener {
+class _MyHomePageState extends State<MyHomePage>
+    with WindowListener, TrayListener {
   bool value = false;
 
   // int index = 0;
@@ -221,13 +239,35 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
   @override
   void initState() {
     windowManager.addListener(this);
+    trayManager.addListener(this);
     super.initState();
   }
 
   @override
   void dispose() {
     windowManager.removeListener(this);
+    trayManager.removeListener(this);
     super.dispose();
+  }
+
+  @override
+  void onTrayIconMouseDown() {
+    windowManager.show();
+  }
+
+  @override
+  void onTrayIconRightMouseDown() {
+    trayManager.popUpContextMenu();
+  }
+
+  @override
+  void onTrayMenuItemClick(MenuItem menuItem) {
+    if (menuItem.key == 'show_window') {
+      windowManager.show();
+    } else if (menuItem.key == 'exit_app') {
+      windowManager.show();
+      showExitDialog();
+    }
   }
 
   int _calculateSelectedIndex(BuildContext context) {
@@ -312,8 +352,7 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
     );
   }
 
-  @override
-  void onWindowClose() async {
+  void showExitDialog() async {
     bool isPreventClose = await windowManager.isPreventClose();
     if (isPreventClose && mounted) {
       showDialog(
@@ -348,6 +387,11 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
         },
       );
     }
+  }
+
+  @override
+  void onWindowClose() {
+    windowManager.hide();
   }
 }
 

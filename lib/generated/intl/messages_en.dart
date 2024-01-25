@@ -62,6 +62,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "downloadPathInfo":
             MessageLookupByLibrary.simpleMessage("Set default download path"),
         "downloading": MessageLookupByLibrary.simpleMessage("Downloading"),
+        "exitApp": MessageLookupByLibrary.simpleMessage("Exit App"),
         "general": MessageLookupByLibrary.simpleMessage("General"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
         "maxConcurrentDownloads":
@@ -125,6 +126,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "setsTheThemeOfTheApplication": MessageLookupByLibrary.simpleMessage(
             "Sets the theme of the application."),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
+        "showWindow": MessageLookupByLibrary.simpleMessage("Show Window"),
         "sourceCode": MessageLookupByLibrary.simpleMessage("Source code"),
         "speedLimit": MessageLookupByLibrary.simpleMessage("Speed Limit"),
         "speedLimitInfo": MessageLookupByLibrary.simpleMessage(

@@ -73,5 +73,7 @@
     "removeTask":"Remove Task",
     "removeTaskInfo":"Are you sure you want to remove this download task?",
     "delete":"Delete",
-    "deleteFile":"Delete files when removing tasks"
+    "deleteFile":"Delete files when removing tasks",
+    "showWindow":"Show Window",
+    "exitApp":"Exit App"
 }

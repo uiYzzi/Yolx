@@ -53,6 +53,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "downloadPath": MessageLookupByLibrary.simpleMessage("下载路径"),
         "downloadPathInfo": MessageLookupByLibrary.simpleMessage("设置默认下载路径"),
         "downloading": MessageLookupByLibrary.simpleMessage("下载中"),
+        "exitApp": MessageLookupByLibrary.simpleMessage("退出程序"),
         "general": MessageLookupByLibrary.simpleMessage("常规"),
         "language": MessageLookupByLibrary.simpleMessage("语言"),
         "maxConcurrentDownloads":
@@ -100,6 +101,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "setsTheThemeOfTheApplication":
             MessageLookupByLibrary.simpleMessage("设置应用程序的主题"),
         "settings": MessageLookupByLibrary.simpleMessage("设置"),
+        "showWindow": MessageLookupByLibrary.simpleMessage("显示窗口"),
         "sourceCode": MessageLookupByLibrary.simpleMessage("源代码"),
         "speedLimit": MessageLookupByLibrary.simpleMessage("速度限制"),
         "speedLimitInfo": MessageLookupByLibrary.simpleMessage("限制下载或上传速度"),
