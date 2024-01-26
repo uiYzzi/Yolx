@@ -4,6 +4,8 @@ import 'package:yolx/common/global.dart';
 import 'package:yolx/generated/l10n.dart';
 import 'package:yolx/model/download_item.dart';
 import 'package:yolx/model/downloading_list_model.dart';
+import 'package:yolx/model/stopped_list_model.dart';
+import 'package:yolx/utils/common_utils.dart';
 import 'package:yolx/widgets/download_file_card.dart';
 import 'dart:async';
 // ignore: library_prefixes
@@ -32,24 +34,6 @@ class _DownloadingPageState extends State<DownloadingPage> with PageMixin {
     );
   }
 
-  List<DownloadItem> parseDownloadList(dynamic responseData) {
-    List<DownloadItem> downloadList = [];
-    for (var itemData in responseData) {
-      var downloadItem = DownloadItem(
-        completedLength: int.parse(itemData["completedLength"]),
-        path: itemData["files"][0]["path"],
-        connections: itemData["connections"],
-        downloadSpeed: int.parse(itemData["downloadSpeed"]),
-        gid: itemData["gid"],
-        status: itemData["status"],
-        totalLength: int.parse(itemData["totalLength"]),
-        uploadSpeed: int.parse(itemData["uploadSpeed"]),
-      );
-      downloadList.add(downloadItem);
-    }
-    return downloadList;
-  }
-
   void updateList() async {
     if (!mounted) {
       return;
@@ -62,7 +46,20 @@ class _DownloadingPageState extends State<DownloadingPage> with PageMixin {
       var downloadListModel =
           // ignore: use_build_context_synchronously
           Provider.of<DownloadingListModel>(context, listen: false);
-      downloadListModel.updateDownloadList(parseDownloadList(res));
+      List<DownloadItem> downloadList = parseDownloadList(res);
+      if (downloadList.length == downloadListModel.downloadList.length) {
+        downloadListModel.updateDownloadList(parseDownloadList(res));
+      } else {
+        downloadListModel.updateDownloadList(parseDownloadList(res));
+        var stoppedRes = await Aria2Http.tellStopped(Global.rpcUrl);
+        if (stoppedRes == null) {
+          return;
+        }
+        var stoppedListModel =
+            // ignore: use_build_context_synchronously
+            Provider.of<StoppedListModel>(context, listen: false);
+        stoppedListModel.updateDownloadList(parseDownloadList(stoppedRes));
+      }
     }
   }
 

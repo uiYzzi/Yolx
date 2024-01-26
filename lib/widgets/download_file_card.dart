@@ -1,9 +1,12 @@
 import 'dart:io';
 
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:yolx/common/global.dart';
 import 'package:yolx/generated/l10n.dart';
 import 'package:yolx/model/download_item.dart';
+import 'package:yolx/model/stopped_list_model.dart';
 import 'package:yolx/utils/common_utils.dart';
 import 'package:path/path.dart' as path;
 // ignore: library_prefixes
@@ -49,6 +52,9 @@ class DownloadFileCard extends StatelessWidget {
               if (downloadFile.status == "paused" ||
                   downloadFile.status == "active") {
                 await Aria2Http.forceRemove(Global.rpcUrl, downloadFile.gid);
+              } else if (downloadFile.status == "history") {
+                Provider.of<StoppedListModel>(context, listen: false)
+                    .removeFromHistoryList(downloadFile.gid);
               } else {
                 await Aria2Http.removeDownloadResult(
                     Global.rpcUrl, downloadFile.gid);
@@ -102,6 +108,49 @@ class DownloadFileCard extends StatelessWidget {
                     onPressed: () async {
                       await Aria2Http.changePosition(
                           Global.rpcUrl, downloadFile.gid, 0, 'POS_SET');
+                    },
+                  ),
+                ),
+              ],
+              if (downloadFile.status == 'complete' ||
+                  downloadFile.status == 'history') ...[
+                Tooltip(
+                  message: S.of(context).openFile,
+                  displayHorizontally: true,
+                  useMousePosition: false,
+                  style: const TooltipThemeData(preferBelow: true),
+                  child: IconButton(
+                    icon: const Icon(FluentIcons.page, size: 14.0),
+                    onPressed: () async {
+                      // ignore: deprecated_member_use
+                      // 此处使用launchUrl会导致Windows下由于中文url编码产生的错误
+                      if (await File(downloadFile.path).exists()) {
+                        launch(
+                          "file:/${downloadFile.path}",
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ],
+              if (downloadFile.status == 'complete' ||
+                  downloadFile.status == 'history') ...[
+                Tooltip(
+                  message: S.of(context).openDirectory,
+                  displayHorizontally: true,
+                  useMousePosition: false,
+                  style: const TooltipThemeData(preferBelow: true),
+                  child: IconButton(
+                    icon: const Icon(FluentIcons.folder_open, size: 14.0),
+                    onPressed: () async {
+                      // ignore: deprecated_member_use
+                      // 此处使用launchUrl会导致Windows下由于中文url编码产生的错误
+                      if (await Directory(path.dirname(downloadFile.path))
+                          .exists()) {
+                        launch(
+                          "file:/${path.dirname(downloadFile.path)}",
+                        );
+                      }
                     },
                   ),
                 ),

@@ -240,6 +240,8 @@ class _MyHomePageState extends State<MyHomePage>
   void initState() {
     windowManager.addListener(this);
     trayManager.addListener(this);
+    Provider.of<StoppedListModel>(context, listen: false)
+        .loadHistoryListFromJson();
     super.initState();
   }
 
@@ -366,6 +368,8 @@ class _MyHomePageState extends State<MyHomePage>
                 child: Text(S.of(context).yes),
                 onPressed: () async {
                   Navigator.pop(context);
+                  Provider.of<StoppedListModel>(context, listen: false)
+                      .saveHistoryListToJson();
                   if (Global.rememberWindowSize) {
                     await windowManager.getSize().then((size) {
                       Global.prefs.setDouble('WindowWidth', size.width);

@@ -75,5 +75,7 @@
     "delete":"移除",
     "deleteFile":"移除任务时删除文件",
     "showWindow":"显示窗口",
-    "exitApp":"退出程序"
+    "exitApp":"退出程序",
+    "openDirectory":"打开目录",
+    "openFile":"打开文件"
 }

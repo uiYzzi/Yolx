@@ -2,8 +2,8 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:yolx/common/global.dart';
 import 'package:yolx/generated/l10n.dart';
-import 'package:yolx/model/download_item.dart';
 import 'package:yolx/model/waiting_list_model.dart';
+import 'package:yolx/utils/common_utils.dart';
 import 'package:yolx/widgets/download_file_card.dart';
 import 'dart:async';
 import 'package:yolx/utils/ariar2_http_utils.dart' as Aria2Http;
@@ -22,24 +22,6 @@ class _WaitingPageState extends State<WaitingPage> with PageMixin {
   String? comboboxValue;
   // ignore: prefer_typing_uninitialized_variables
   var time;
-
-  List<DownloadItem> parseDownloadList(dynamic responseData) {
-    List<DownloadItem> downloadList = [];
-    for (var itemData in responseData) {
-      var downloadItem = DownloadItem(
-        completedLength: int.parse(itemData["completedLength"]),
-        path: itemData["files"][0]["path"],
-        connections: itemData["connections"],
-        downloadSpeed: int.parse(itemData["downloadSpeed"]),
-        gid: itemData["gid"],
-        status: itemData["status"],
-        totalLength: int.parse(itemData["totalLength"]),
-        uploadSpeed: int.parse(itemData["uploadSpeed"]),
-      );
-      downloadList.add(downloadItem);
-    }
-    return downloadList;
-  }
 
   void updateList() async {
     if (!mounted) {

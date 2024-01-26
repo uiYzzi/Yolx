@@ -75,5 +75,7 @@
     "delete":"Delete",
     "deleteFile":"Delete files when removing tasks",
     "showWindow":"Show Window",
-    "exitApp":"Exit App"
+    "exitApp":"Exit App",
+    "openDirectory":"Open Directory",
+    "openFile":"Open File"
 }

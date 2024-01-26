@@ -819,6 +819,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Open Directory`
+  String get openDirectory {
+    return Intl.message(
+      'Open Directory',
+      name: 'openDirectory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open File`
+  String get openFile {
+    return Intl.message(
+      'Open File',
+      name: 'openFile',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

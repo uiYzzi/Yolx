@@ -1,7 +1,13 @@
 import 'dart:io';
 
+import 'package:path_provider/path_provider.dart';
 import 'package:yolx/common/global.dart';
 import 'package:yolx/generated/l10n.dart';
+
+Future<File> getLocalFile(String filename) async {
+  final directory = await getApplicationCacheDirectory();
+  return File('${directory.path}${Global.pathSeparator}$filename');
+}
 
 getPlugAssetsDir(String plugName) async {
   if (Platform.isWindows || Platform.isLinux) {

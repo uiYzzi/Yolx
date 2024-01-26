@@ -18,4 +18,30 @@ class DownloadItem {
     required this.totalLength,
     required this.uploadSpeed,
   });
+
+  factory DownloadItem.fromJson(Map<String, dynamic> json) {
+    return DownloadItem(
+      completedLength: json['completedLength'],
+      path: json['path'],
+      connections: json['connections'],
+      downloadSpeed: json['downloadSpeed'],
+      gid: json['gid'],
+      status: json['status'],
+      totalLength: json['totalLength'],
+      uploadSpeed: json['uploadSpeed'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'completedLength': completedLength,
+      'path': path,
+      'connections': connections,
+      'downloadSpeed': downloadSpeed,
+      'gid': gid,
+      'status': status,
+      'totalLength': totalLength,
+      'uploadSpeed': uploadSpeed,
+    };
+  }
 }
