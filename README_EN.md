@@ -51,7 +51,7 @@ flutter_distributor release --name windows
 
 2. Enter the following command to install build dependencies:
 ```
-sudo apt-get install clang cmake git ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
+sudo apt-get install clang cmake git ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev libayatana-appindicator3-dev
 ```
 
 3. Follow the [official documentation](https://distributor.leanflutter.dev/zh-hans/getting-started/) to install the build tools.

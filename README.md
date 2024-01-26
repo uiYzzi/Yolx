@@ -53,7 +53,7 @@ flutter_distributor release --name windows
 
 2、输入以下命令安装构建依赖
 ```
-sudo apt-get install clang cmake git ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
+sudo apt-get install clang cmake git ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev libayatana-appindicator3-dev
 
 ```
 
