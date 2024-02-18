@@ -3,7 +3,7 @@ description: An aria2 client
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 0.3.2+1
+version: 0.3.3+1
 
 environment:
   sdk: '>=2.17.0 <3.0.0'
@@ -30,7 +30,7 @@ dependencies:
   tray_manager: ^0.2.1
   desktop_drop: ^0.4.4
   dotted_decoration: ^2.0.0
-  
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
