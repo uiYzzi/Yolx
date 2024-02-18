@@ -2,7 +2,7 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:yolx/common/global.dart';
 import 'package:yolx/generated/l10n.dart';
-import 'package:yolx/model/stopped_list_model.dart';
+import 'package:yolx/model/download_list_model.dart';
 import 'package:yolx/utils/common_utils.dart';
 import 'package:yolx/widgets/download_file_card.dart';
 import 'dart:async';
@@ -34,8 +34,8 @@ class _StoppedPageState extends State<StoppedPage> with PageMixin {
     if (mounted) {
       var downloadListModel =
           // ignore: use_build_context_synchronously
-          Provider.of<StoppedListModel>(context, listen: false);
-      downloadListModel.updateDownloadList(parseDownloadList(res));
+          Provider.of<DownloadListModel>(context, listen: false);
+      downloadListModel.updateStoppedList(parseDownloadList(res));
     }
   }
 
@@ -57,8 +57,8 @@ class _StoppedPageState extends State<StoppedPage> with PageMixin {
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasFluentTheme(context));
-    var downloadListModel = Provider.of<StoppedListModel>(context);
-    var downloadList = downloadListModel.downloadList;
+    var downloadListModel = Provider.of<DownloadListModel>(context);
+    var downloadList = downloadListModel.stoppedList;
     return Padding(
       padding: const EdgeInsets.all(24.0),
       child: Column(

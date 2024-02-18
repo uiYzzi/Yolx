@@ -5,9 +5,7 @@ import 'package:flutter_single_instance/flutter_single_instance.dart';
 import 'package:yolx/common/const.dart';
 import 'package:yolx/common/global.dart';
 import 'package:yolx/generated/l10n.dart';
-import 'package:yolx/model/downloading_list_model.dart';
-import 'package:yolx/model/stopped_list_model.dart';
-import 'package:yolx/model/waiting_list_model.dart';
+import 'package:yolx/model/download_list_model.dart';
 import 'package:yolx/screens/downloading.dart';
 import 'package:yolx/screens/waiting.dart';
 import 'package:yolx/screens/stopped.dart';
@@ -88,9 +86,7 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => DownloadingListModel()),
-        ChangeNotifierProvider(create: (context) => WaitingListModel()),
-        ChangeNotifierProvider(create: (context) => StoppedListModel()),
+        ChangeNotifierProvider(create: (context) => DownloadListModel()),
       ],
       child: const MyApp(),
     ),
@@ -240,7 +236,7 @@ class _MyHomePageState extends State<MyHomePage>
   void initState() {
     windowManager.addListener(this);
     trayManager.addListener(this);
-    Provider.of<StoppedListModel>(context, listen: false)
+    Provider.of<DownloadListModel>(context, listen: false)
         .loadHistoryListFromJson();
     super.initState();
   }
@@ -368,7 +364,7 @@ class _MyHomePageState extends State<MyHomePage>
                 child: Text(S.of(context).yes),
                 onPressed: () async {
                   Navigator.pop(context);
-                  Provider.of<StoppedListModel>(context, listen: false)
+                  Provider.of<DownloadListModel>(context, listen: false)
                       .saveHistoryListToJson();
                   if (Global.rememberWindowSize) {
                     await windowManager.getSize().then((size) {

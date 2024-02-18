@@ -2,7 +2,7 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:yolx/common/global.dart';
 import 'package:yolx/generated/l10n.dart';
-import 'package:yolx/model/waiting_list_model.dart';
+import 'package:yolx/model/download_list_model.dart';
 import 'package:yolx/utils/common_utils.dart';
 import 'package:yolx/widgets/download_file_card.dart';
 import 'dart:async';
@@ -34,8 +34,8 @@ class _WaitingPageState extends State<WaitingPage> with PageMixin {
     if (mounted) {
       var downloadListModel =
           // ignore: use_build_context_synchronously
-          Provider.of<WaitingListModel>(context, listen: false);
-      downloadListModel.updateDownloadList(parseDownloadList(res));
+          Provider.of<DownloadListModel>(context, listen: false);
+      downloadListModel.updateWaitingList(parseDownloadList(res));
     }
   }
 
@@ -57,7 +57,7 @@ class _WaitingPageState extends State<WaitingPage> with PageMixin {
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasFluentTheme(context));
-    var downloadList = Provider.of<WaitingListModel>(context).downloadList;
+    var downloadList = Provider.of<DownloadListModel>(context).waitingList;
     return Padding(
       padding: const EdgeInsets.all(24.0),
       child: Column(

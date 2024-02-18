@@ -3,8 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:yolx/common/global.dart';
 import 'package:yolx/generated/l10n.dart';
 import 'package:yolx/model/download_item.dart';
-import 'package:yolx/model/downloading_list_model.dart';
-import 'package:yolx/model/stopped_list_model.dart';
+import 'package:yolx/model/download_list_model.dart';
 import 'package:yolx/utils/common_utils.dart';
 import 'package:yolx/widgets/download_file_card.dart';
 import 'dart:async';
@@ -45,20 +44,20 @@ class _DownloadingPageState extends State<DownloadingPage> with PageMixin {
     if (mounted) {
       var downloadListModel =
           // ignore: use_build_context_synchronously
-          Provider.of<DownloadingListModel>(context, listen: false);
+          Provider.of<DownloadListModel>(context, listen: false);
       List<DownloadItem> downloadList = parseDownloadList(res);
-      if (downloadList.length == downloadListModel.downloadList.length) {
-        downloadListModel.updateDownloadList(parseDownloadList(res));
+      if (downloadList.length == downloadListModel.downloadingList.length) {
+        downloadListModel.updateDownloadingList(parseDownloadList(res));
       } else {
-        downloadListModel.updateDownloadList(parseDownloadList(res));
+        downloadListModel.updateDownloadingList(parseDownloadList(res));
         var stoppedRes = await Aria2Http.tellStopped(Global.rpcUrl);
         if (stoppedRes == null) {
           return;
         }
         var stoppedListModel =
             // ignore: use_build_context_synchronously
-            Provider.of<StoppedListModel>(context, listen: false);
-        stoppedListModel.updateDownloadList(parseDownloadList(stoppedRes));
+            Provider.of<DownloadListModel>(context, listen: false);
+        stoppedListModel.updateStoppedList(parseDownloadList(stoppedRes));
       }
     }
   }
@@ -81,7 +80,7 @@ class _DownloadingPageState extends State<DownloadingPage> with PageMixin {
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasFluentTheme(context));
-    var downloadList = Provider.of<DownloadingListModel>(context).downloadList;
+    var downloadList = Provider.of<DownloadListModel>(context).downloadingList;
     return Padding(
       padding: const EdgeInsets.all(24.0),
       child: Column(

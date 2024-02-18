@@ -5,13 +5,17 @@ import 'package:yolx/model/download_item.dart';
 import 'package:yolx/utils/file_utils.dart';
 import 'package:yolx/utils/log.dart';
 
-class StoppedListModel extends ChangeNotifier {
-  List<DownloadItem> _downloadList = [];
+class DownloadListModel extends ChangeNotifier {
+  List<DownloadItem> _downloadingList = [];
+  List<DownloadItem> _waitingList = [];
+  List<DownloadItem> _stoppedList = [];
   List<DownloadItem> _historyList = [];
 
-  List<DownloadItem> get downloadList {
-    List<DownloadItem> combinedList = List<DownloadItem>.from(_downloadList);
-    List<String> downloadGids = _downloadList.map((item) => item.gid).toList();
+  List<DownloadItem> get downloadingList => _downloadingList;
+  List<DownloadItem> get waitingList => _waitingList;
+  List<DownloadItem> get stoppedList {
+    List<DownloadItem> combinedList = List<DownloadItem>.from(_stoppedList);
+    List<String> downloadGids = _stoppedList.map((item) => item.gid).toList();
     List<DownloadItem> uniqueHistoryItems =
         _historyList.where((item) => !downloadGids.contains(item.gid)).toList();
     combinedList.addAll(uniqueHistoryItems);
@@ -54,7 +58,7 @@ class StoppedListModel extends ChangeNotifier {
 
   void updateHistoryList() {
     var completedItems =
-        _downloadList.where((item) => item.status == "complete").toList();
+        _stoppedList.where((item) => item.status == "complete").toList();
     for (var item in completedItems) {
       item.status = "history";
     }
@@ -64,13 +68,23 @@ class StoppedListModel extends ChangeNotifier {
         0, completedItems.where((item) => !historyIds.contains(item.gid)));
   }
 
-  void updateDownloadList(List<DownloadItem> newList) {
-    if (_downloadList.length != newList.length) {
-      _downloadList = newList;
+  void updateStoppedList(List<DownloadItem> newList) {
+    if (_stoppedList.length != newList.length) {
+      _stoppedList = newList;
       saveHistoryListToJson();
     } else {
-      _downloadList = newList;
+      _stoppedList = newList;
     }
+    notifyListeners();
+  }
+
+  void updateDownloadingList(List<DownloadItem> newList) {
+    _downloadingList = newList;
+    notifyListeners();
+  }
+
+  void updateWaitingList(List<DownloadItem> newList) {
+    _waitingList = newList;
     notifyListeners();
   }
 }

@@ -6,7 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:yolx/common/global.dart';
 import 'package:yolx/generated/l10n.dart';
 import 'package:yolx/model/download_item.dart';
-import 'package:yolx/model/stopped_list_model.dart';
+import 'package:yolx/model/download_list_model.dart';
 import 'package:yolx/utils/common_utils.dart';
 import 'package:path/path.dart' as path;
 // ignore: library_prefixes
@@ -53,7 +53,7 @@ class DownloadFileCard extends StatelessWidget {
                   downloadFile.status == "active") {
                 await Aria2Http.forceRemove(Global.rpcUrl, downloadFile.gid);
               } else if (downloadFile.status == "history") {
-                Provider.of<StoppedListModel>(context, listen: false)
+                Provider.of<DownloadListModel>(context, listen: false)
                     .removeFromHistoryList(downloadFile.gid);
               } else {
                 await Aria2Http.removeDownloadResult(
