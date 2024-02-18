@@ -53,6 +53,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "downloadPath": MessageLookupByLibrary.simpleMessage("下载路径"),
         "downloadPathInfo": MessageLookupByLibrary.simpleMessage("设置默认下载路径"),
         "downloading": MessageLookupByLibrary.simpleMessage("下载中"),
+        "dropTorrent": MessageLookupByLibrary.simpleMessage("拖动种子文件到此处或点击打开"),
         "exitApp": MessageLookupByLibrary.simpleMessage("退出程序"),
         "general": MessageLookupByLibrary.simpleMessage("常规"),
         "language": MessageLookupByLibrary.simpleMessage("语言"),

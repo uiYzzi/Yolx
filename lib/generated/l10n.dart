@@ -839,6 +839,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Drag the torrent file here or click here to open it`
+  String get dropTorrent {
+    return Intl.message(
+      'Drag the torrent file here or click here to open it',
+      name: 'dropTorrent',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

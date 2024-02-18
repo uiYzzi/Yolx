@@ -67,6 +67,25 @@ addUrl(params, aria2url) async {
   }
 }
 
+addTorrent(params, aria2url) async {
+  try {
+    var rpcSecret = Global.rpcSecret;
+    var res = await http.post(Uri.parse(aria2url),
+        body: json.encode({
+          "jsonrpc": "2.0",
+          "method": "aria2.addTorrent",
+          "id": uuid.v4(),
+          "params": ['token:$rpcSecret', ...params]
+        }));
+    if (res.statusCode == 200) {
+      var resJson = json.decode(res.body);
+      return resJson['result'];
+    }
+  } catch (e) {
+    Log.e(e);
+  }
+}
+
 tellStopped(String aria2url) async {
   try {
     var rpcSecret = Global.rpcSecret;

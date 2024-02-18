@@ -77,5 +77,6 @@
     "showWindow":"Show Window",
     "exitApp":"Exit App",
     "openDirectory":"Open Directory",
-    "openFile":"Open File"
+    "openFile":"Open File",
+    "dropTorrent":"Drag the torrent file here or click here to open it"
 }

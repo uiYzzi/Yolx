@@ -62,6 +62,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "downloadPathInfo":
             MessageLookupByLibrary.simpleMessage("Set default download path"),
         "downloading": MessageLookupByLibrary.simpleMessage("Downloading"),
+        "dropTorrent": MessageLookupByLibrary.simpleMessage(
+            "Drag the torrent file here or click here to open it"),
         "exitApp": MessageLookupByLibrary.simpleMessage("Exit App"),
         "general": MessageLookupByLibrary.simpleMessage("General"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
