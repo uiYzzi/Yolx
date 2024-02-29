@@ -840,10 +840,10 @@ class S {
     );
   }
 
-  /// `Drag the torrent file here or click here to open it`
+  /// `Drag the torrent/metalink file here or click here to open it`
   String get dropTorrent {
     return Intl.message(
-      'Drag the torrent file here or click here to open it',
+      'Drag the torrent/metalink file here or click here to open it',
       name: 'dropTorrent',
       desc: '',
       args: [],

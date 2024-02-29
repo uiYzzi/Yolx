@@ -127,8 +127,13 @@ class _NewDownloadDialogState extends State<NewDownloadDialog> {
                       List<int> fileBytes =
                           File(_filePathNotifier.value).readAsBytesSync();
                       String base64Encoded = base64Encode(fileBytes);
-                      await Aria2Http.addTorrent(
-                          [base64Encoded, [], params], Global.rpcUrl);
+                      if (_filePathNotifier.value.endsWith('.torrent')) {
+                        await Aria2Http.addTorrent(
+                            [base64Encoded, [], params], Global.rpcUrl);
+                      } else {
+                        await Aria2Http.addMetalink(
+                            [base64Encoded, params], Global.rpcUrl);
+                      }
                     }
                     // ignore: use_build_context_synchronously
                     Navigator.pop(context, 'ok');
@@ -164,7 +169,9 @@ class _NewDownloadDialogState extends State<NewDownloadDialog> {
                       body: DropTarget(
                           onDragDone: (DropDoneDetails details) {
                             final filePath = details.files.last.path;
-                            if (filePath.endsWith('.torrent')) {
+                            if (filePath.endsWith('.torrent') ||
+                                filePath.endsWith('.meta4') ||
+                                filePath.endsWith('.metalink')) {
                               setState(() {
                                 _filePathNotifier.value = filePath;
                               });
@@ -172,8 +179,11 @@ class _NewDownloadDialogState extends State<NewDownloadDialog> {
                           },
                           child: GestureDetector(
                               onTap: () async {
-                                const xType =
-                                    XTypeGroup(extensions: ['torrent']);
+                                const xType = XTypeGroup(extensions: [
+                                  'torrent',
+                                  'meta4',
+                                  'metalink'
+                                ]);
                                 final XFile? file =
                                     await openFile(acceptedTypeGroups: [xType]);
 

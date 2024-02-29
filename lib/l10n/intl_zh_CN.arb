@@ -78,5 +78,5 @@
     "exitApp":"退出程序",
     "openDirectory":"打开目录",
     "openFile":"打开文件",
-    "dropTorrent":"拖动种子文件到此处或点击打开"
+    "dropTorrent":"拖动torrent/metalink文件到此或点击打开"
 }
