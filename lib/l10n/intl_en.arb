@@ -78,5 +78,7 @@
     "exitApp":"Exit App",
     "openDirectory":"Open Directory",
     "openFile":"Open File",
-    "dropTorrent":"Drag the torrent/metalink file here or click here to open it"
+    "dropTorrent":"Drag the torrent/metalink file here or click here to open it",
+    "lowestDownloadLimit":"Lowest Download Limit",
+    "lowestDownloadLimitInfo":"Close connection if download speed is lower than or equal to this value."
 }

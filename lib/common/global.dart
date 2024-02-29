@@ -22,6 +22,7 @@ class Global {
   static bool rememberWindowSize = true;
   static double maxOverallDownloadLimit = 0;
   static double maxDownloadLimit = 0;
+  static double lowestDownloadLimit = 0;
   static double maxOverallUploadLimit = 0;
   static double maxUploadLimit = 0;
   static String rpcUrl =
@@ -65,6 +66,7 @@ class Global {
     }
     maxOverallDownloadLimit = prefs.getDouble('MaxOverallDownloadLimit') ?? 0;
     maxDownloadLimit = prefs.getDouble('MaxDownloadLimit') ?? 0;
+    lowestDownloadLimit = prefs.getDouble('LowestDownloadLimit') ?? 0;
     maxOverallUploadLimit = prefs.getDouble('MaxOverallUploadLimit') ?? 0;
     maxUploadLimit = prefs.getDouble('MaxUploadLimit') ?? 0;
     classificationSaving = prefs.getBool('ClassificationSaving') ?? false;

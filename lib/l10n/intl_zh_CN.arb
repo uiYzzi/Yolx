@@ -78,5 +78,7 @@
     "exitApp":"退出程序",
     "openDirectory":"打开目录",
     "openFile":"打开文件",
-    "dropTorrent":"拖动torrent/metalink文件到此或点击打开"
+    "dropTorrent":"拖动torrent/metalink文件到此或点击打开",
+    "lowestDownloadLimit":"最小单任务下载速度",
+    "lowestDownloadLimitInfo":"当下载速度低于此选项设置的值时将会关闭连接"
 }

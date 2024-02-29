@@ -849,6 +849,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Lowest Download Limit`
+  String get lowestDownloadLimit {
+    return Intl.message(
+      'Lowest Download Limit',
+      name: 'lowestDownloadLimit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Close connection if download speed is lower than or equal to this value.`
+  String get lowestDownloadLimitInfo {
+    return Intl.message(
+      'Close connection if download speed is lower than or equal to this value.',
+      name: 'lowestDownloadLimitInfo',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

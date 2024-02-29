@@ -58,6 +58,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "exitApp": MessageLookupByLibrary.simpleMessage("退出程序"),
         "general": MessageLookupByLibrary.simpleMessage("常规"),
         "language": MessageLookupByLibrary.simpleMessage("语言"),
+        "lowestDownloadLimit":
+            MessageLookupByLibrary.simpleMessage("最小单任务下载速度"),
+        "lowestDownloadLimitInfo":
+            MessageLookupByLibrary.simpleMessage("当下载速度低于此选项设置的值时将会关闭连接"),
         "maxConcurrentDownloads":
             MessageLookupByLibrary.simpleMessage("最大同时下载数"),
         "maxConnectionPerServer":

@@ -23,7 +23,9 @@ class NewDownloadDialog extends StatefulWidget {
 class _NewDownloadDialogState extends State<NewDownloadDialog> {
   late TextEditingController _urlEditingController;
   late TextEditingController _downloadPathEditingController;
-  late TextEditingController _downloadLimitEditingController;
+  late TextEditingController _maxDownloadLimitEditingController;
+  late TextEditingController _lowestDownloadLimitEditingController;
+  late TextEditingController _maxUploadLimitEditingController;
   late TextEditingController _uaEditingController;
   late ValueNotifier<String> _filePathNotifier;
   late ValueNotifier<int> _currentIndexNotifier;
@@ -40,7 +42,9 @@ class _NewDownloadDialogState extends State<NewDownloadDialog> {
     _filePathNotifier.addListener(_updateButtonState);
     _downloadPathEditingController =
         TextEditingController(text: Global.downloadPath);
-    _downloadLimitEditingController = TextEditingController(text: "");
+    _maxDownloadLimitEditingController = TextEditingController(text: "");
+    _lowestDownloadLimitEditingController = TextEditingController(text: "");
+    _maxUploadLimitEditingController = TextEditingController(text: "");
   }
 
   void _updateButtonState() {
@@ -59,6 +63,9 @@ class _NewDownloadDialogState extends State<NewDownloadDialog> {
     _currentIndexNotifier.dispose();
     _filePathNotifier.dispose();
     _downloadPathEditingController.dispose();
+    _maxDownloadLimitEditingController.dispose();
+    _lowestDownloadLimitEditingController.dispose();
+    _maxUploadLimitEditingController.dispose();
     super.dispose();
   }
 
@@ -77,16 +84,25 @@ class _NewDownloadDialogState extends State<NewDownloadDialog> {
                 ? null
                 : () async {
                     var params = {};
-                    if (_downloadLimitEditingController.text.isNotEmpty) {
-                      params['max-download-limit'] =
-                          (double.parse(_downloadLimitEditingController.text) *
-                                  1048576)
-                              .toInt()
-                              .toString();
+                    if (_maxDownloadLimitEditingController.text.isNotEmpty) {
+                      params['max-download-limit'] = (double.parse(
+                                  _maxDownloadLimitEditingController.text) *
+                              1048576)
+                          .toInt()
+                          .toString();
                     }
                     if (_currentIndexNotifier.value == 0) {
                       if (_uaEditingController.text.isNotEmpty) {
                         params['user-agent'] = _uaEditingController.text;
+                      }
+                      if (_lowestDownloadLimitEditingController
+                          .text.isNotEmpty) {
+                        params['lowest-speed-limit'] = (double.parse(
+                                    _lowestDownloadLimitEditingController
+                                        .text) *
+                                1048576)
+                            .toInt()
+                            .toString();
                       }
                       String downloadPath;
                       var urls = _urlEditingController.text.split("\n");
@@ -131,6 +147,13 @@ class _NewDownloadDialogState extends State<NewDownloadDialog> {
                         }
                       }
                     } else if (_currentIndexNotifier.value == 1) {
+                      if (_maxUploadLimitEditingController.text.isNotEmpty) {
+                        params['max-upload-limit'] = (double.parse(
+                                    _maxUploadLimitEditingController.text) *
+                                1048576)
+                            .toInt()
+                            .toString();
+                      }
                       params["dir"] = _downloadPathEditingController.text;
                       List<int> fileBytes =
                           File(_filePathNotifier.value).readAsBytesSync();
@@ -247,13 +270,45 @@ class _NewDownloadDialogState extends State<NewDownloadDialog> {
                 Expanded(
                   child: TextBox(
                     placeholder: S.current.maxDownloadLimit,
-                    controller: _downloadLimitEditingController,
+                    controller: _maxDownloadLimitEditingController,
                   ),
                 ),
                 const Text("MB/s"),
               ],
             ),
+            if (_currentIndexNotifier.value == 1) ...[
+              const SizedBox(height: 2),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextBox(
+                      placeholder: S.current.maxUploadLimit,
+                      controller: _maxUploadLimitEditingController,
+                    ),
+                  ),
+                  const Text("MB/s"),
+                ],
+              ),
+            ],
             if (_currentIndexNotifier.value == 0) ...[
+              const SizedBox(height: 2),
+              Row(
+                children: [
+                  Expanded(
+                    child: Tooltip(
+                      message: S.of(context).lowestDownloadLimitInfo,
+                      displayHorizontally: true,
+                      useMousePosition: false,
+                      style: const TooltipThemeData(preferBelow: true),
+                      child: TextBox(
+                        placeholder: S.current.lowestDownloadLimit,
+                        controller: _lowestDownloadLimitEditingController,
+                      ),
+                    ),
+                  ),
+                  const Text("MB/s"),
+                ],
+              ),
               const SizedBox(height: 4),
               Text(S.of(context).UA),
               Row(

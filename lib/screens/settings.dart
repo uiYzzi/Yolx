@@ -29,6 +29,7 @@ class _SettingsState extends State<Settings> with PageMixin {
   late TextEditingController _downloadPathEditingController;
   late TextEditingController _maxOverallDownloadLimitEditingController;
   late TextEditingController _maxDownloadLimitEditingController;
+  late TextEditingController _lowestDownloadLimitEditingController;
   late TextEditingController _maxOverallUploadLimitEditingController;
   late TextEditingController _maxUploadLimitEditingController;
   late TextEditingController _compressedFilesEditingController;
@@ -57,6 +58,8 @@ class _SettingsState extends State<Settings> with PageMixin {
         TextEditingController(text: Global.maxOverallDownloadLimit.toString());
     _maxDownloadLimitEditingController =
         TextEditingController(text: Global.maxDownloadLimit.toString());
+    _lowestDownloadLimitEditingController =
+        TextEditingController(text: Global.lowestDownloadLimit.toString());
     _maxOverallUploadLimitEditingController =
         TextEditingController(text: Global.maxOverallUploadLimit.toString());
     _maxUploadLimitEditingController =
@@ -83,6 +86,7 @@ class _SettingsState extends State<Settings> with PageMixin {
     _bypassProxyEditingController.dispose();
     _maxOverallDownloadLimitEditingController.dispose();
     _maxDownloadLimitEditingController.dispose();
+    _lowestDownloadLimitEditingController.dispose();
     _maxOverallUploadLimitEditingController.dispose();
     _maxUploadLimitEditingController.dispose();
     _compressedFilesEditingController.dispose();
@@ -313,6 +317,26 @@ class _SettingsState extends State<Settings> with PageMixin {
                   ],
                 ),
                 spacer,
+                Text(S.of(context).lowestDownloadLimit),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Tooltip(
+                        message: S.of(context).lowestDownloadLimitInfo,
+                        displayHorizontally: true,
+                        useMousePosition: false,
+                        style: const TooltipThemeData(preferBelow: true),
+                        child: TextBox(
+                          controller: _lowestDownloadLimitEditingController,
+                          expands: false,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    const Text("MB/s"),
+                  ],
+                ),
+                spacer,
                 Text(S.of(context).maxOverallUploadLimit),
                 Row(
                   children: [
@@ -357,6 +381,11 @@ class _SettingsState extends State<Settings> with PageMixin {
                             Global.maxDownloadLimit = double.parse(
                                 _maxDownloadLimitEditingController.text);
                           }
+                          if (_lowestDownloadLimitEditingController
+                              .text.isNotEmpty) {
+                            Global.lowestDownloadLimit = double.parse(
+                                _lowestDownloadLimitEditingController.text);
+                          }
                           if (_maxOverallUploadLimitEditingController
                               .text.isNotEmpty) {
                             Global.maxOverallUploadLimit = double.parse(
@@ -372,6 +401,8 @@ class _SettingsState extends State<Settings> with PageMixin {
                             Global.maxOverallDownloadLimit);
                         await Global.prefs.setDouble(
                             'MaxDownloadLimit', Global.maxDownloadLimit);
+                        await Global.prefs.setDouble(
+                            'LowestDownloadLimit', Global.lowestDownloadLimit);
                         await Global.prefs.setDouble('MaxOverallUploadLimit',
                             Global.maxOverallUploadLimit);
                         await Global.prefs
@@ -383,6 +414,10 @@ class _SettingsState extends State<Settings> with PageMixin {
                                   .toString(),
                           'max-download-limit':
                               (Global.maxDownloadLimit * 1048576)
+                                  .toInt()
+                                  .toString(),
+                          'lowest-speed-limit':
+                              (Global.lowestDownloadLimit * 1048576)
                                   .toInt()
                                   .toString(),
                           'max-overall-upload-limit':

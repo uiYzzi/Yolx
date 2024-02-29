@@ -67,6 +67,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "exitApp": MessageLookupByLibrary.simpleMessage("Exit App"),
         "general": MessageLookupByLibrary.simpleMessage("General"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
+        "lowestDownloadLimit":
+            MessageLookupByLibrary.simpleMessage("Lowest Download Limit"),
+        "lowestDownloadLimitInfo": MessageLookupByLibrary.simpleMessage(
+            "Close connection if download speed is lower than or equal to this value."),
         "maxConcurrentDownloads":
             MessageLookupByLibrary.simpleMessage("Max Concurrent Downloads"),
         "maxConnectionPerServer":
