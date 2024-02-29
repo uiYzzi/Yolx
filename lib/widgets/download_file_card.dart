@@ -93,9 +93,15 @@ class DownloadFileCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(path.basename(downloadFile.path),
-                  style: FluentTheme.of(context).typography.body),
-              const Spacer(),
+              Expanded(
+                child: Text(
+                  path.basename(downloadFile.path),
+                  style: FluentTheme.of(context).typography.body,
+                  softWrap: false,
+                  maxLines: 1,
+                  overflow: TextOverflow.fade,
+                ),
+              ),
               if (downloadFile.status == 'paused' ||
                   downloadFile.status == 'waiting') ...[
                 Tooltip(
