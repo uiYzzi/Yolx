@@ -24,6 +24,7 @@ class _NewDownloadDialogState extends State<NewDownloadDialog> {
   late TextEditingController _urlEditingController;
   late TextEditingController _downloadPathEditingController;
   late TextEditingController _downloadLimitEditingController;
+  late TextEditingController _uaEditingController;
   late ValueNotifier<String> _filePathNotifier;
   late ValueNotifier<int> _currentIndexNotifier;
   bool _isFilledButtonEnabled = false;
@@ -31,6 +32,7 @@ class _NewDownloadDialogState extends State<NewDownloadDialog> {
   void initState() {
     super.initState();
     _urlEditingController = TextEditingController(text: "");
+    _uaEditingController = TextEditingController(text: Global.ua);
     _urlEditingController.addListener(_updateButtonState);
     _currentIndexNotifier = ValueNotifier<int>(0);
     _currentIndexNotifier.addListener(_updateButtonState);
@@ -53,6 +55,9 @@ class _NewDownloadDialogState extends State<NewDownloadDialog> {
   @override
   void dispose() {
     _urlEditingController.dispose();
+    _uaEditingController.dispose();
+    _currentIndexNotifier.dispose();
+    _filePathNotifier.dispose();
     _downloadPathEditingController.dispose();
     super.dispose();
   }
@@ -80,6 +85,9 @@ class _NewDownloadDialogState extends State<NewDownloadDialog> {
                               .toString();
                     }
                     if (_currentIndexNotifier.value == 0) {
+                      if (_uaEditingController.text.isNotEmpty) {
+                        params['user-agent'] = _uaEditingController.text;
+                      }
                       String downloadPath;
                       var urls = _urlEditingController.text.split("\n");
                       if (Global.classificationSaving &&
@@ -245,6 +253,20 @@ class _NewDownloadDialogState extends State<NewDownloadDialog> {
                 const Text("MB/s"),
               ],
             ),
+            if (_currentIndexNotifier.value == 0) ...[
+              const SizedBox(height: 4),
+              Text(S.of(context).UA),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextBox(
+                      controller: _uaEditingController,
+                      maxLines: null,
+                    ),
+                  ),
+                ],
+              ),
+            ]
           ],
         ));
   }
