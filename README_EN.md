@@ -58,7 +58,7 @@ sudo apt-get install clang cmake git ninja-build pkg-config libgtk-3-dev liblzma
 
 4. Enter the following command to install packaging dependencies:
 ```
-sudo apt install rpm patchelf locate libfuse2
+sudo apt install rpm patchelf locate libfuse2 fuse
 wget -O appimagetool "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
 chmod +x appimagetool
 sudo mv appimagetool /usr/local/bin/
