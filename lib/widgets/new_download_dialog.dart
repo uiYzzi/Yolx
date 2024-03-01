@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/services.dart';
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:fluent_ui/fluent_ui.dart';
@@ -45,6 +46,16 @@ class _NewDownloadDialogState extends State<NewDownloadDialog> {
     _maxDownloadLimitEditingController = TextEditingController(text: "");
     _lowestDownloadLimitEditingController = TextEditingController(text: "");
     _maxUploadLimitEditingController = TextEditingController(text: "");
+    _getUrlFromClipboard();
+  }
+
+  void _getUrlFromClipboard() async {
+    var clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
+    if (Uri.parse(clipboardData!.text!).hasScheme) {
+      setState(() {
+        _urlEditingController.text = clipboardData.text!;
+      });
+    }
   }
 
   void _updateButtonState() {
