@@ -51,7 +51,7 @@ class _NewDownloadDialogState extends State<NewDownloadDialog> {
 
   void _getUrlFromClipboard() async {
     var clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
-    if (Uri.parse(clipboardData!.text!).hasScheme) {
+    if (clipboardData != null && Uri.parse(clipboardData.text!).hasScheme) {
       setState(() {
         _urlEditingController.text = clipboardData.text!;
       });
