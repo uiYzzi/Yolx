@@ -27,3 +27,6 @@ categories:
   - Media
 
 startup_notify: true
+
+dependencies:
+  - libappindicator3-1
