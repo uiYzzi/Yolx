@@ -80,5 +80,12 @@
     "openFile":"打开文件",
     "dropTorrent":"拖动torrent/metalink文件到此或点击打开",
     "lowestDownloadLimit":"最小单任务下载速度",
-    "lowestDownloadLimitInfo":"当下载速度低于此选项设置的值时将会关闭连接"
+    "lowestDownloadLimitInfo":"当下载速度低于此选项设置的值时将会关闭连接",
+    "trackerServers":"Tracker 服务器",
+    "trackerServersList":"Tracker 服务器列表",
+    "trackerServersListInfo":"Tracker 服务器，一行一个",
+    "trackerServersInfo":"设置Bt Tracker服务器地址",
+    "subscriptionAddress":"订阅地址",
+    "subscriptionAddressInfo":"请以英文逗号(,)分隔链接",
+    "autoUpdateTrackerList":"每天自动更新 Tracker 服务器列表"
 }

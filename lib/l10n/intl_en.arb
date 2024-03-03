@@ -80,5 +80,12 @@
     "openFile":"Open File",
     "dropTorrent":"Drag the torrent/metalink file here or click here to open it",
     "lowestDownloadLimit":"Lowest Download Limit",
-    "lowestDownloadLimitInfo":"Close connection if download speed is lower than or equal to this value."
+    "lowestDownloadLimitInfo":"Close connection if download speed is lower than or equal to this value.",
+    "trackerServers":"Tracker Servers",
+    "trackerServersList":"Tracker Servers List",
+    "trackerServersListInfo":"Tracker servers,one per line",
+    "trackerServersInfo":"Set the Bt Tracker server address",
+    "subscriptionAddress":"Subscription Address",
+    "subscriptionAddressInfo":"Separate links with commas(,)",
+    "autoUpdateTrackerList":"Update tracker list every day automatically"
 }

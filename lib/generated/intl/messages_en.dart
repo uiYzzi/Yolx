@@ -33,6 +33,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "URLTextBox": MessageLookupByLibrary.simpleMessage(
             "One task url per line (supports magnet and thunder://)"),
         "advanced": MessageLookupByLibrary.simpleMessage("Advanced"),
+        "autoUpdateTrackerList": MessageLookupByLibrary.simpleMessage(
+            "Update tracker list every day automatically"),
         "basic": MessageLookupByLibrary.simpleMessage("Basic"),
         "bypassProxy": MessageLookupByLibrary.simpleMessage(
             "Bypass proxy settings for these Hosts and Domains,a comma separated"),
@@ -141,6 +143,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "Restrict download or upload speed"),
         "stopped": MessageLookupByLibrary.simpleMessage("Stopped"),
         "submit": MessageLookupByLibrary.simpleMessage("Submit"),
+        "subscriptionAddress":
+            MessageLookupByLibrary.simpleMessage("Subscription Address"),
+        "subscriptionAddressInfo": MessageLookupByLibrary.simpleMessage(
+            "Separate links with commas(,)"),
         "taskManagement":
             MessageLookupByLibrary.simpleMessage("Task Management"),
         "taskManagementInfo": MessageLookupByLibrary.simpleMessage(
@@ -148,6 +154,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "theme": MessageLookupByLibrary.simpleMessage("Theme"),
         "topping": MessageLookupByLibrary.simpleMessage("Topping"),
         "torrent": MessageLookupByLibrary.simpleMessage("Torrent"),
+        "trackerServers":
+            MessageLookupByLibrary.simpleMessage("Tracker Servers"),
+        "trackerServersInfo": MessageLookupByLibrary.simpleMessage(
+            "Set the Bt Tracker server address"),
+        "trackerServersList":
+            MessageLookupByLibrary.simpleMessage("Tracker Servers List"),
+        "trackerServersListInfo": MessageLookupByLibrary.simpleMessage(
+            "Tracker servers,one per line"),
         "videos": MessageLookupByLibrary.simpleMessage("Videos"),
         "waiting": MessageLookupByLibrary.simpleMessage("Waiting"),
         "yes": MessageLookupByLibrary.simpleMessage("Yes")

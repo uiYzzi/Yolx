@@ -13,6 +13,8 @@ const String defaultProgramsRule = 'exe,msi';
 const String defaultVideosRule =
     'avi,mpg,mpe,mpeg,asf,wmv,mov,qt,rm,mp4,flv,m4v,webm,ogv,ogg,mkv,ts,tsv';
 const String rpcURLValue = 'http://127.0.0.1:{port}/jsonrpc';
+const String defaultTrackerSubscriptionAddress =
+    'https://cdn.jsdelivr.net/gh/ngosang/trackerslist@master/trackers_all.txt,https://cf.trackerslist.com/all.txt';
 const List<String> sizeUnits = [
   'B',
   'KB',

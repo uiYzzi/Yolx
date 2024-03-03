@@ -9,6 +9,7 @@ import 'package:yolx/generated/l10n.dart';
 import 'package:yolx/utils/aria2_manager.dart';
 // ignore: library_prefixes
 import 'package:yolx/utils/ariar2_http_utils.dart' as Aria2Http;
+import 'package:yolx/utils/tracker_http_utils.dart';
 import 'package:yolx/widgets/settings_card.dart';
 import '../theme.dart';
 import '../widgets/page.dart';
@@ -37,6 +38,9 @@ class _SettingsState extends State<Settings> with PageMixin {
   late TextEditingController _musicEditingController;
   late TextEditingController _programsEditingController;
   late TextEditingController _videosEditingController;
+  late TextEditingController _trackerSubscriptionAddressEditingController;
+  late TextEditingController _trackerServersListEditingController;
+  late ValueNotifier<bool> _isAutoUpdateTrackerListNotifier;
   late int _maxConcurrentDownloads;
   late int _maxConnectionPerServer;
   late bool _rememberWindowSize;
@@ -44,6 +48,12 @@ class _SettingsState extends State<Settings> with PageMixin {
   @override
   void initState() {
     super.initState();
+    _isAutoUpdateTrackerListNotifier =
+        ValueNotifier<bool>(Global.isAutoUpdateTrackerList);
+    _trackerSubscriptionAddressEditingController =
+        TextEditingController(text: Global.trackerSubscriptionAddress);
+    _trackerServersListEditingController =
+        TextEditingController(text: Global.trackerServersList);
     _rpcPortEditingController =
         TextEditingController(text: Global.rpcPort.toString());
     _rpcSecretEditingController = TextEditingController(text: Global.rpcSecret);
@@ -79,6 +89,9 @@ class _SettingsState extends State<Settings> with PageMixin {
 
   @override
   void dispose() {
+    _isAutoUpdateTrackerListNotifier.dispose();
+    _trackerServersListEditingController.dispose();
+    _trackerSubscriptionAddressEditingController.dispose();
     _rpcPortEditingController.dispose();
     _rpcSecretEditingController.dispose();
     _uaEditingController.dispose();
@@ -739,6 +752,7 @@ class _SettingsState extends State<Settings> with PageMixin {
                       child: Text(S.of(context).saveApply),
                       onPressed: () async {
                         Global.ua = _uaEditingController.text;
+                        await Global.prefs.setString('UA', Global.ua);
                         Aria2Http.changeGlobalOption(
                             {'user-agent': Global.ua}, Global.rpcUrl);
                         // ignore: use_build_context_synchronously
@@ -834,6 +848,94 @@ class _SettingsState extends State<Settings> with PageMixin {
                                 .setString("VideosRule", Global.videosRule);
                           }
                         });
+                        // ignore: use_build_context_synchronously
+                        await displayInfoBar(context,
+                            builder: (context, close) {
+                          return InfoBar(
+                            title: Text(S.of(context).savedSuccessfully),
+                            action: IconButton(
+                              icon: const Icon(FluentIcons.clear),
+                              onPressed: close,
+                            ),
+                            severity: InfoBarSeverity.success,
+                          );
+                        });
+                      },
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+          spacer,
+          SettingsCard(
+            title: S.of(context).trackerServers,
+            subtitle: S.of(context).trackerServersInfo,
+            isExpander: true,
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(S.of(context).subscriptionAddress),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextBox(
+                        placeholder: S.of(context).subscriptionAddressInfo,
+                        controller:
+                            _trackerSubscriptionAddressEditingController,
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(FluentIcons.refresh),
+                      onPressed: () async {
+                        _trackerServersListEditingController.text =
+                            await getTrackerServersList(
+                                _trackerSubscriptionAddressEditingController
+                                    .text);
+                      },
+                    ),
+                  ],
+                ),
+                spacer,
+                Text(S.of(context).trackerServersList),
+                TextBox(
+                  placeholder: S.of(context).trackerServersListInfo,
+                  controller: _trackerServersListEditingController,
+                  maxLines: 5,
+                ),
+                spacer,
+                Checkbox(
+                  content: Text(S.of(context).autoUpdateTrackerList),
+                  checked: _isAutoUpdateTrackerListNotifier.value,
+                  onChanged: (newValue) {
+                    setState(() {
+                      _isAutoUpdateTrackerListNotifier.value = newValue!;
+                    });
+                  },
+                ),
+                spacer,
+                Row(
+                  children: [
+                    FilledButton(
+                      child: Text(S.of(context).saveApply),
+                      onPressed: () async {
+                        Global.trackerSubscriptionAddress =
+                            _trackerSubscriptionAddressEditingController.text;
+                        Global.trackerServersList =
+                            _trackerServersListEditingController.text;
+                        Global.isAutoUpdateTrackerList =
+                            _isAutoUpdateTrackerListNotifier.value;
+                        await Global.prefs.setString(
+                            'TrackerSubscriptionAddress',
+                            Global.trackerSubscriptionAddress);
+                        await Global.prefs.setString(
+                            'TrackerServersList', Global.trackerServersList);
+                        await Global.prefs.setBool('IsAutoUpdateTrackerList',
+                            Global.isAutoUpdateTrackerList);
+                        Aria2Http.changeGlobalOption({
+                          'bt-tracker':
+                              Global.trackerServersList.replaceAll('\n', ',')
+                        }, Global.rpcUrl);
                         // ignore: use_build_context_synchronously
                         await displayInfoBar(context,
                             builder: (context, close) {

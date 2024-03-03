@@ -17,6 +17,8 @@ class Global {
   static String proxy = '';
   static String bypassProxy = '';
   static String downloadPath = '';
+  static String trackerSubscriptionAddress = defaultTrackerSubscriptionAddress;
+  static String trackerServersList = '';
   static double windowWidth = defaultWindowWidth;
   static double windowHeight = defaultWindowHeight;
   static bool rememberWindowSize = true;
@@ -28,6 +30,7 @@ class Global {
   static String rpcUrl =
       rpcURLValue.replaceAll('{port}', Global.rpcPort.toString());
   static bool classificationSaving = false;
+  static bool isAutoUpdateTrackerList = true;
   static String compressedFilesRule = defaultCompressedFilesRule;
   static String documentsRule = defaultDocumentsRule;
   static String musicRule = defaultMusicRule;
@@ -60,6 +63,7 @@ class Global {
     Directory? dir = await getDownloadsDirectory();
     downloadPath = (prefs.getString('DownloadPath') ?? dir?.path)!;
     rememberWindowSize = prefs.getBool('RememberWindowSize') ?? true;
+    isAutoUpdateTrackerList = prefs.getBool('IsAutoUpdateTrackerList') ?? true;
     if (rememberWindowSize) {
       windowWidth = prefs.getDouble('WindowWidth') ?? defaultWindowWidth;
       windowHeight = prefs.getDouble('WindowHeight') ?? defaultWindowHeight;
@@ -89,5 +93,9 @@ class Global {
     if (maxConnectionPerServer > 16) {
       maxConnectionPerServer = 16;
     }
+    trackerSubscriptionAddress =
+        prefs.getString('TrackerSubscriptionAddress') ??
+            defaultTrackerSubscriptionAddress;
+    trackerServersList = prefs.getString('TrackerServersList') ?? '';
   }
 }

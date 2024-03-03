@@ -869,6 +869,76 @@ class S {
       args: [],
     );
   }
+
+  /// `Tracker Servers`
+  String get trackerServers {
+    return Intl.message(
+      'Tracker Servers',
+      name: 'trackerServers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tracker Servers List`
+  String get trackerServersList {
+    return Intl.message(
+      'Tracker Servers List',
+      name: 'trackerServersList',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tracker servers,one per line`
+  String get trackerServersListInfo {
+    return Intl.message(
+      'Tracker servers,one per line',
+      name: 'trackerServersListInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Set the Bt Tracker server address`
+  String get trackerServersInfo {
+    return Intl.message(
+      'Set the Bt Tracker server address',
+      name: 'trackerServersInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Subscription Address`
+  String get subscriptionAddress {
+    return Intl.message(
+      'Subscription Address',
+      name: 'subscriptionAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Separate links with commas(,)`
+  String get subscriptionAddressInfo {
+    return Intl.message(
+      'Separate links with commas(,)',
+      name: 'subscriptionAddressInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update tracker list every day automatically`
+  String get autoUpdateTrackerList {
+    return Intl.message(
+      'Update tracker list every day automatically',
+      name: 'autoUpdateTrackerList',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

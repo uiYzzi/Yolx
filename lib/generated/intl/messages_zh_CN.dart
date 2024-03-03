@@ -31,6 +31,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "URLTextBox": MessageLookupByLibrary.simpleMessage(
             "添加多个下载链接时，请确保每行只有一个链接（支持磁力链和thunder://）"),
         "advanced": MessageLookupByLibrary.simpleMessage("先进的"),
+        "autoUpdateTrackerList":
+            MessageLookupByLibrary.simpleMessage("每天自动更新 Tracker 服务器列表"),
         "basic": MessageLookupByLibrary.simpleMessage("基础"),
         "bypassProxy":
             MessageLookupByLibrary.simpleMessage("绕过这些主机和域的代理设置，多个使用逗号分隔"),
@@ -115,11 +117,21 @@ class MessageLookup extends MessageLookupByLibrary {
         "speedLimitInfo": MessageLookupByLibrary.simpleMessage("限制下载或上传速度"),
         "stopped": MessageLookupByLibrary.simpleMessage("已停止"),
         "submit": MessageLookupByLibrary.simpleMessage("提交"),
+        "subscriptionAddress": MessageLookupByLibrary.simpleMessage("订阅地址"),
+        "subscriptionAddressInfo":
+            MessageLookupByLibrary.simpleMessage("请以英文逗号(,)分隔链接"),
         "taskManagement": MessageLookupByLibrary.simpleMessage("任务管理"),
         "taskManagementInfo": MessageLookupByLibrary.simpleMessage("下载任务相关设置项"),
         "theme": MessageLookupByLibrary.simpleMessage("主题"),
         "topping": MessageLookupByLibrary.simpleMessage("优先下载"),
         "torrent": MessageLookupByLibrary.simpleMessage("种子任务"),
+        "trackerServers": MessageLookupByLibrary.simpleMessage("Tracker 服务器"),
+        "trackerServersInfo":
+            MessageLookupByLibrary.simpleMessage("设置Bt Tracker服务器地址"),
+        "trackerServersList":
+            MessageLookupByLibrary.simpleMessage("Tracker 服务器列表"),
+        "trackerServersListInfo":
+            MessageLookupByLibrary.simpleMessage("Tracker 服务器，一行一个"),
         "videos": MessageLookupByLibrary.simpleMessage("视频"),
         "waiting": MessageLookupByLibrary.simpleMessage("等待中"),
         "yes": MessageLookupByLibrary.simpleMessage("是的")
