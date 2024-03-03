@@ -93,6 +93,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Navigation Mode"),
         "newDownload": MessageLookupByLibrary.simpleMessage("New"),
         "no": MessageLookupByLibrary.simpleMessage("No"),
+        "noTaskDownloaded":
+            MessageLookupByLibrary.simpleMessage("There are no current tasks"),
         "openDirectory": MessageLookupByLibrary.simpleMessage("Open Directory"),
         "openFile": MessageLookupByLibrary.simpleMessage("Open File"),
         "path": MessageLookupByLibrary.simpleMessage("Path"),

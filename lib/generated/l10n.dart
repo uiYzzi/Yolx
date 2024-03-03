@@ -939,6 +939,16 @@ class S {
       args: [],
     );
   }
+
+  /// `There are no current tasks`
+  String get noTaskDownloaded {
+    return Intl.message(
+      'There are no current tasks',
+      name: 'noTaskDownloaded',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

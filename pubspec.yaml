@@ -30,6 +30,7 @@ dependencies:
   tray_manager: ^0.2.1
   desktop_drop: ^0.4.4
   dotted_decoration: ^2.0.0
+  flutter_svg: ^2.0.10+1
 
 dev_dependencies:
   flutter_test:

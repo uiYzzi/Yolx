@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:yolx/common/global.dart';
 import 'package:yolx/generated/l10n.dart';
@@ -84,7 +85,7 @@ class _DownloadingPageState extends State<DownloadingPage> with PageMixin {
     return Padding(
       padding: const EdgeInsets.all(24.0),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Row(
             children: [
@@ -130,16 +131,26 @@ class _DownloadingPageState extends State<DownloadingPage> with PageMixin {
             ],
           ),
           const SizedBox(height: 20.0),
-          Expanded(
-              child: ListView.builder(
-            itemCount: downloadList.length,
-            itemBuilder: (context, index) {
-              final contact = downloadList[index];
-              return DownloadFileCard(
-                downloadFile: contact,
-              );
-            },
-          )),
+          if (downloadList.isNotEmpty) ...[
+            Expanded(
+                child: ListView.builder(
+              itemCount: downloadList.length,
+              itemBuilder: (context, index) {
+                final contact = downloadList[index];
+                return DownloadFileCard(
+                  downloadFile: contact,
+                );
+              },
+            )),
+          ] else ...[
+            Expanded(
+                child: SvgPicture.asset(
+              'assets/no_data.svg',
+              width: 260,
+              semanticsLabel: 'My Icon',
+            )),
+            Text(S.of(context).noTaskDownloaded)
+          ]
         ],
       ),
     );

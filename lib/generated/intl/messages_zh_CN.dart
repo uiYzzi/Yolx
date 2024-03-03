@@ -80,6 +80,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "navigationMode": MessageLookupByLibrary.simpleMessage("导航模式"),
         "newDownload": MessageLookupByLibrary.simpleMessage("新建"),
         "no": MessageLookupByLibrary.simpleMessage("不是"),
+        "noTaskDownloaded": MessageLookupByLibrary.simpleMessage("当前没有下载任务"),
         "openDirectory": MessageLookupByLibrary.simpleMessage("打开目录"),
         "openFile": MessageLookupByLibrary.simpleMessage("打开文件"),
         "path": MessageLookupByLibrary.simpleMessage("存储路径"),

@@ -87,5 +87,6 @@
     "trackerServersInfo":"Set the Bt Tracker server address",
     "subscriptionAddress":"Subscription Address",
     "subscriptionAddressInfo":"Separate links with commas(,)",
-    "autoUpdateTrackerList":"Update tracker list every day automatically"
+    "autoUpdateTrackerList":"Update tracker list every day automatically",
+    "noTaskDownloaded":"There are no current tasks"
 }

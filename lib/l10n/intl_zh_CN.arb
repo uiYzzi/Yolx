@@ -87,5 +87,6 @@
     "trackerServersInfo":"设置Bt Tracker服务器地址",
     "subscriptionAddress":"订阅地址",
     "subscriptionAddressInfo":"请以英文逗号(,)分隔链接",
-    "autoUpdateTrackerList":"每天自动更新 Tracker 服务器列表"
+    "autoUpdateTrackerList":"每天自动更新 Tracker 服务器列表",
+    "noTaskDownloaded":"当前没有下载任务"
 }
