@@ -251,6 +251,7 @@ class _MyHomePageState extends State<MyHomePage>
   @override
   void onTrayIconMouseDown() {
     windowManager.show();
+    windowManager.focus();
   }
 
   @override
@@ -262,8 +263,10 @@ class _MyHomePageState extends State<MyHomePage>
   void onTrayMenuItemClick(MenuItem menuItem) {
     if (menuItem.key == 'show_window') {
       windowManager.show();
+      windowManager.focus();
     } else if (menuItem.key == 'exit_app') {
       windowManager.show();
+      windowManager.focus();
       showExitDialog();
     }
   }
