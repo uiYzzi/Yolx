@@ -30,3 +30,4 @@ startup_notify: true
 
 dependencies:
   - libappindicator3-1
+  - libayatana-appindicator3-1
