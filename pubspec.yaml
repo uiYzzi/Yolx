@@ -43,6 +43,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+    - lib/resources/
 
 flutter_native_splash:
   color: "#000000"

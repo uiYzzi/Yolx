@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:yolx/utils/common_utils.dart';
 
 class SettingsCard extends StatelessWidget {
   final String title;
@@ -26,20 +27,40 @@ class SettingsCard extends StatelessWidget {
         child: Row(
           children: [
             const SizedBox(width: 4),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
+            if (isDesktop || isTablet(MediaQuery.of(context))) ...[
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(subtitle),
+                  ],
                 ),
-                Text(subtitle),
-              ],
-            ),
-            const Spacer(),
-            content,
+              ),
+              const Spacer(),
+              content,
+            ] else ...[
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(subtitle),
+                    content,
+                  ],
+                ),
+              ),
+            ]
           ],
         ),
       );

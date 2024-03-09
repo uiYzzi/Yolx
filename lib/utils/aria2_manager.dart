@@ -7,14 +7,12 @@ import 'package:yolx/common/global.dart';
 import 'package:yolx/utils/common_utils.dart';
 import 'package:yolx/utils/file_utils.dart';
 import 'package:yolx/utils/log.dart';
+import 'package:yolx/utils/native_channel_utils.dart';
 import 'ariar2_http_utils.dart' as Aria2Http;
 
 class Aria2Manager {
   late Future<Process> cmdProcess;
   late int processPid = 0;
-  getAria2rootPath() async {
-    return await getPlugAssetsDir('aria2');
-  }
 
   getAria2ExePath() async {
     if (Platform.isWindows || Platform.isLinux) {
@@ -24,20 +22,32 @@ class Aria2Manager {
         ariaName = 'yolx_aria2c.exe';
       }
       return '$dir/$ariaName';
+    } else if (Platform.isAndroid) {
+      final libDir = await nativeLibraryDir();
+      var libPath = '$libDir/libaria2c.so';
+      File file = File(libPath);
+      if (!file.existsSync()) {
+        Log.e("aria2 not found:$libPath");
+      }
+      return libPath;
     }
   }
 
   getAria2ConfPath() async {
-    if (Platform.isWindows || Platform.isLinux) {
-      String dir = await getPlugAssetsDir('aria2');
-      String confName = 'yolx_aria2.conf';
-      return '$dir${Global.pathSeparator}$confName';
-    }
+    String dir = await getPlugAssetsDir('aria2');
+    String confName = 'yolx_aria2.conf';
+    return '$dir${Global.pathSeparator}$confName';
   }
 
   getAria2Session() async {
     Directory appDocumentsCacheDirectory = await getApplicationCacheDirectory();
     return '${appDocumentsCacheDirectory.path}${Global.pathSeparator}download.session';
+  }
+
+  initAria2Conf() async {
+    String confPath = await getAria2ConfPath();
+    List<String> aria2ConfLines = await readDefAria2Conf();
+    writeLinesToFile(confPath, aria2ConfLines.join("\n"));
   }
 
   void startServer() async {
@@ -110,7 +120,7 @@ class Aria2Manager {
       final processResult =
           Process.runSync('taskkill', ['/F', '/T', '/IM', 'yolx_aria2c.exe']);
       killSuccess = processResult.exitCode == 0;
-    } else if (Platform.isLinux) {
+    } else if (Platform.isLinux || Platform.isAndroid) {
       final processResult = Process.runSync('killall', ['yolx_aria2c']);
       killSuccess = processResult.exitCode == 0;
     }

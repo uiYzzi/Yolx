@@ -9,6 +9,7 @@ import 'package:yolx/generated/l10n.dart';
 import 'package:yolx/utils/aria2_manager.dart';
 // ignore: library_prefixes
 import 'package:yolx/utils/ariar2_http_utils.dart' as Aria2Http;
+import 'package:yolx/utils/common_utils.dart';
 import 'package:yolx/utils/tracker_http_utils.dart';
 import 'package:yolx/widgets/settings_card.dart';
 import '../theme.dart';
@@ -123,6 +124,9 @@ class _SettingsState extends State<Settings> with PageMixin {
         context.findAncestorWidgetOfExactType<FluentApp>()?.supportedLocales;
     var currentLocale = appTheme.locale ?? Localizations.maybeLocaleOf(context);
     return ScaffoldPage.scrollable(
+        padding: EdgeInsets.all((MediaQuery.sizeOf(context).width < 640.0)
+            ? 12.0
+            : kPageDefaultVerticalPadding),
         header: PageHeader(title: Text(S.of(context).settings)),
         children: [
           Text(
@@ -197,32 +201,34 @@ class _SettingsState extends State<Settings> with PageMixin {
             ),
           ),
           spacer,
-          SettingsCard(
-            title: S.of(context).navigationMode,
-            subtitle: S.of(context).setsTheDisplayModeOfTheNavigationPane,
-            isExpander: true,
-            content: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: List.generate(PaneDisplayMode.values.length, (index) {
-                final mode = PaneDisplayMode.values[index];
-                return Padding(
-                  padding: const EdgeInsetsDirectional.only(bottom: 8.0),
-                  child: RadioButton(
-                    checked: appTheme.displayMode == mode,
-                    onChanged: (value) async {
-                      if (value) appTheme.displayMode = mode;
+          if (isDesktop || isTablet(MediaQuery.of(context))) ...[
+            SettingsCard(
+              title: S.of(context).navigationMode,
+              subtitle: S.of(context).setsTheDisplayModeOfTheNavigationPane,
+              isExpander: true,
+              content: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: List.generate(PaneDisplayMode.values.length, (index) {
+                  final mode = PaneDisplayMode.values[index];
+                  return Padding(
+                    padding: const EdgeInsetsDirectional.only(bottom: 8.0),
+                    child: RadioButton(
+                      checked: appTheme.displayMode == mode,
+                      onChanged: (value) async {
+                        if (value) appTheme.displayMode = mode;
 
-                      await Global.prefs.setInt('NavigationMode', mode.index);
-                    },
-                    content: Text(
-                      mode.toString().replaceAll('PaneDisplayMode.', ''),
+                        await Global.prefs.setInt('NavigationMode', mode.index);
+                      },
+                      content: Text(
+                        mode.toString().replaceAll('PaneDisplayMode.', ''),
+                      ),
                     ),
-                  ),
-                );
-              }),
+                  );
+                }),
+              ),
             ),
-          ),
-          spacer,
+            spacer,
+          ],
           SettingsCard(
             title: S.of(context).navigationIndicator,
             subtitle: S.of(context).setsTheStyleOfTheNavigationIndicator,

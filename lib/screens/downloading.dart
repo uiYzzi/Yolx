@@ -83,7 +83,9 @@ class _DownloadingPageState extends State<DownloadingPage> with PageMixin {
     assert(debugCheckHasFluentTheme(context));
     var downloadList = Provider.of<DownloadListModel>(context).downloadingList;
     return Padding(
-      padding: const EdgeInsets.all(24.0),
+      padding: EdgeInsets.all((MediaQuery.sizeOf(context).width < 640.0)
+          ? 12.0
+          : kPageDefaultVerticalPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

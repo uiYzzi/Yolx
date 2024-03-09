@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:yolx/common/global.dart';
 import 'package:yolx/generated/l10n.dart';
@@ -7,6 +8,26 @@ import 'package:yolx/generated/l10n.dart';
 Future<File> getLocalFile(String filename) async {
   final directory = await getApplicationCacheDirectory();
   return File('${directory.path}${Global.pathSeparator}$filename');
+}
+
+Future<List<String>> readDefAria2Conf() async {
+  String text = await rootBundle.loadString("lib/resources/yolx_aria2.conf");
+  return text.split('\n');
+}
+
+writeLinesToFile(String path, String text) {
+  File file = File(path);
+  if (!file.existsSync()) {
+    file.createSync(recursive: true);
+  }
+  file.writeAsStringSync(text, flush: true);
+}
+
+createDir(String dir) {
+  Directory directory = Directory(dir);
+  if (!directory.existsSync()) {
+    directory.create(recursive: true);
+  }
 }
 
 getPlugAssetsDir(String plugName) async {
@@ -18,6 +39,11 @@ getPlugAssetsDir(String plugName) async {
     // String basename = path.basename(exePath);
     pathList[pathList.length - 1] = plugDir;
     return pathList.join(Global.pathSeparator);
+  } else if (Platform.isAndroid) {
+    Directory? cacheDir = await getExternalStorageDirectory();
+    String plugDir = '${cacheDir?.path}${Global.pathSeparator}$plugName';
+    createDir(plugDir);
+    return plugDir;
   }
   return null;
 }

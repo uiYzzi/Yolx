@@ -61,7 +61,9 @@ class _StoppedPageState extends State<StoppedPage> with PageMixin {
     var downloadListModel = Provider.of<DownloadListModel>(context);
     var downloadList = downloadListModel.stoppedList;
     return Padding(
-      padding: const EdgeInsets.all(24.0),
+      padding: EdgeInsets.all((MediaQuery.sizeOf(context).width < 640.0)
+          ? 12.0
+          : kPageDefaultVerticalPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

@@ -18,26 +18,14 @@ import 'package:system_theme/system_theme.dart';
 import 'package:url_launcher/link.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:yolx/utils/aria2_manager.dart';
+import 'package:yolx/utils/common_utils.dart';
 import 'package:yolx/utils/log.dart';
 
 import 'theme.dart';
 
-/// Checks if the current environment is a desktop environment.
-bool get isDesktop {
-  if (kIsWeb) return false;
-  return [
-    TargetPlatform.windows,
-    TargetPlatform.linux,
-    TargetPlatform.macOS,
-  ].contains(defaultTargetPlatform);
-}
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  if (!await FlutterSingleInstance.platform.isFirstInstance()) {
-    Log.w("App is already running");
-    exit(0);
-  }
+
   await Global.init();
   if (!kIsWeb &&
       [
@@ -48,6 +36,11 @@ void main() async {
   }
 
   if (isDesktop) {
+    if (!await FlutterSingleInstance.platform.isFirstInstance()) {
+      Log.w("App is already running");
+      exit(0);
+    }
+
     await WindowManager.instance.ensureInitialized();
     windowManager.waitUntilReadyToShow().then((_) async {
       await windowManager.setTitleBarStyle(
@@ -61,7 +54,6 @@ void main() async {
       await windowManager.setPreventClose(true);
       await windowManager.setSkipTaskbar(false);
     });
-    Aria2Manager().startServer();
     await trayManager.setIcon(
       Platform.isWindows ? 'assets/logo.ico' : 'assets/logo.png',
     );
@@ -82,6 +74,8 @@ void main() async {
     );
     await trayManager.setContextMenu(menu);
   }
+  await Aria2Manager().initAria2Conf();
+  Aria2Manager().startServer();
 
   runApp(
     MultiProvider(
@@ -309,7 +303,7 @@ class _MyHomePageState extends State<MyHomePage>
       appBar: NavigationAppBar(
         automaticallyImplyLeading: false,
         title: () {
-          if (kIsWeb) {
+          if (!isDesktop) {
             return const Align(
               alignment: AlignmentDirectional.centerStart,
               child: Text(appTitle),
@@ -322,8 +316,8 @@ class _MyHomePageState extends State<MyHomePage>
             ),
           );
         }(),
-        actions: Row(mainAxisAlignment: MainAxisAlignment.end, children: const [
-          if (!kIsWeb) WindowButtons(),
+        actions: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+          if (isDesktop) const WindowButtons(),
         ]),
       ),
       paneBodyBuilder: (item, child) {
