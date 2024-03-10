@@ -186,21 +186,23 @@ class _SettingsState extends State<Settings> with PageMixin {
             ),
           ),
           spacer,
-          SettingsCard(
-            title: S.of(context).rememberWindowSize,
-            subtitle: S.of(context).rememberWindowSizeInfo,
-            content: ToggleSwitch(
-              checked: _rememberWindowSize,
-              onChanged: (bool value) {
-                setState(() {
-                  _rememberWindowSize = value; // 更新状态
-                  Global.rememberWindowSize = value;
-                  Global.prefs.setBool('RememberWindowSize', value);
-                });
-              },
+          if (isDesktop) ...[
+            SettingsCard(
+              title: S.of(context).rememberWindowSize,
+              subtitle: S.of(context).rememberWindowSizeInfo,
+              content: ToggleSwitch(
+                checked: _rememberWindowSize,
+                onChanged: (bool value) {
+                  setState(() {
+                    _rememberWindowSize = value; // 更新状态
+                    Global.rememberWindowSize = value;
+                    Global.prefs.setBool('RememberWindowSize', value);
+                  });
+                },
+              ),
             ),
-          ),
-          spacer,
+            spacer,
+          ],
           if (isDesktop || isTablet(MediaQuery.of(context))) ...[
             SettingsCard(
               title: S.of(context).navigationMode,
