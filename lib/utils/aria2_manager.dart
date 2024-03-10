@@ -34,9 +34,9 @@ class Aria2Manager {
   }
 
   getAria2ConfPath() async {
-    String dir = await getPlugAssetsDir('aria2');
+    Directory dir = await getApplicationSupportDirectory();
     String confName = 'yolx_aria2.conf';
-    return '$dir${Global.pathSeparator}$confName';
+    return '${dir.path}${Global.pathSeparator}$confName';
   }
 
   getAria2Session() async {
@@ -46,8 +46,10 @@ class Aria2Manager {
 
   initAria2Conf() async {
     String confPath = await getAria2ConfPath();
-    List<String> aria2ConfLines = await readDefAria2Conf();
-    writeLinesToFile(confPath, aria2ConfLines.join("\n"));
+    if (!await File(confPath).exists()) {
+      List<String> aria2ConfLines = await readDefAria2Conf();
+      await writeLinesToFile(confPath, aria2ConfLines.join("\n"));
+    }
   }
 
   void startServer() async {
