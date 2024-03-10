@@ -8,10 +8,18 @@
 
 `Yolx` 一款现代化下载工具！
   
+<a href="https://gitmoji.dev">
+  <img
+    src="https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg?style=flat-square"
+    alt="Gitmoji"
+  />
+</a>
 
+[![gitmoji-changelog](https://img.shields.io/badge/Changelog-gitmoji-brightgreen.svg)](https://github.com/frinyvonnick/gitmoji-changelog)
 </div>
 
 ---
+
 
 简体中文 | [English](/README_EN.md)
 
