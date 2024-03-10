@@ -73,3 +73,7 @@ sudo mv appimagetool /usr/local/bin/
 ```
 flutter_distributor release --name linux
 ```
+
+## 🫸 特别鸣谢
+- [LeanFlutter](https://github.com/leanflutter)
+- [星火计划 Project Spark](https://gitee.com/spark-store-project)

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:tray_manager/tray_manager.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -82,6 +83,11 @@ void main() async {
       EasyLoading.showToast('没有存储权限');
       return;
     }
+    SystemUiOverlayStyle style = const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+    );
+    SystemChrome.setSystemUIOverlayStyle(style);
   }
   await Aria2Manager().initAria2Conf();
   Aria2Manager().startServer();
@@ -302,22 +308,11 @@ class _MyHomePageState extends State<MyHomePage>
   @override
   Widget build(BuildContext context) {
     final appTheme = context.watch<AppTheme>();
-    if (widget.shellContext != null) {
-      if (router.canPop() == false) {
-        setState(() {});
-      }
-    }
     return NavigationView(
       key: viewKey,
       appBar: NavigationAppBar(
         automaticallyImplyLeading: false,
         title: () {
-          if (!isDesktop) {
-            return const Align(
-              alignment: AlignmentDirectional.centerStart,
-              child: Text(appTitle),
-            );
-          }
           return const DragToMoveArea(
             child: Align(
               alignment: AlignmentDirectional.centerStart,
@@ -330,14 +325,10 @@ class _MyHomePageState extends State<MyHomePage>
         ]),
       ),
       paneBodyBuilder: (item, child) {
-        final name =
-            item?.key is ValueKey ? (item!.key as ValueKey).value : null;
-        return FocusTraversalGroup(
-          key: ValueKey('body$name'),
-          child: widget.child,
-        );
+        return widget.child;
       },
       pane: NavigationPane(
+        size: const NavigationPaneSize(openMaxWidth: 200),
         selected: _calculateSelectedIndex(context),
         displayMode: appTheme.displayMode,
         indicator: () {
@@ -350,7 +341,6 @@ class _MyHomePageState extends State<MyHomePage>
           }
         }(),
         items: originalItems,
-        autoSuggestBoxReplacement: const Icon(FluentIcons.search),
         footerItems: footerItems,
       ),
     );
