@@ -1,0 +1,7 @@
+{
+  "project": {
+    "name": "Yolx",
+    "description": "A changelog generator for Yolx",
+    "version": "0.3.8"
+  }
+}
