@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -60,7 +61,12 @@ class Global {
         'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36';
     proxy = prefs.getString('Proxy') ?? '';
     bypassProxy = prefs.getString('BypassProxy') ?? '';
-    Directory? dir = await getDownloadsDirectory();
+    Directory? dir;
+    if (Platform.isAndroid) {
+      dir = Directory('/storage/emulated/0/Download');
+    } else {
+      dir = await getDownloadsDirectory();
+    }
     downloadPath = (prefs.getString('DownloadPath') ?? dir?.path)!;
     rememberWindowSize = prefs.getBool('RememberWindowSize') ?? true;
     isAutoUpdateTrackerList = prefs.getBool('IsAutoUpdateTrackerList') ?? true;

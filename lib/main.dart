@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:tray_manager/tray_manager.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_single_instance/flutter_single_instance.dart';
@@ -20,6 +21,7 @@ import 'package:window_manager/window_manager.dart';
 import 'package:yolx/utils/aria2_manager.dart';
 import 'package:yolx/utils/common_utils.dart';
 import 'package:yolx/utils/log.dart';
+import 'package:yolx/utils/permission_util.dart';
 
 import 'theme.dart';
 
@@ -73,6 +75,13 @@ void main() async {
       ],
     );
     await trayManager.setContextMenu(menu);
+  }
+  if (Platform.isAndroid) {
+    bool isGranted = await checkStoragePermission();
+    if (!isGranted) {
+      EasyLoading.showToast('没有存储权限');
+      return;
+    }
   }
   await Aria2Manager().initAria2Conf();
   Aria2Manager().startServer();
