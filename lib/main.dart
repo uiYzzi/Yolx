@@ -328,7 +328,7 @@ class _MyHomePageState extends State<MyHomePage>
         return widget.child;
       },
       pane: NavigationPane(
-        size: const NavigationPaneSize(openMaxWidth: 200),
+        size: const NavigationPaneSize(openMaxWidth: 214),
         selected: _calculateSelectedIndex(context),
         displayMode: appTheme.displayMode,
         indicator: () {
