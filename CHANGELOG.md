@@ -1,15 +1,7 @@
 # Changelog
 
-<a name="next"></a>
-## next
-
-### Miscellaneous
-
-- 📝 Update README [[4b4d063](https://github.com/uiYzzi/Yolx/commit/4b4d063bfe599a3dfd3d877b97d2c12636c93b1b)]
-
-
 <a name="0.3.8"></a>
-## 0.3.8 (2024-03-10)
+## 0.3.8 (2024-03-11)
 
 ### Added
 
@@ -17,6 +9,7 @@
 
 ### Changed
 
+- 🔧 Add .gitmoji-changelogrc [[e645c7f](https://github.com/uiYzzi/Yolx/commit/e645c7fbf9e4141447602c03b00b5951e281e266)]
 - ♻️ Only Desktop Can Remember Window Size [[4424d40](https://github.com/uiYzzi/Yolx/commit/4424d4081e43f253eb2c65bf280fe0716e285ac6)]
 
 ### Removed
@@ -25,7 +18,14 @@
 
 ### Fixed
 
+- 🐧 Fix Aria2 without executable permissions under Linux [[00a6808](https://github.com/uiYzzi/Yolx/commit/00a6808209a8d8134bc4ea241d5baa20d6d02c18)]
 - 🐛 Fix abnormal route transition animations [[f12e624](https://github.com/uiYzzi/Yolx/commit/f12e6246e7b6809d63a80e583dbe4191c81f5d0d)]
+
+### Miscellaneous
+
+-  :robot: Fix icon foreground too large [[bffadc1](https://github.com/uiYzzi/Yolx/commit/bffadc11a62c1b5888567e2d79fa0d25d0451c66)]
+- 📝 Update README [[7f69144](https://github.com/uiYzzi/Yolx/commit/7f69144f633e97e167b9dd17b26f3c947dba3ccb)]
+- 📝 Update README [[05dafa4](https://github.com/uiYzzi/Yolx/commit/05dafa4fa843294616b31452ea18bfc790c79281)]
 
 
 <a name="0.3.7"></a>
