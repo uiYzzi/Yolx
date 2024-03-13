@@ -17,7 +17,7 @@
     "setsTheDisplayModeOfTheNavigationPane":"设置导航窗格的显示模式",
     "navigationIndicator":"导航指示器",
     "setsTheStyleOfTheNavigationIndicator":"设置导航指示器的样式",
-    "advanced":"先进的",
+    "advanced":"进阶",
     "setsDownloadProxyServer":"设置下载代理服务器",
     "proxy":"代理",
     "bypassProxy":"绕过这些主机和域的代理设置，多个使用逗号分隔",

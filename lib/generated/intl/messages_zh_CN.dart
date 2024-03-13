@@ -30,7 +30,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "URL": MessageLookupByLibrary.simpleMessage("链接任务"),
         "URLTextBox": MessageLookupByLibrary.simpleMessage(
             "添加多个下载链接时，请确保每行只有一个链接（支持磁力链和thunder://）"),
-        "advanced": MessageLookupByLibrary.simpleMessage("先进的"),
+        "advanced": MessageLookupByLibrary.simpleMessage("进阶"),
         "autoUpdateTrackerList":
             MessageLookupByLibrary.simpleMessage("每天自动更新 Tracker 服务器列表"),
         "basic": MessageLookupByLibrary.simpleMessage("基础"),
