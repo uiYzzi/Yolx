@@ -4,6 +4,26 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:yolx/utils/log.dart';
 
+String getURLFromQQDL(String url) {
+  String base64Input = url.substring("qqdl://".length);
+  String base64Output = utf8.decode(base64.decode(base64Input));
+  return base64Output;
+}
+
+String getURLFromFlashget(String url) {
+  String base64Input = url.substring("flashget://".length);
+  String base64Output = utf8.decode(base64.decode(base64Input));
+  if (base64Output.startsWith("[FLASHGET]")) {
+    base64Output = base64Output.substring("[FLASHGET]".length);
+  }
+
+  if (base64Output.endsWith("[FLASHGET]")) {
+    base64Output =
+        base64Output.substring(0, base64Output.length - "[FLASHGET]".length);
+  }
+  return base64Output;
+}
+
 String getURLFromThunder(String url) {
   String base64Input = url.substring("thunder://".length);
   String base64Output = utf8.decode(base64.decode(base64Input));

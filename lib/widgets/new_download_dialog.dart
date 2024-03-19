@@ -130,8 +130,16 @@ class _NewDownloadDialogState extends State<NewDownloadDialog> {
                           S.current.general
                         ];
                         for (int i = 0; i < urls.length; i++) {
-                          if (urls[i].startsWith("thunder://")) {
+                          if (urls[i].toLowerCase().startsWith("thunder://")) {
                             urls[i] = getURLFromThunder(urls[i]);
+                          } else if (urls[i]
+                              .toLowerCase()
+                              .startsWith("flashget://")) {
+                            urls[i] = getURLFromFlashget(urls[i]);
+                          } else if (urls[i]
+                              .toLowerCase()
+                              .startsWith("qqdl://")) {
+                            urls[i] = getURLFromQQDL(urls[i]);
                           }
                           var j =
                               getDownloadDirectory(await getFileType(urls[i]));
@@ -147,8 +155,18 @@ class _NewDownloadDialogState extends State<NewDownloadDialog> {
                         params["dir"] = downloadPath;
                         for (int i = 0; i < urls.length; i++) {
                           if (urls[i].isNotEmpty) {
-                            if (urls[i].startsWith("thunder://")) {
+                            if (urls[i]
+                                .toLowerCase()
+                                .startsWith("thunder://")) {
                               urls[i] = getURLFromThunder(urls[i]);
+                            } else if (urls[i]
+                                .toLowerCase()
+                                .startsWith("flashget://")) {
+                              urls[i] = getURLFromFlashget(urls[i]);
+                            } else if (urls[i]
+                                .toLowerCase()
+                                .startsWith("qqdl://")) {
+                              urls[i] = getURLFromQQDL(urls[i]);
                             }
                             await Aria2Http.addUrl([
                               [urls[i]],

@@ -40,7 +40,7 @@
     "newDownload":"新建",
     "URL":"链接任务",
     "torrent":"种子任务",
-    "URLTextBox":"添加多个下载链接时，请确保每行只有一个链接（支持磁力链和thunder://）",
+    "URLTextBox":"添加多个下载链接时，请确保每行只有一个链接（支持磁力链、Flashget://、qqdl://和thunder://）",
     "cancel":"取消",
     "submit":"提交",
     "path":"存储路径",

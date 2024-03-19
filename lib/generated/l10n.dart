@@ -460,10 +460,10 @@ class S {
     );
   }
 
-  /// `One task url per line (supports magnet and thunder://)`
+  /// `One task url per line (supports magnet , Flashget:// , qqdl:// and thunder://)`
   String get URLTextBox {
     return Intl.message(
-      'One task url per line (supports magnet and thunder://)',
+      'One task url per line (supports magnet , Flashget:// , qqdl:// and thunder://)',
       name: 'URLTextBox',
       desc: '',
       args: [],

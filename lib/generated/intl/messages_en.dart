@@ -31,7 +31,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "UA": MessageLookupByLibrary.simpleMessage("User-Agent"),
         "URL": MessageLookupByLibrary.simpleMessage("URL"),
         "URLTextBox": MessageLookupByLibrary.simpleMessage(
-            "One task url per line (supports magnet and thunder://)"),
+            "One task url per line (supports magnet , Flashget:// , qqdl:// and thunder://)"),
         "advanced": MessageLookupByLibrary.simpleMessage("Advanced"),
         "autoUpdateTrackerList": MessageLookupByLibrary.simpleMessage(
             "Update tracker list every day automatically"),
