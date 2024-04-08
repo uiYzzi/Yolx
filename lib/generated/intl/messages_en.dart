@@ -139,6 +139,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "Sets the theme of the application."),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
         "showWindow": MessageLookupByLibrary.simpleMessage("Show Window"),
+        "silentStart": MessageLookupByLibrary.simpleMessage("Silent Start"),
+        "silentStartInfo": MessageLookupByLibrary.simpleMessage(
+            "Minimize to tray after startup"),
         "sourceCode": MessageLookupByLibrary.simpleMessage("Source code"),
         "speedLimit": MessageLookupByLibrary.simpleMessage("Speed Limit"),
         "speedLimitInfo": MessageLookupByLibrary.simpleMessage(

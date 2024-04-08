@@ -113,6 +113,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("设置应用程序的主题"),
         "settings": MessageLookupByLibrary.simpleMessage("设置"),
         "showWindow": MessageLookupByLibrary.simpleMessage("显示窗口"),
+        "silentStart": MessageLookupByLibrary.simpleMessage("静默启动"),
+        "silentStartInfo": MessageLookupByLibrary.simpleMessage("启动后最小化到托盘"),
         "sourceCode": MessageLookupByLibrary.simpleMessage("源代码"),
         "speedLimit": MessageLookupByLibrary.simpleMessage("速度限制"),
         "speedLimitInfo": MessageLookupByLibrary.simpleMessage("限制下载或上传速度"),

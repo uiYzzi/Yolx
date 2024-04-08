@@ -53,7 +53,11 @@ void main() async {
       await windowManager.setMinimumSize(const Size(400, 600));
       await windowManager
           .setSize(Size(Global.windowWidth, Global.windowHeight));
-      await windowManager.show();
+      if (Global.silentStart) {
+        await windowManager.hide();
+      } else {
+        await windowManager.show();
+      }
       await windowManager.setPreventClose(true);
       await windowManager.setSkipTaskbar(false);
     });
@@ -266,6 +270,11 @@ class _MyHomePageState extends State<MyHomePage>
   @override
   void onTrayIconRightMouseDown() {
     trayManager.popUpContextMenu();
+  }
+
+  @override
+  void onWindowFocus() {
+    setState(() {});
   }
 
   @override

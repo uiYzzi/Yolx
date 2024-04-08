@@ -46,6 +46,7 @@ class _SettingsState extends State<Settings> with PageMixin {
   late int _maxConnectionPerServer;
   late bool _rememberWindowSize;
   late bool _classificationSaving;
+  late bool _silentStart;
   @override
   void initState() {
     super.initState();
@@ -65,6 +66,7 @@ class _SettingsState extends State<Settings> with PageMixin {
     _downloadPathEditingController =
         TextEditingController(text: Global.downloadPath);
     _rememberWindowSize = Global.rememberWindowSize;
+    _silentStart = Global.silentStart;
     _maxOverallDownloadLimitEditingController =
         TextEditingController(text: Global.maxOverallDownloadLimit.toString());
     _maxDownloadLimitEditingController =
@@ -197,6 +199,21 @@ class _SettingsState extends State<Settings> with PageMixin {
                     _rememberWindowSize = value; // 更新状态
                     Global.rememberWindowSize = value;
                     Global.prefs.setBool('RememberWindowSize', value);
+                  });
+                },
+              ),
+            ),
+            spacer,
+            SettingsCard(
+              title: S.of(context).silentStart,
+              subtitle: S.of(context).silentStartInfo,
+              content: ToggleSwitch(
+                checked: _silentStart,
+                onChanged: (bool value) {
+                  setState(() {
+                    _silentStart = value; // 更新状态
+                    Global.silentStart = value;
+                    Global.prefs.setBool('SilentStart', value);
                   });
                 },
               ),

@@ -88,5 +88,7 @@
     "subscriptionAddress":"Subscription Address",
     "subscriptionAddressInfo":"Separate links with commas(,)",
     "autoUpdateTrackerList":"Update tracker list every day automatically",
-    "noTaskDownloaded":"There are no current tasks"
+    "noTaskDownloaded":"There are no current tasks",
+    "silentStart":"Silent Start",
+    "silentStartInfo":"Minimize to tray after startup"
 }

@@ -949,6 +949,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Silent Start`
+  String get silentStart {
+    return Intl.message(
+      'Silent Start',
+      name: 'silentStart',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Minimize to tray after startup`
+  String get silentStartInfo {
+    return Intl.message(
+      'Minimize to tray after startup',
+      name: 'silentStartInfo',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

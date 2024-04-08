@@ -38,6 +38,7 @@ class Global {
   static String videosRule = defaultVideosRule;
   static int maxConcurrentDownloads = defaultMaxConcurrentDownloads;
   static int maxConnectionPerServer = defaultMaxConnectionPerServer;
+  static bool silentStart = false;
   static Future init() async {
     WidgetsFlutterBinding.ensureInitialized();
     prefs = await SharedPreferences.getInstance();
@@ -102,5 +103,6 @@ class Global {
         prefs.getString('TrackerSubscriptionAddress') ??
             defaultTrackerSubscriptionAddress;
     trackerServersList = prefs.getString('TrackerServersList') ?? '';
+    silentStart = prefs.getBool('SilentStart') ?? false;
   }
 }

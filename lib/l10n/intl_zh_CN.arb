@@ -88,5 +88,7 @@
     "subscriptionAddress":"订阅地址",
     "subscriptionAddressInfo":"请以英文逗号(,)分隔链接",
     "autoUpdateTrackerList":"每天自动更新 Tracker 服务器列表",
-    "noTaskDownloaded":"当前没有下载任务"
+    "noTaskDownloaded":"当前没有下载任务",
+    "silentStart":"静默启动",
+    "silentStartInfo":"启动后最小化到托盘"
 }
