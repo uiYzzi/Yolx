@@ -23,8 +23,7 @@ keywords:
 generic_name: Downloader Application
 
 categories:
-  - Downloader
-  - Media
+  - Network
 
 startup_notify: true
 

@@ -15,6 +15,6 @@ keywords:
 generic_name: An aria2 client application
 
 categories:
-  - Awesome
+  - Network
 
 startup_notify: true
