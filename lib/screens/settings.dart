@@ -294,8 +294,10 @@ class _SettingsState extends State<Settings> with PageMixin {
                       onPressed: () async {
                         final String? path = await getDirectoryPath();
                         if (path != null) {
-                          setState(() {
+                          setState(() async {
                             Global.downloadPath = path;
+                            await Global.prefs
+                          .setString('DownloadPath', Global.downloadPath);
                             _downloadPathEditingController.text = path;
                           });
                           Aria2Http.changeGlobalOption(
